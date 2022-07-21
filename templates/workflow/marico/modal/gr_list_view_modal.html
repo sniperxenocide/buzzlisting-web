@@ -1,0 +1,47 @@
+<div class="modal fade" id="gr_modal_view">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">GR Info.</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% if task.name == 'Capture Information' %}
+                        <button type="button" id="add_gr" class="btn btn-success waves-effect">
+                            Add Gr <i class="zmdi zmdi-plus"></i>
+                        </button>
+                        {%  endif %}
+                        <table id="gr_show_table" class="table table-bordered table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Number
+                                    </th>
+                                    <th>
+                                        File
+                                    </th>
+
+                                    {% if task.name == 'Capture Information' %}
+                                    <th>
+                                        Action
+                                    </th>
+                                    {%  endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="submit" id="gr_save_button_" class="btn btn-default">Save
+                </button>-->
+            </div>
+        </div>
+    </div>
+</div>

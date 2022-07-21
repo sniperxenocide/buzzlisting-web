@@ -1,0 +1,39 @@
+.pdfViewer .canvasWrapper {
+    box-shadow: 0 0 3px #bbb;
+}
+
+.pdfViewer .page {
+    margin-bottom: 10px;
+}
+
+.annotationLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#content-wrapper {
+    position: relative;
+    top: 0px;
+    left: 0;
+    right: 0px;
+    bottom: 0;
+    overflow: auto;
+    /*overflow-x: hidden;*/
+    height: 450px;
+    width: auto;
+}
+
+#comment-wrapper h4 {
+    margin: 10px;
+}
+
+.pdfViewer .page {
+    border-image: none;
+}
+
+#header{
+    z-index: 111 !important;
+}

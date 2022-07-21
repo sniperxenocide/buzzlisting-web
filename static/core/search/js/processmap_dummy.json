@@ -1,0 +1,41 @@
+{
+  "recordsTotal": 15,
+  "recordsFiltered": 10,
+  "draw": "1",
+  "data": [
+    {
+        "id": 83,
+        "process_name": "NRB Account",
+        "task_name": "User Information Varification",
+        "application_number": "343197",
+        "user_name": "Administrator Administrator (admin)",
+        "process": "Process_0oi42ls",
+        "status": "TODO",
+        "init_date": "2017-03-15T10:37:58.264101Z",
+        "updated_at": "2017-03-15T10:37:58.264137Z",
+        "finish_date": null,
+        "project": 1,
+        "task": 95,
+        "application": 669,
+        "user": 1,
+        "sent_by": 1
+    },
+    {
+        "id": 82,
+        "process_name": "NRB Account",
+        "task_name": "User Information Input",
+        "application_number": "343197",
+        "user_name": "Administrator Administrator (admin)",
+        "process": "Process_0oi42ls",
+        "status": "COMPLETED",
+        "init_date": "2017-03-15T10:37:49.646094Z",
+        "updated_at": "2017-03-15T10:37:58.293305Z",
+        "finish_date": "2017-03-15T10:37:58.293093Z",
+        "project": 1,
+        "task": 94,
+        "application": 669,
+        "user": 1,
+        "sent_by": 1
+    }
+]
+}

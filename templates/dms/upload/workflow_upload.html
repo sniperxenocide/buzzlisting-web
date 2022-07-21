@@ -1,0 +1,593 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/uploader/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/uploader/css/select2.min.css">
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/uploader/css/addmetadata.css">
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+
+        <section id="content">
+            <div class="container">
+                {#                {% set icons =  '#}
+                {#                <li>#}
+                {#                    <a href="#" id="add_meta_button">#}
+                {#                        <i class="zmdi zmdi-plus-circle-o-duplicate"></i>#}
+                {#                    </a>#}
+                {#                </li>#}
+                {#                 <li>#}
+                {#                    <a href="#" id="delete_file_button">#}
+                {#                        <i class="zmdi zmdi-delete"></i>#}
+                {#                    </a>#}
+                {#                </li>#}
+                {#                ' %}#}
+                <div class="row">
+                    <div class="col-sm-6 col-md-8 col-xs-12 col-lg-8">
+                        <div class="card">
+                            <div class="card-body card-padding">
+                                <div class="list-group lg-odd-black">
+{#                                    <div class="action-header clearfix">#}
+{#                                        <button type="button"#}
+{#                                                class="delete_all_pending_docs btn btn-danger waves-effect">#}
+{#                                            <i class="zmdi zmdi-delete"></i> Remove All#}
+{#                                        </button>#}
+{#                                        <!--<div class="ah-label hidden-xs">Search here</div>#}
+{##}
+{#                                        <div class="ah-search">#}
+{#                                            <input type="text" placeholder="Start typing..." class="ahs-input">#}
+{##}
+{#                                            <i class="ahs-close" data-ma-action="action-header-close">&times;</i>#}
+{#                                        </div>#}
+{##}
+{#                                        <ul class="actions">#}
+{#                                            <li>#}
+{#                                                <a href="#" data-ma-action="action-header-open">#}
+{#                                                    <i class="zmdi zmdi-search"></i>#}
+{#                                                </a>#}
+{#                                            </li>#}
+{#                                        </ul>-->#}
+{#                                    </div>#}
+                                    <div class="contacts clearfix row pending-meta-container">
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+
+                                <div class="pagination lg-pagination">
+                                    <span style="margin-left: 20px;" class="show-paging-info pull-left">
+                                        Showing Page <span class="show-page-numb">1</span> of <span class="total-pages">10</span>
+                                        <br>
+                                        Showing files <span class="showing-files">1-20</span> of <span
+                                            class="total-files">100</span> files
+                                    </span>
+                                    <div id="pagination" class="pull-right" style="margin-right: 20px;">
+                                        <button class="first" title="first">
+                                            <i class="zmdi zmdi-chevron-left"></i><i class="zmdi zmdi-chevron-left"></i>
+                                        </button>
+                                        &nbsp;
+                                        <button class="prev" title="previous">
+                                            <i class="zmdi zmdi-chevron-left"></i>
+                                        </button>
+                                        &nbsp;
+                                        <div id="paging">
+                                            <input type="text" value="1" class="page_number_input numberBox">
+                                            <button class="goPaged" type="button">Go</button>
+                                        </div>
+                                        &nbsp;
+                                        <button class="next" title="next">
+                                            <i class="zmdi zmdi-chevron-right"></i>
+                                        </button>
+                                        &nbsp;
+                                        <button class="last" title="last">
+                                            <i class="zmdi zmdi-chevron-right"></i><i
+                                                class="zmdi zmdi-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-xs-12 col-lg-4">
+                        <div class="card">
+                            <div class="list-group lg-odd-black">
+                                <div class="action-header clearfix">
+                                    <div class="ah-label hidden-xs text-center">
+                                        Added Files
+{#                                        <button id="move_all_btn" class="btn btn-danger pull-left btn-sm waves-effect">#}
+{#                                            Move all <i class="zmdi zmdi-mail-reply-all"></i>#}
+{#                                        </button>#}
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-div">
+                                        <table width="100%" class="table meta-data-list-head table-responsive">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th class="text-center">Type</th>
+                                                <th>Name</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                        <div class="table-inside">
+                                            <table width="100%"
+                                                   class="table table-responsive meta-data-list-document-field">
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                            <h3 class="table-empty text-center">Empty</h3>
+                                            <br>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+
+                            <div class="list-group lg-odd-black">
+                                <div class="action-header clearfix">
+                                    <div class="ah-label hidden-xs">Add Meta Data</div>
+                                </div>
+                                <div class="card-body" style="display: inline-block">
+                                    <div class="col-sm-12">
+                                        <br>
+                                        <form action="#" id="add_meta_data">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div>
+                                                        <div class="fg-line">
+                                                            Document Name * :
+                                                            <input required="required" type="text" id="file_name"
+                                                                    {# data-parsley-pattern="/^(?=.*[a-zA-Z0-9]{2,})[\w\d\s_.-]+$/"#}
+                                                                   name="file_name"
+                                                                    {# data-parsley-pattern-message="Only Letter, number, underscore, dot, hyphen are allowed"#}
+                                                                   class="form-control" value="">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <br>
+                                                    Created at *:
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="zmdi zmdi-calendar"></i>
+                                                        </span>
+                                                        <div class="text-center" id="created_date_wrap">
+                                                            <input type='text' id="created_date"
+                                                                   data-parsley-class-handler="#created_date_wrap"
+                                                                   required="required" name="created_date"
+                                                                   class="form-control" placeholder="Click here...">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col-md-12">
+                                                    <div>
+                                                        <br>
+                                                        Expires on :
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="zmdi zmdi-calendar"></i>
+                                                            </span>
+                                                            <div class="text-center" id="expires_on_wrap">
+                                                                <input data-parsley-class-handler="#expires_on_wrap"
+                                                                       type='text' id="expires_on" name="expires_on"
+                                                                       class="form-control"
+                                                                       placeholder="Click here...">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="fg-line">
+                                                        <br>
+                                                        Action Upon Expiry :
+                                                        <select id="action_upon_expire" name="action_upon_expire"
+                                                                class="selectpicker">
+                                                            <option value="0">NONE</option>
+                                                            <option value="1">ARCHIVE</option>
+                                                            <option value="2">DELETE</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <br>
+                                                        Tags :
+                                                        <select multiple style="width: 100%;" name="tags[]"
+                                                                id="meta_tags"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div>
+                                                        <div class="fg-line">
+                                                            Box Number :
+                                                            <input data-parsley-type="integer" id="box_number"
+                                                                   name="box_number"
+                                                                   data-parsley-maxlength="5"
+                                                                   class="form-control" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div>
+                                                        <div class="fg-line">
+                                                            Shelf Number :
+                                                            <input data-parsley-type="integer" id="shelf_number"
+                                                                   name="shelf_number"
+                                                                   data-parsley-maxlength="5"
+                                                                   class="form-control" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+
+                                                    <div class="fg-line">
+                                                        <br>
+                                                        Document Type :
+                                                        <select id="DocumentType" name="DocumentType"
+                                                                class="selectpicker">
+                                                            <option value="">CHOOSE</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="meta-data-gen-wrap m-t-20">
+                                                        <br>
+                                                    </div>
+                                                    <div>
+                                                        <br>
+                                                        <button id="clear_meta_data" type="reset"
+                                                                class="btn btn-danger pull-left btn-sm waves-effect">
+                                                            Clear
+                                                        </button>
+                                                        <button id="submit_meta_data" type="submit"
+                                                                class="btn btn-success pull-right btn-sm waves-effect">
+                                                            Save
+                                                        </button>
+                                                    </div>
+                                                    <br>
+                                                    <br>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {#                 pendingMetaList#}
+
+                    {#                {% with icons=icons, table_id='pendingMeta_list', table_header='Unfinished File List',#}
+                    {#                search_title='Put your search string' %}#}
+                    {#                    {% include 'core/base/datatable.html' %}#}
+                    {#                {% endwith %}#}
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <div class="modal fade" id="viewFiles" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="max-width: 90%; float: left;"></h4>
+
+                    <ul class="actions" style="max-width: 9%; float: right;">
+                        <li>
+                            <a id="hide_self_fixed" href="#" data-dismiss="modal">
+                                <i class="zmdi zmdi-close"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-body">
+                    <span id="file_container">
+
+                    </span>
+                    <div class="temp-modal-preview" style="height: 450px;
+    overflow-y: scroll; display: none"></div>
+                    <ul id="temp_doc_pagination" class="pagination lg-pagination" style="display:none;"></ul>
+                </div>
+                <!--<div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close
+                    </button>
+                </div>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed_wrapper_for_doc_show" style="display: none;">
+        <div class="raw">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="actions">
+                            <li>
+                                <a id="hide_self_fixed" href="#">
+                                    <i class="zmdi zmdi-close"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="responsive-container">
+                            <div class="dummy"></div>
+
+                            <div class="img-container">
+                                <div class="centerer"></div>
+                                <img src="" alt=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {% raw %}
+    <!--<script type="template" id="pendingMetaThumb">
+        <div class="col-md-3 col-sm-3 col-xs-6 pending-meta"
+             data-pending-doc-name="{{=d.name }}"
+             data-pending-doc-extension="{{=d.extension }}"
+             data-pending-doc-thumb-location="{{=d.MEDIA_URL }}thumb.jpg"
+             data-pending-doc-position="{{=d.index }}"
+             data-pending-doc-id="{{=d.id }}">
+            <div class="c-item">
+                <a class="ci-avatar">
+                    <img src="{{=d.MEDIA_URL }}thumb.jpg" width="100%" alt="">
+                </a>
+
+                <div class="c-info">
+                    <strong>{{=d.name }}</strong>
+                    <small>Type:
+                        <span class="doc-type">
+                            {{? d.extension == 'application/pdf' }}
+                                PDF
+                            {{ ?? }}
+                                IMAGE
+                            {{ ? }}
+                        </span>
+                    </small>
+                </div>
+
+                <div class="c-footer" style="text-align: center">
+                    <div class="thumbnail-actions">
+                        <button type="button"
+                                class="delete-item btn btn-danger waves-effect">
+                            <i class="zmdi zmdi-delete"></i>
+                        </button>
+                        <button type="button"
+                                class="view-item btn btn-info waves-effect">
+                            <i class="zmdi zmdi-eye"></i>
+                        </button>
+                        <button type="button"
+                                class="add-item btn btn-success waves-effect">
+                            <i class="zmdi zmdi-playlist-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>-->
+    <script type="template" id="singlethumb">
+        <div class="col-lg-2 col-sm-3 col-xs-6 pending-meta"
+             data-pending-doc-id="{{=d.id}}"
+             data-pending-doc-name="{{=d.name}}"
+             data-pending-doc-extension="{{=d.extension}}"
+             data-pending-doc-thumb-location="{{=d.thumbnail}}">
+            <div class="c-item">
+                <a class="ci-avatar">
+                    {{? d.extension == 'application/pdf' }}
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                    {{?? d.extension == 'application/msword' }}
+                    <i class="fa fa-file-word-o" aria-hidden="true"></i>
+                    {{?? d.extension == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }}
+                    <i class="fa fa-file-word-o" aria-hidden="true"></i>
+                    {{?? d.extension == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }}
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                    {{?? d.extension == 'application/vnd.ms-excel' }}
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                    {{??}}
+                    <img src="{{=d.document}}" width="100%" alt="">
+                    {{?}}
+                </a>
+
+                <div class="c-info">
+                    <strong>{{=d.name}}</strong>
+                    <small>Type:
+                        <span class="doc-type">
+                                    {{? d.extension == 'application/pdf' }}
+                                        PDF
+                                    {{??}}
+                                        IMAGE
+                                    {{?}}
+                                </span>
+                    </small>
+                </div>
+
+                <div class="c-footer" style="text-align: center">
+                    <div class="thumbnail-actions">
+                        <button type="button" class="view-item btn btn-info waves-effect">
+                            <i class="zmdi zmdi-eye"></i>
+                        </button>
+                        <button type="button" class="add-item btn btn-success waves-effect">
+                            <i class="zmdi zmdi-playlist-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="template" id="added_file">
+        <tr class="added_item_row"
+            data-pending-doc-id="{{=d.id}}"
+            data-pending-doc-extension="{{=d.extension}}"
+            data-pending-doc-thumb-location="{{=d.thumbnail}}"
+            data-pending-doc-name="{{=d.name}}">
+            <td>
+                <a class="delete-item btn btn-xs btn-danger waves-effect">
+                    <i class="zmdi zmdi-mail-reply-all"></i>
+                </a>
+            </td>
+            <td class="text-center">
+                {{?d.extension == 'application/pdf'}}
+                <i style="font-size: 24px" class="fa fa-file-pdf-o"></i>
+                {{??d.extension == 'application/msword'}}
+                <i style="font-size: 24px" class="fa fa-file-word-o"></i>
+                {{??d.extension == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}}
+                <i style="font-size: 24px" class="fa fa-file-word-o"></i>
+                {{??d.extension == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}}
+                <i style="font-size: 24px" class="fa fa-file-excel-o"></i>
+                {{??d.extension == 'application/vnd.ms-excel'}}
+                <i style="font-size: 24px" class="fa fa-file-excel-o"></i>
+                {{??}}
+                <i style="font-size: 24px" class="fa fa-file-image-o"></i>
+                {{?}}
+            </td>
+            <td>
+                {{=d.name}}
+            </td>
+        </tr>
+    </script>
+    <script type="template" id="stringInput">
+        <!--0-->
+        <div class="form-group">
+            <div class="fg-line">
+                <label for="">{{=d.displayname}} :</label>
+                <input type="text" data-displayname="{{=d.displayname}}"
+                       {{?d.min !=null}}data-parsley-minlength="{{=d.min}}"{{?}} {{?d.max
+                       !=null}}data-parsley-maxlength="{{=d.max}}"{{?}}
+                       data-parsley-validation-threshold="1"
+                       data-parsley-trigger="keyup"
+                       {{? d.required== 1 }} required="required" {{?}}
+                       {{? d.unique== 1 }} data-parsley-unique_meta="unique" {{?}}
+                       data-title="{{=d.title }}"
+                       id="{{=d.id}}" name="{{=d.id}}" class="form-control" value="{{=d.default_text}}">
+            </div>
+        </div>
+    </script>
+    <script type="template" id="integerInput">
+        <!--1-->
+        <div class="form-group">
+            <div class="fg-line">
+                <label for="">{{=d.displayname}} :</label>
+                <input type="text" data-displayname="{{=d.displayname}}"
+                       data-parsley-validation-threshold="1"
+                       data-parsley-type="digits"
+                       {{? d.required== 1 }} required="required" {{?}}
+                       {{? d.unique== 1 }} data-parsley-unique_meta="unique" {{?}}
+                       data-title="{{=d.title }}"
+                       id="{{=d.id}}" name="{{=d.id}}" class="form-control" value="{{=d.default_text}}">
+            </div>
+        </div>
+    </script>
+    <script type="template" id="textAreaInput">
+        <!--2-->
+        <div class="form-group">
+            <br>
+            <label>{{=d.displayname}} :</label>
+            <div class="fg-line">
+                    <textarea id="{{=d.id}}" name="{{=d.id}}" class="form-control" data-displayname="{{=d.displayname}}"
+                              {{? d.required== 1 }} required="required" {{?}}
+                              {{? d.unique== 1 }} data-parsley-unique_meta="unique" {{?}}
+                              data-title="{{=d.title }}"
+                              rows="3" placeholder="type something...">{{=d.default_text}}</textarea>
+            </div>
+        </div>
+    </script>
+    <script type="template" id="dropDownInput">
+        <!--3-->
+        <div class="form-group">
+            <div class="fg-line">
+                <label>{{=d.displayname}} :</label>
+                <div>
+                    <select id="{{=d.id}}" {{? d.required== 1 }} required="required" {{?}} {{? d.unique== 1 }}
+                            data-parsley-unique_meta="unique" {{?}}
+                            data-title="{{=d.title }}" name="{{=d.id}}"
+                            data-displayname="{{=d.displayname}}"
+                            class="selectpicker">
+                        <option value="">CHOOSE</option>
+                        {{=d.options}}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="template" id="dateInput">
+        <!--4-->
+        <div class="form-group">
+            <div class="fg-line">
+                <label>{{=d.displayname}} :</label>
+                <input type="text" id="{{=d.id}}" data-displayname="{{=d.displayname}}" {{? d.unique== 1 }}
+                       data-parsley-unique_meta="unique" {{?}}
+                       data-title="{{=d.title }}"
+                       {{? d.required== 1 }} required="required" {{?}}
+                       name="{{=d.id}}" class="form-control date-time-picker" value="{{=d.default_text}}">
+            </div>
+        </div>
+    </script>
+    <!--        <script type="template" id="floatInput">
+    5
+                <div>
+                    <br>
+                    <div class="fg-line">
+                        {{=d.title}} :
+                        <input type="number" step="0.01" id="{{=d.id}}" name="{{=d.id}}" class="form-control" value="{{=d.default_text}}">
+                    </div>
+                </div>
+            </script>
+        -->
+    {% endraw %}
+
+    <script type="text/javascript">
+        let pendingMeta_api = "{{ url('dms:document:pendingMetalist-list') }}";
+        let delete_pending_Meta = "{{ url('dms:document:deletePendingMeta') }}";
+        let pdfview = "{{ url('dms:document:pdf_view') }}";
+        let request_user = "{{ request.user }}";
+        var customer = "{{ view.client }}";
+        var app_id = "{{ application.id }}";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/uploader/js/doT.min.js"></script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/uploader/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/uploader/js/select2.full.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/uploader/js/app/uploader.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/uploader/js/app/metadata.js"></script>
+
+
+    {% if view.client == 'z8t5y67' %}
+        <script type="text/javascript" src="{{ STATIC_URL }}dms/uploader/js/app/apollo.js"></script>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/daterangepicker.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/report/loginReport/css/login_report.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/font-awesome.min.css">
+    <style>
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Pdf files page count as per document type</h2>
+                            </div>
+                            <div class="card-body card-padding">
+                                <div class="row">
+                                    <ul class="actions pull-right">
+                                        <li class="m-r-5">
+                                            <input type="text" class="form-control date_input" name="daterange"
+                                                   placeholder="Choose Date Range">
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        {#<span style="font-size: 200px;" id="pages">0 </span><span style="font-size: 30px;">pages</span>#}
+                                        <div class="table-responsive">
+                                            <table class="table table-striped" id="docTypePages">
+                                                <thead>
+                                                <tr>
+                                                    <th>Document Type</th>
+                                                    <th>Pages</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        let user_api = '/api/v1/user';
+        let user_role = "{{ request.user.role.id}}";
+        let user_id = "{{ request.user.id }}";
+        let user = "{{ request.user }}";
+        let doc_sum_url = "{{ url('api:documents:docsum-list') }}";
+        let doc_type_sum_url = "{{ url('api:documents:doctypesum-list') }}";
+    </script>
+
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}core/report/loginReport/js/daterangepicker.js"></script>
+    <script type="text/javascript">
+        {
+            let $dateRangeField = $('.date_input');
+            let dt_doc_pages = null;
+            let from_date = null;
+            let to_date = null;
+
+            // formatting date using moment
+            function format_date(date, time = false) {
+                return moment(date).format('YYYY-MM-DD');
+            }
+
+            function get_page_count(data = {}) {
+                let doc_type_pages = $('#docTypePages');
+
+                if (dt_doc_pages !== null) {
+                    doc_type_pages.DataTable().destroy();
+                }
+
+                dt_doc_pages = doc_type_pages.DataTable({
+                    ajax: {
+                        url: '/api/v1/dms/documents/page_count/',
+                        method: 'post',
+                        data: data
+                    },
+                    columns: [
+                        {data: 'doc_type__name'},
+                        {data: 'total'},
+                    ],
+                    paging: false,
+                    info: false
+                });
+            }
+
+            // set initial page count
+            get_page_count();
+
+            // initiate date range picker
+            $dateRangeField.daterangepicker({
+                "opens": "left",
+                autoUpdateInput: false,
+                locale: {
+                    "cancelLabel": "Clear",
+                }
+            });
+
+            // customize date range picker to make it perfect
+            $dateRangeField.on('cancel.daterangepicker', function (ev, picker) {
+                $(this).val('');
+            });
+            $('.input-mini').addClass("date_form");
+            $('.applyBtn').removeClass('btn-success').addClass('btn-info');
+            $('.cancelBtn').removeClass('btn-default').addClass('bgm-bluegray');
+
+            // date append to input box
+            $dateRangeField.on('apply.daterangepicker', function (ev, picker) {
+                let from = format_date(picker.startDate, true);
+                let to = format_date(picker.endDate, true);
+
+                $(this).val(`${format_date(picker.startDate)} to ${format_date(picker.endDate)}`);
+                get_page_count({from: from, to: to});
+            });
+        }
+    </script>
+
+{% endblock %}

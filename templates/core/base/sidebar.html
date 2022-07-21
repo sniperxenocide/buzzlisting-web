@@ -1,0 +1,36 @@
+{% macro render_menu(items) -%}
+    {% for item in items %}
+        {% if item is not none %}
+            {% if item[3] is not none %}
+                <li class="sub-menu
+                {% for x in item[3] %}
+                    {% if request.path == x[1] %}
+                     active toggled
+                    {% endif %}
+                {% endfor %}
+                ">
+                    <a href="{{ item[1] }}" data-ma-action="submenu-toggle"><i
+                            class="zmdi {{ item[2] }}"></i> {{ item[0] }}
+                    </a>
+                    <ul>
+                        {{ render_menu(item[3]) }}
+                    </ul>
+                </li>
+            {% else %}
+                <li
+                        {% if request.path == item[1] %}
+                            class="active"
+                        {% endif %}
+                >
+                    <a href="{{ item[1] }}"><i class="zmdi {{ item[2] }}"></i> {{ item[0] }}</a>
+                </li>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+<aside id="sidebar" class="sidebar c-overflow">
+    <ul class="main-menu">
+        {{ render_menu(items) }}
+    </ul>
+</aside>

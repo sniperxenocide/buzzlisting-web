@@ -1,0 +1,145 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {#  User Management Side bar #}
+        {# End User Management Side bar #}
+
+        <section id="content">
+            <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Scripting</h2>
+                    </div>
+                    <div class="card-body card-padding">
+                        <form action="" id="create_delete">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                            <div class="row">
+                                <form class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-sm-12 m-b-15">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                   <a href="write" id="create">Create Your Scripts</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-sm-12 m-b-15">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                   <a href="create_template" id="create">Create Your Templates</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12 m-b-15">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <a href="#dfiles" data-toggle="collapse">Delete Your Scripts</a>
+                                                       <div id="dfiles" class="collapse">
+                                                       <div class="list-group">
+                                                           {% for f in files %}
+                                                                <a href="#" class="list-group-item" id="dfiles">{{ f.file_name }}</a>
+                                                           {% endfor %}
+                                                        </div>
+                                                     </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </form>
+                            <form action=modify method="post">
+                                <input type="hidden" value="{{ csrf_token }}" name="csrfmiddlewaretoken">
+                                    <div class="row">
+                                        <div class="col-sm-12 ">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <a href="#mfiles" data-toggle="collapse">Modify Your Scripts</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-12 ">
+                                            <div class="form-group">
+                                                <div class="form-group fg-float">
+                                                    <div id="mfiles" class="collapse">
+                                                               {% for f in files %}
+                                                                  <input type="radio" name="file_name" value={{ f.file_name }}> {{ f.file_name }}<br><br>
+                                                                {% endfor %}
+                                                        <span class="btn btn-default bgm-bluegray btn-file m-t-10">
+                                                            <input type="submit" class="btn bgm-bluegray waves-effect" value="Open">
+                                                        </span>
+                                                    </div>
+
+{#                                                        <span class="btn btn-default bgm-bluegray btn-file m-t-10">#}
+{#                                                            <input type="submit" class="btn bgm-bluegray waves-effect" value="OK">#}
+{#                                                        </span>#}
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- Replaced by Modal Default -->
+
+    </section>
+
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        var delete_script = "{{ url('workflow:script:delete_script') }}";
+       $('.list-group-item').on('click', function() {
+           console.log($(this).text());
+           $.ajax({
+                url: delete_script,
+                method: 'POST',
+                data: {"file_name": $(this).text()
+                },
+
+                success: (data) => {
+                    console.log(data)
+                    notify('Note: ', 'selected script was deleted Successfully', '', 'success');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1500);
+
+                },
+                error: (res) => {
+                    console.log(res.responseText);
+                    notify('Sorry!! ', res.responseText, '', 'danger', 5000)
+                },
+            });
+    })
+    </script>
+
+
+
+{% endblock %}

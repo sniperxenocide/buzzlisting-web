@@ -1,0 +1,121 @@
+<div class="modal fade" id="modalDefault" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div role="tabpanel">
+                    <ul class="tab-nav" role="tablist">
+                        <li class="active"><a href="#summary" aria-controls="summary" role="tab"
+                                              data-toggle="tab">Summary</a></li>
+                        <li><a href="#uploaded_document" aria-controls="uploaded_document" role="tab"
+                               data-toggle="tab">Uploaded Document</a>
+                        </li>
+                        <li><a href="#generated_document" aria-controls="generated_document" role="tab"
+                               data-toggle="tab">Generated Document</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="summary">
+                            <div class="modal-body">
+                                <div class="panel-group" data-collapse-color="teal" id="accordionTeal"
+                                     role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-collapse">
+                                        <div class="panel-heading" role="tab">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordionTeal"
+                                                   href="#accordionTeal-one" aria-expanded="true">
+                                                    Case Properties
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="accordionTeal-one" class="collapse in" role="tabpanel">
+                                            <div class="panel-body" id="case_property">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-collapse">
+                                        <div class="panel-heading" role="tab">
+                                            <h4 class="panel-title">
+                                                <a class="collapsed" data-toggle="collapse"
+                                                   data-parent="#accordionTeal" href="#accordionTeal-two"
+                                                   aria-expanded="false">
+                                                    Current Task(s) Properties
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="accordionTeal-two" class="collapse" role="tabpanel">
+                                            <div class="panel-body" id="current_task">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="uploaded_document">
+                            {#<a href="#"><i class="zmdi zmdi-download" style="font-size: 20px"></i></a>#}
+                            <div class="card-body table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>File Name</th>
+                                        <th>Comment</th>
+                                        <th>Type</th>
+                                        <th>Version</th>
+                                        <th>Original Task</th>
+                                        <th>Created By</th>
+                                        <th>Create Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Something</td>
+                                        <td>Alexandra</td>
+                                        <td>2.0</td>
+                                        <td>Draft</td>
+                                        <td>Sleep</td>
+                                        <td>Ducky</td>
+                                        <td>2-1-2016</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="generated_document">
+                            <div class="card-body table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Comment</th>
+                                        <th>Type</th>
+                                        <th>Version</th>
+                                        <th>Original Task</th>
+                                        <th>Created By</th>
+                                        <th>Create Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Something</td>
+                                        <td>Alexandra</td>
+                                        <td>2.0</td>
+                                        <td>Draft</td>
+                                        <td>Sleep</td>
+                                        <td>Ducky</td>
+                                        <td>2-1-2016</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

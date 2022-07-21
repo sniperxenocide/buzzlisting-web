@@ -1,0 +1,202 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/user.min.css">
+    {#<link rel="stylesheet" href="{{ STATIC_URL }}workflow/designer/vendor/datatables.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/designer/css/custom_datatable.css">#}
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+
+        #users_list tbody tr {
+            cursor: pointer;
+        }
+
+        .profile_picture {
+            margin: auto;
+            max-height: 220px;
+        }
+
+        .detail dl {
+            margin-bottom: 10px;
+        }
+        .not-allowed {
+            cursor: not-allowed !important;
+            pointer-events: none;
+            color: #e1e1e1 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+
+    {# End Rigth Side bar #}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+
+
+        <section id="content" class="content">
+        {% if not request.user.role.permission.filter(pk=1).exists() %}
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="f-400">Please select your desired menu</h2>
+                </div>
+            </div>
+        {% else %}
+            <div class="container">
+                {% set icons =  '
+                <li>
+                    <a href="#" disabled="disabled">
+                        <i class="zmdi zmdi-account-add c-black" id="add_user_button" title="Add User"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-edit" id="edit_button" title="Edit User"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-info" id="summary_button" title="User Summary"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-delete" id="sa-params" title="Delete User"></i>
+                    </a>
+                </li>' %}
+
+                {% with icons=icons, table_id='users_list', table_header='User List',
+                search_title='Search Name, User Name, Role, Email' %}
+                    {% include 'core/base/datatable.html' %}
+                {% endwith %}
+            </div>
+        {% endif %}
+        </section>
+{#    {% endif %}#}
+    </section>
+
+    <!-- Delete Confirmation modal -->
+    <div class="modal fade positive_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Do You want to delete this user?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>A positive modal body</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Summary modal -->
+    <div class="modal fade" id="summary_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="zmdi zmdi-account m-r-10"></i> User Summery</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pmbb-view p-l-15">
+                                <dl class="dl-horizontal text-center">
+                                    <img src="" alt="Image not found"
+                                         class="avatar img-responsive profile_picture img-circle m-b-10" width="150px">
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="col-md-12 detail">
+                            <div class="pmbb-body p-l-30">
+                                <div class="pmbb-view">
+                                    <dl class="dl-horizontal">
+                                        <dt>Full Name</dt>
+                                        <dd class="full_name"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>User Name</dt>
+                                        <dd class="username"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>Email</dt>
+                                        <dd class="email"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>Role</dt>
+                                        <dd class="role_name"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>Position</dt>
+                                        <dd class="position"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>Status</dt>
+                                        <dd class="status"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>Joining Date</dt>
+                                        <dd class="date_joined"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>Expiry Date</dt>
+                                        <dd class="expiry_date"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>Phone No</dt>
+                                        <dd class="phone_number"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>Address</dt>
+                                        <dd class="address"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>Group</dt>
+                                        <dd class="groups">
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        {# var edit_user = "{{ url('user_management:edit_user', args=[0]) }}";#}
+        var add_user = "{{ url('admin:user:add_user') }}";
+        var all_user = "{{ url('api:rbac:user-list') }}";
+        //console.log(all_user);
+    </script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/user.min.js"></script>#}
+    {#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/app/user_list.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}core/user_management/user_list/js/app/user_list.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/designer/vendor/doT.js"></script>
+    <script>
+
+    </script>
+{% endblock %}

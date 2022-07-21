@@ -1,0 +1,265 @@
+{% raw %}
+<script type="template" id="block-header">
+    <i class="zmdi zmdi-file "></i> <strong>{{=d.filename}}</strong>
+        <span class="f-13 c-white m-l-15">
+            <strong><i class="zmdi zmdi-comments"></i> <span class="doc_comment_count">0</span></strong> |
+            <strong><i class="zmdi zmdi-n-1-square"></i> <span class="doc_version_no">{{=(d.version).toFixed(2)}}</span></strong>
+        </span>
+</script>
+<script type="template" id="related-file">
+    <div class="list-group m-t-10">
+        <a class="list-group-item media p-5 p-r-0" href="#" data-action="viewPreview"
+           data-file="/media/{{=d.document.filepath}}">
+            <div class="media-body">
+                <div class="lgi-heading c-lightgreen f-18"><i class="zmdi zmdi-file c-gray"></i> <strong>{{=d.document.filename}}</strong>
+                </div>
+                <small class="lgi-text">{{=d.document.type}}</small>
+            </div>
+        </a>
+        <!--<a class="view-more" href="">View All</a>-->
+    </div>
+</script>
+<script type="template" id="versions">
+    <div class="list-group m-t-10">
+        {{ for(var f in d) { }}
+        <a class="list-group-item media p-5 p-r-0" href="#" data-action="viewPreview"
+           data-file="/media/{{=d[f].filepath}}">
+            <div class="media-body">
+                <div class="lgi-heading c-lightgreen f-18"><i class="zmdi zmdi-file c-gray"></i> <strong>{{=d[f].filename}}</strong>
+                </div>
+                <small class="lgi-text">
+                    <strong>Created by</strong>: {{=d[f].uploaded_by.first_name}} {{=d[f].uploaded_by.last_name}}<br>
+                    <strong>Version</strong>: {{=(d[f].version).toFixed(2)}}
+                </small>
+                <ul class="lgi-attrs">
+                    <li style="border: none">
+                        <a role="menuitem" tabindex="-1" href="#" data-action="download"
+                           class="list-group-item media p-0 m-b-5 m-l-0 f-12 f-500" data-v_id="{{=d[f].id}}">
+                            <i class="zmdi zmdi-download"></i> Download
+                        </a>
+                    </li>
+                    <li style="border: none">
+                        <a role="menuitem" tabindex="-1" href="#" data-action="delete"
+                           class="list-group-item media p-0 m-b-5 m-l-0 f-12 f-500" data-v_id="{{=d[f].id}}"
+                           data-v="{{=d[f].version }}">
+                            <i class="zmdi zmdi-delete"></i> Delete
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </a>
+        {{ } }}
+
+        <!--<a class="view-more" href="">View All</a>-->
+    </div>
+</script>
+
+<script type="template" id="metadata">
+    <div class="pmo-contact">
+        <ul>
+            {{~d.metas :value:index}}
+            <li class="ng-binding" style="padding: 5px 0 5px 20px;">
+                <i class="zmdi zmdi-chevron-right"></i><strong>{{=value.displayname}}:</strong> {{=value.value}}
+            </li>
+            {{~}}
+        </ul>
+    </div>
+    <hr>
+    {{~d.tags :value:index}}
+    <label class="label {{=labelCSS[index%4]}} f-12" style="display: inline-block;">{{=value}}</label>
+    {{~}}
+</script>
+<script type="template" id="comments">
+    {{ for(var i in d) { }}
+    <div class="list-group-item media comment_list">
+        <a href="" class="pull-left">
+            {{? d[i].comment_by.avatar }}
+            <img src="{{=d[i].comment_by.avatar}}" class="lgi-img">
+            {{?? d[i].comment_by.avatar === null}}
+            <img src="/static/img/user_img.jpg " class="lgi-img">
+            {{??}}
+            {{?}}
+        </a>
+        <div class="media-body">
+            <a href="" class="lgi-heading">{{=d[i].comment_by.first_name}} {{=d[i].comment_by.last_name}}
+                <small class="c-gray m-l-10">{{=Helper.utcToLocal(d[i].created_at,'Do MMMM YYYY')}}</small>
+            </a>
+            <small class="lgi-text">{{=d[i].comment}}</small>
+        </div>
+    </div>
+    {{ } }}
+</script>
+
+<!--Metafields-->
+<script type="template" id="string">
+    <div class="col-lg-4">
+        <div class="form-group">
+            <div class="fg-line">
+                <label for="">{{=d.displayname}} :</label>
+                <input type="text" data-displayname="{{=d.displayname}}"
+                       {{?d.min !=null}}data-parsley-minlength="{{=d.min}}"{{?}} {{?d.max
+                       !=null}}data-parsley-maxlength="{{=d.max}}"{{?}}
+                       {{? d.unique== 1 }} data-parsley-unique_meta="unique" {{?}}
+                       data-parsley-validation-threshold="1"
+                       {{? d.required== 1 }} required="required" {{?}}
+                       id="{{=d.title.toLowerCase()}}"
+                       name="{{=d.title.toLowerCase()}}"
+                       class="form-control"
+                       value="{{=d.value}}">
+            </div>
+        </div>
+    </div>
+</script>
+<script type="template" id="integer">
+    <div class="col-lg-4">
+        <div class="form-group">
+            <div class="fg-line">
+                <label for="">{{=d.displayname}} :</label>
+                <input type="text" data-displayname="{{=d.displayname}}"
+                       data-parsley-validation-threshold="1"
+                       data-parsley-trigger="keyup"
+                       data-parsley-type="digits"
+                       {{? d.required== 1 }} required="required" {{?}}
+                       {{? d.unique== 1 }} data-parsley-unique_meta="unique" {{?}}
+                       id="{{=d.title.toLowerCase()}}"
+                       name="{{=d.title.toLowerCase()}}"
+                       class="form-control"
+                       value="{{=d.value}}">
+            </div>
+        </div>
+    </div>
+</script>
+<script type="template" id="float">
+    <div class="col-lg-4">
+        <div class="form-group">
+            <div class="fg-line">
+                <label for="">{{=d.displayname}} :</label>
+                <input type="text" data-displayname="{{=d.displayname}}"
+                       data-parsley-validation-threshold="1"
+                       data-parsley-trigger="keyup"
+                       data-parsley-type="number"
+                       {{? d.required== 1 }} required="required" {{?}}
+                       {{? d.unique== 1 }} data-parsley-unique_meta="unique" {{?}}
+                       id="{{=d.title.toLowerCase()}}"
+                       name="{{=d.title.toLowerCase()}}"
+                       class="form-control"
+                       value="{{=d.value}}">
+            </div>
+        </div>
+    </div>
+</script>
+<script type="template" id="textarea">
+    <div class="col-lg-12">
+        <div class="form-group">
+            <div class="fg-line">
+                <label for="">{{=d.displayname}} :</label>
+                    <textarea id="{{=d.title.toLowerCase()}}"
+                              name="{{=d.title.toLowerCase()}}"
+                              class="form-control" data-displayname="{{=d.displayname}}"
+                              {{? d.unique== 1 }} data-parsley-unique_meta="unique" {{?}}
+                              {{? d.required== 1 }} required="required" {{?}}
+                              rows="3" placeholder="type something...">{{=d.value}}</textarea>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="template" id="dropdown">
+    <div class="col-lg-4">
+        <div class="form-group">
+            <div class="fg-line">
+                <label for="">{{=d.displayname}} : </label>
+                <select id="{{=d.title.toLowerCase()}}" {{? d.required== 1 }} required="required" {{?}}
+                        {{? d.unique== 1 }} data-parsley-unique_meta="unique" {{?}}
+                        name="{{=d.title.toLowerCase()}}" data-displayname="{{=d.displayname}}"
+                        class="selectpicker">
+                    <option value="">CHOOSE</option>
+                    {{~d.options :value:index}}
+                    {{? d.value === value }}
+                    <option value="{{=value}}" selected>{{=value}}</option>
+                    {{?? d.value !== value }}
+                    <option value="{{=value}}">{{=value}}</option>
+                    {{??}}
+                    {{?}}
+                    {{~}}
+
+                </select>
+            </div>
+        </div>
+    </div>
+    </div>
+</script>
+<script type="template" id="date">
+    <div class="col-lg-4">
+        <div class="form-group">
+            <div class="fg-line">
+                <label for="">{{=d.displayname}} : </label>
+                <input type="text" id="{{=d.title.toLowerCase()}}"
+                       {{? d.required== 1 }} required="required" {{?}}
+                       name="{{=d.title.toLowerCase()}}" data-displayname="{{=d.displayname}}"
+                       {{? d.unique== 1 }} data-parsley-unique_meta="unique" {{?}}
+                       class="form-control date-picker" value="{{=d.value}}">
+            </div>
+        </div>
+    </div>
+</script>
+<script type="template" id="linked_list">
+    <div class="list-group-item media c-white" style="background-color: #f7f7f7 !important; height: 85px;">
+        <div class="checkbox pull-left">
+            <label>
+                <input type="checkbox" value="" data-id="{{=d.id}}" name="type">
+                <i class="input-helper"></i>
+            </label>
+        </div>
+        <div class="pull-left">
+            {{? d.thumbnail === "" }}
+            {{? d.extension === 'application/pdf'}}
+            <i class='fa fa-file-pdf-o' aria-hidden='true'
+               style='font-size: 45px;font-weight: 100; color:#3F51B5 !important;'></i>
+            {{?? d.extension === 'application/msword'}}
+            <i class='fa fa-file-word-o' aria-hidden='true'
+               style='font-size: 45px;font-weight: 100; color:#3F51B5 !important;'></i>
+            {{?? d.extension === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}}
+            <i class='fa fa-file-word-o' aria-hidden='true'
+               style='font-size: 45px;font-weight: 100; color:#3F51B5 !important;'></i>
+            {{?? d.extension === '.xls' }}
+            <i class='fa fa-file-excel-o' aria-hidden='true'
+               style='font-size: 45px;font-weight: 100; color:#3F51B5'></i>
+            {{?? d.extension === '.xlsx' }}
+            <i class='fa fa-file-excel-o' aria-hidden='true'
+               style='font-size: 45px;font-weight: 100; color:#3F51B5'></i>
+            {{?? d.extension === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }}
+            <i class='fa fa-file-excel-o' aria-hidden='true'
+               style='font-size: 45px;font-weight: 100; color:#3F51B5'></i>
+            {{?? d.extension === '.doc' }}
+            <i class='fa fa-file-word-o' aria-hidden='true'
+               style='font-size: 45px;font-weight: 100; color:#3F51B5'></i>
+            {{?? d.extension === '.docx' }}
+            <i class='fa fa-file-word-o' aria-hidden='true'
+               style='font-size: 45px;font-weight: 100; color:#3F51B5'></i>
+            {{?? d.extension === '.wiz' }}
+            <i class='fa fa-file-word-o' aria-hidden='true'
+               style='font-size: 45px;font-weight: 100; color:#3F51B5'></i>
+            {{?? d.extension === '.dot' }}
+            <i class='fa fa-file-word-o' aria-hidden='true'
+               style='font-size: 45px;font-weight: 100; color:#3F51B5'></i>
+            {{??}}
+            {{?}}
+            {{?}}
+        </div>
+        <div class="media-body">
+            <div class="lgi-heading">{{=d.filename }}
+            </div>
+            <ul class="lgi-attrs">
+                <li>Doctype:{{=d.doctype }}</li>
+                <li>Uploader: {{=d.uploaded_by.first_name }} {{=d.uploaded_by.last_name }}</li>
+                <li>Date Created: {{=d.creation_date }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="media-body linked_media_body">
+
+    </div>
+</script>
+{% endraw %}
+
+

@@ -1,0 +1,75 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/user.min.css">
+    {#<link rel="stylesheet" href="{{ STATIC_URL }}workflow/designer/vendor/datatables.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/designer/css/custom_datatable.css">#}
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+
+        #users_list tbody tr {
+            cursor: pointer;
+        }
+
+        .profile_picture {
+            margin: auto;
+            max-height: 220px;
+        }
+
+        table {
+            margin: 0 auto;
+            width: 100%;
+            clear: both;
+            border-collapse: collapse;
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+
+        .detail dl {
+            margin-bottom: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+
+    {# End Right Side bar #}
+    <section id="main">
+        {{ admin_sidebar_menu }}
+        {% with items=admin_sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        {# End Side bar #}
+
+        <section id="content" class="content">
+            <h3>You don't have permission</h3>
+        </section>
+{#    {% endif %}#}
+    </section>
+
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        {# var edit_user = "{{ url('user_management:edit_user', args=[0]) }}";#}
+        var add_user = "{{ url('admin:user:add_user') }}";
+        var all_user = "{{ url('api:rbac:user-list') }}";
+        console.log(all_user);
+    </script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/user.min.js"></script>
+    {#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/app/user_list.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}core/user_management/user_list/js/app/user_list.js  "></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/designer/vendor/doT.js"></script>
+    <script>
+
+    </script>
+{% endblock %}

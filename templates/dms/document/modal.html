@@ -1,0 +1,336 @@
+<div class="modal fade" id="addVersion" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title c-gray">Upload New Version</h4>
+            </div>
+            <div class="modal-body">
+                <form action="" id="uploadVersion" data-parsley-validate data-parsley-focus="first"
+                      enctype="multipart/form-data">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <span class="btn btn-primary btn-file m-r-10">
+                                            <span class="fileinput-new">Select new</span>
+                                            <span class="fileinput-exists">Version</span>
+                                            <input type="file" name="uploadfile" data-parsley-required
+                                                   data-parsley-errors-container="#file_error">
+                                        </span>
+                                <span class="fileinput-filename"></span>
+                                <a href="#" class="close fileinput-exists" data-dismiss="fileinput">&times;</a>
+                                <span id="file_error" class="pull-right"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <p class="c-black f-500 m-b-15">Expire Date</p>
+                            <div class="input-group form-group">
+                                <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                                <div class="dtp-container">
+                                    <input type='date' name="expiry_date" class="form-control date-picker"
+                                           placeholder="Click here...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <p class="f-500 m-b-15 c-black">Action Upon Expiry</p>
+                            <select id="action_upon_expire" name="action_upon_expire" class="selectpicker">
+                                <option value="0">NONE</option>
+                                <option value="1">ARCHIVE</option>
+                                <option value="2">DELETE</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-4">
+                            <p class="f-500 m-b-15 c-black">Version</p>
+                            <select id="version" name="version" class="selectpicker" data-parsley-required>
+                                <option value="">Choose Version</option>
+                                <option value="2.00">Major 2.00</option>
+                                <option value="1.01">Minor 1.01</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="input-group fg-float"><span class="input-group-addon"><i
+                                    class="zmdi zmdi-comment-text"></i></span>
+                                <div class="fg-line">
+                                    <textarea name="comment"
+                                              id="vcomment"
+                                              class="form-control auto-size"
+                                              style="overflow: hidden; overflow-wrap: break-word; height: 44px;"
+                                              placeholder="Write something..."
+                                              data-parsley-length="[5, 2048]"
+                                              data-parsley-pattern="/(^[\w\s,.&@!:]+$)+/"
+                                              data-parsley-trigger="input change"
+                                              data-parsley-validation-threshold="5"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-type="uploadVersion" class="btn btn-link waves-effect">Save changes</button>
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="viewFile" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header p-5">
+                <h4 class="modal-title c-gray"></h4>
+            </div>
+            <div class="modal-body p-0 p-l-10 p-r-10">
+                <div class="modal-preview"></div>
+                <div class="ver-modal-preview" style="height: 450px;
+    overflow-y: scroll; display: none"></div>
+            </div>
+            <ul id="ver_pagination" class="pagination lg-pagination" style="display:none;"></ul>
+            <div class="modal-footer p-5">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{#<div class="modal fade" id="addRelated" tabindex="-1" role="dialog" aria-hidden="true">#}
+{#    <div class="modal-dialog modal-md">#}
+{#        <div class="modal-content">#}
+{#            <div class="modal-header">#}
+{#                <h4 class="modal-title c-gray">Linked File</h4>#}
+{#            </div>#}
+{#            <div class="modal-body">#}
+{#                <form action="" data-parsley-validate data-parsley-focus="first">#}
+{#                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">#}
+{#                    <div class="row">#}
+{#                        <div class="col-lg-12">#}
+{#                            <select id="documents" name="linkfile" class="selectpicker" multiple#}
+{#                                    data-selected-text-format="count" data-parsley-required></select>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </form>#}
+{#            </div>#}
+{#            <div class="modal-footer">#}
+{#                <button type="button" data-type="addLinkedFile" class="btn btn-link waves-effect">Save changes</button>#}
+{#                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+<div class="modal fade" id="addRelated" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Linked Files</h4>
+            </div>
+            <div class="modal-body">
+                <div id="linked_file_content" style="overflow-y: scroll; height:300px">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <ul id="linkedfile_pagination" class="pagination lg-pagination"></ul>
+                <button type="button" data-type="addLinkedFile" class="btn btn-link waves-effect">Link</button>
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editMeta" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Metadata</h4>
+            </div>
+            <form data-parsley-validate data-parsley-focus="first">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <div class="modal-body p-0 p-l-10 p-r-10">
+                    <form action="#" data-parsley-validate data-parsley-focus="first">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="doc_data">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <div class="fg-line">
+                                                    <label for="filename">Document Name * :</label>
+                                                    <input
+                                                            type="text"
+                                                            id="filename"
+                                                            {#                                                            data-parsley-pattern="/^(?=.*[a-zA-Z0-9]{2,})[\w\d\s_.-]+$/"#}
+                                                            name="filename"
+                                                            {#                                                            data-parsley-pattern-message="Only Letter, number, underscore, dot, hyphen are allowed"#}
+                                                            class="form-control"
+                                                            data-parsley-required
+                                                            value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <div class="fg-line">
+                                                    <label for="created_date">Created at *:</label>
+                                                    <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="zmdi zmdi-calendar"></i>
+                                    </span>
+                                                        <div class="text-center" id="creation_date">
+                                                            <input type='text'
+                                                                   id="creation_date"
+                                                                   data-parsley-class-handler="#creation_date"
+                                                                   data-parsley-required
+                                                                   name="creation_date"
+                                                                   class="form-control date-picker"
+                                                                   placeholder="Click here...">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <div class="fg-line">
+                                                    <label for="expires_on">Expires on :</label>
+                                                    <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="zmdi zmdi-calendar"></i>
+                                    </span>
+                                                        <div class="text-center" id="expires_on">
+                                                            <input data-parsley-class-handler="#expires_on"
+                                                                   type='text'
+                                                                   id="expiry_date"
+                                                                   name="expiry_date"
+                                                                   class="form-control"
+                                                                   placeholder="Click here...">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <div class="fg-line">
+                                                    <label for="action_upon_expire">Action Upon Expiry :</label>
+                                                    <select id="action_upon_expire" name="action_upon_expire"
+                                                            class="selectpicker">
+                                                        <option value="0">NONE</option>
+                                                        <option value="1">ARCHIVE</option>
+                                                        <option value="2">DELETE</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <div class="fg-line">
+                                                    <label for="doc_type">Document Type :</label>
+                                                    <select id="doc_type" name="doc_type" class="selectpicker"
+                                                            data-type="docType"
+                                                            data-parsley-required>
+                                                        <option value="">CHOOSE</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <div class="fg-line">
+                                                Box Number :
+                                                <input data-parsley-type="integer" id="edit_box_number"
+                                                       name="box_number"
+                                                       data-parsley-maxlength="5"
+                                                       class="form-control" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <div class="fg-line">
+                                                Shelf Number :
+                                                <input data-parsley-type="integer" id="edit_shelf_number"
+                                                       name="shelf_number"
+                                                       data-parsley-maxlength="5"
+                                                       class="form-control" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <div class="fg-line">
+                                                <label for="meta_tags">Tags :</label>
+                                                <select id="meta_tags" name="tags[]" multiple class="col-lg-12"
+                                                        style="width: 100%"
+                                                        data-placeholder="Tags..."></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    {#                                    <div class="col-lg-12">#}
+                                    {#                                       <div  style="background-color:#e6e6e6;">#}
+                                    {#                                           <p style="margin-left: 1em;">Unique fields are disabled. You can only set a unique value during upload.</p>#}
+                                    {#                                       </div>#}
+                                    {#                                    </div>#}
+                                    <div class="col-lg-12">
+                                        <div class="meta-data-gen-wrap"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer p-5">
+                    <button type="button" data-type="updateMeta" class="btn btn-link waves-effect">Save changes</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="free_text_modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bgm-bluegray">
+                <h4 class="modal-title c-white">Free Text</h4>
+            </div>
+            <br>
+            <br>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="form-group fg-float">
+                            <div class="fg-line">
+                                <label class="fg-label">Text:<span
+                                        class="required_star" style="color: red">*</span></label>
+                                <input class="form-control"
+                                       name="free_text_val"
+                                       id="free_text_val"
+                                       required=""
+                                       data-parsley-maxlength="10"
+                                       data-parsley-minlength="1"
+                                       tabindex="1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link waves-effect" id="attach_free_text">Save</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

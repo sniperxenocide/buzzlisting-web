@@ -1,0 +1,144 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/cases/css/cases.css">
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+
+        #upload_doc, #process_map {
+            min-height: 200px;
+        }
+
+        .loading-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 10;
+        }
+
+        .loader {
+            display: none;
+            width: 200px;
+            height: 200px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            text-align: center;
+            margin-left: -50px;
+            margin-top: -100px;
+            z-index: 1200;
+            overflow: auto;
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <section id="main">
+        <div class="loader">
+            <center>
+                <img class="loading-image" src="{{ STATIC_URL }}img/ajax-loader/ajax-loader (1).gif" alt="Loading..">
+            </center>
+        </div>
+        <!--Sidebar Menu Workflow-->
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <!--End Sidebar Menu Workflow-->
+        {#{% include 'workflow/cases/content.html' %} Shuvo#}
+
+        <section id="content" class="content">
+            {% if not view.sidebar_menu %}
+                <div class="container">
+                    <div class="card">
+                        <div class="card-header m-t-0 m-b-0 text-center">
+                            <h4 class="f-400">Please select your desired menu</h4>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="container">
+                    {% set icons = '
+            <li>
+                <a href="#">
+                    <i class="zmdi zmdi-info" id="summary_button" title="Case Summary"></i>
+                </a>
+            </li>
+            ' %}
+
+                    {% with icons=icons, table_id='inbox_case', table_header='Non-claimed',
+            search_title='Search by Application number, Process name or Sent by user name' %}
+                        {% include 'core/base/datatable.html' %}
+                    {% endwith %}
+
+
+                    {# Summary Modal#}
+                    {% include 'workflow/cases/completed_case_summary_modal.html' %}
+
+                    <!-- For Claim user-->
+                    <div class="modal fade" id="user_assign_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title"><i class="zmdi zmdi-account-box m-r-10"></i>Claim To
+                                    </h4>
+                                </div>
+                                <form id="claim_user_assign_form">
+                                    <div class="modal-body">
+                                        <div class="row m-b-30">
+                                            <div class="col-md-12">
+                                                <label class="control-label">Select an User <span
+                                                        class="required_star"> *</span></label>
+                                                <select class="selectpicker"
+                                                        id="claimed_user"
+                                                        data-live-search="true"
+                                                        name="claimed_user"
+                                                        data-parsley-required=""
+                                                        data-trigger="change">
+                                                    <option value="">Nothing Selected</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn bgm-bluegray waves-effect" id="save_user">
+                                            Save
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </section>
+
+    </section>
+
+
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        let todo_app = "{{ url('api:workflow:delegation-list') }}",
+            e_form_url = "/workflow/case/e_form/",
+            all_user = "{{ url('api:rbac:user-list') }}",
+            app_comment_url = "{{ url('api:workflow:app_comment-list') }}",
+            cliamable_user = "{{ request.user.id }}";
+            query_url = "{{ url('api:workflow:app_query-list') }}",
+            general_info = "{{ url('api:workflow:general_info-list') }}";
+
+
+    </script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/non_claimed.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/completed_case_summary_modal.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/application_count.js"></script>
+   {# <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/sweetalert2.min.js"></script> #}
+
+    {#
+<script type="text/javascript" src="{{ STATIC_URL }}assets/js/cases.min.js"></script>#}
+{% endblock %}

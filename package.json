@@ -1,0 +1,61 @@
+{
+  "name": "workflow",
+  "version": "1.0.0",
+  "description": "BPMN by InfoSapex",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InfoSapex/workflow.git"
+  },
+  "keywords": [
+    "BPMN",
+    "workflow",
+    "dms"
+  ],
+  "author": "InfoSapex",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/InfoSapex/workflow/issues"
+  },
+  "homepage": "https://github.com/InfoSapex/workflow#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0",
+    "loadtest": "^2.2.1",
+    "vee-validate": "^2.0.0-beta.22",
+    "vue": "^2.1.10"
+  },
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-runtime": "^6.1.2",
+    "babel-preset-es2015": "^6.1.2",
+    "babel-preset-stage-0": "^6.1.2",
+    "babel-runtime": "^5.8.0",
+    "css-loader": "^0.23.0",
+    "moment": "^2.17.1",
+    "redis": "^2.7.1",
+    "style-loader": "^0.13.0",
+    "vee-validate": "^2.0.0-beta.22",
+    "vue-hot-reload-api": "^1.2.0",
+    "vue-html-loader": "^1.0.0",
+    "vue-loader": "^9.5.1",
+    "vue-resource": "^1.2.0",
+    "vue-style-loader": "^1.0.0",
+    "vueboot": "^0.4.5",
+    "webpack": "2.1.0-beta.21",
+    "webpack-dashboard": "^0.1.8",
+    "webpack-dev-middleware": "^1.8.1",
+    "webpack-dev-server": "^1.15.0",
+    "webpack-hot-middleware": "^2.12.2",
+    "webpack-merge": "^0.14.1"
+  }
+}

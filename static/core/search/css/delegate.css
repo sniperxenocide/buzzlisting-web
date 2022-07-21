@@ -1,0 +1,21 @@
+.custom_table{
+    border: 2px solid #f3f3f3;
+}
+.custom_table thead > tr > th{
+    padding: 6px;
+}
+.custom_table > tbody > tr:last-child > td, .custom_table > tbody > tr > td{
+    padding: 6px;
+}
+.custom_table thead > tr > th:last-child{
+    padding-right: 6px!important;
+}
+.custom_table thead > tr > th:first-child{
+    padding-left: 6px!important;
+}
+.custom_table tbody > tr > td:first-child{
+    padding-left: 6px!important;
+}
+.custom_table tbody > tr > td:last-child{
+    padding-right: 6px!important;
+}

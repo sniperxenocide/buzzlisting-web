@@ -1,0 +1,43 @@
+{
+  "recordsTotal": 15,
+  "recordsFiltered": 15,
+  "draw": "1",
+  "data": [
+    {
+      "case": "1",
+      "process": "Lanka Bangla Loan Application",
+      "task": "Capture Customer info in a eform",
+      "type": "TRIGGER",
+      "date": "February 28th 2017, 3:43:14 pm",
+      "subject":"",
+      "from": "shuvo@infosapex.com",
+      "to": "rasel@infosapex.com",
+      "error_email": "error message",
+      "status": "sent"
+    },
+    {
+      "case": "2",
+      "process": "Lanka Bangla Loan Application",
+      "task": "Capture Customer info in a eform",
+      "type": "DERIVATION",
+      "date": "February 28th 2017, 3:43:14 pm",
+      "subject":"Account Opening",
+      "from": "shuvo@infosapex.com",
+      "to": "rasel@infosapex.com",
+      "error_email": "error message",
+      "status": "sent"
+    },
+    {
+      "case": "14",
+      "process": "Lanka Bangla Loan Application",
+      "task": "Capture Customer info in a eform",
+      "type": "TRIGGER",
+      "date": "February 28th 2017, 3:43:14 pm",
+      "subject":"Lanka Bangla Loan Application",
+      "from": "shuvo@infosapex.com",
+      "to": "rasel@infosapex.com",
+      "error_email": "error message",
+      "status": "pending"
+    }
+  ]
+}

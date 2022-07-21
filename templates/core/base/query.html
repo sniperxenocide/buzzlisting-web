@@ -1,0 +1,147 @@
+<div class="modal fade" id="form_query_modal">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Query</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 table-responsive">
+                        <button type="button" id="add_query_button" class=" m-b-10 btn btn-success waves-effect"><i
+                                class="zmdi zmdi-plus"></i>
+                        </button>
+                        <table id="query_show_table"
+                               class="table table-bordered custom_table">
+                            <thead>
+                            <tr>
+                                <th width="25%">Query</th>
+                                <th width="15%">Query From</th>
+                                <th width="10%">Query Date</th>
+                                <th width="15%">Query To</th>
+                                <th width="25%">Answer</th>
+                                <th width="10%">Answer Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="empty_query_row">
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                {#                <button type="submit" id="gr_save_button_" class="btn btn-default">Save#}
+                {#                </button>#}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add_query_modal">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">New Query</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="add_query_form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="fg-label">Query To</label>
+                                            <select class="selectpicker"
+                                                    id="user_to"
+                                                    name="user_to"
+                                                    data-live-search="true"
+                                                    data-parsley-required="true"
+                                                    data-trigger="change">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="fg-label">Expiry Date</label>
+                                            <input type='text' id='expiry_date' class="form-control"
+                                                   name="expiry_date"
+                                                   placeholder="Select Expiry Date">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="fg-label">Detail Query</label>
+                                            <textarea class="form-control auto-size"
+                                                      name="query"
+                                                      id="query_text"
+                                                      data-parsley-trigger="change"
+                                                      data-parsley-required="true"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="query_save_button_" class="btn bgm-bluegray">Save
+                </button>
+            </div>
+            {#            <div class="modal-body">#}
+            {#                <div class="row">#}
+            {#                    <div class="col-md-12">#}
+            {#                        <button type="button" id="add_gr" class="btn btn-success waves-effect">#}
+            {#                            Add Delegate <i class="zmdi zmdi-plus"></i>#}
+            {#                        </button>#}
+            {#                        <table id="gr_show_table" class="table table-bordered table-responsive">#}
+            {#                            <thead>#}
+            {#                                <tr>#}
+            {#                                    <th>#}
+            {#                                        Name#}
+            {#                                    </th>#}
+            {#                                    <th>#}
+            {#                                        Activation date#}
+            {#                                    </th>#}
+            {#                                    <th>#}
+            {#                                        Expiry date#}
+            {#                                    </th>#}
+            {#                                    <th>#}
+            {#                                        Action#}
+            {#                                    </th>#}
+            {#                                </tr>#}
+            {#                            </thead>#}
+            {#                            <tbody>#}
+            {#                                <tr class="empty_delegation">#}
+            {#                                    <td>--</td>#}
+            {#                                    <td>--</td>#}
+            {#                                    <td>--</td>#}
+            {#                                    <td>--</td>#}
+            {#                                </tr>#}
+            {#                            </tbody>#}
+            {#                        </table>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
+
+        </div>
+    </div>
+</div>

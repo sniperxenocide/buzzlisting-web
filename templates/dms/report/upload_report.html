@@ -1,0 +1,63 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/daterangepicker.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/uploadReport/css/upload_report.css">
+
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+                {% set icons =  '
+                <i class="fa fa-calendar"></i>
+                <li>
+                    <input type=\'text\' class= "form-control date_input" name="daterange" placeholder="Choose Date Range">
+                </li>
+                ' %}
+
+
+                {% with icons=icons, table_id='upload_report', table_header='Upload Report',
+                search_title='Search by Uploader, File Number, Document Name, Document Type or Metafield' %}
+                    {% include 'core/base/datatable.html' %}
+                {% endwith %}
+            </div>
+        </section>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+{#        let upload_report_url = "/api/v1/dms/documents/uploadreport/";#}
+        let upload_report_url = "";
+        let user_role = "{{ request.user.role.id }}";
+        let user_id = "{{ request.user.id }}";
+        let user_permission = {{ view.permission }};
+        console.log(user_permission);
+        if(user_role == 1){
+            upload_report_url = "/api/v1/dms/documents/uploadreport/";
+        }else{
+            if(user_permission == 1){
+                upload_report_url = "/api/v1/dms/documents/uploadreport/";
+            }else{
+                upload_report_url = "/api/v1/dms/documents/uploadreport/?user="+user_id;
+            }
+        }
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}core/report/loginReport/js/daterangepicker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/report/uploadReport/js/upload_report.js"></script>
+
+{% endblock %}

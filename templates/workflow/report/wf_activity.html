@@ -1,0 +1,196 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/report/wf_report/css/daterangepicker.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/report/wf_report/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/report/wf_activity/css/wf_activity.css">
+
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+                {% set icons =  '
+                <i class="fa fa-calendar"></i>
+                <li>
+                    <input type=\'text\' class= "form-control date_input" name="daterange" placeholder="Choose Date Range">
+                </li>
+                <li id="wf_sel">
+                    <select class="selectpicker" data-live-search="true" id="select_user">
+                            <option value="all">All</option>
+                    </select>
+                </li>
+        ' %}
+                {% with icons=icons, table_id='wf_activity', table_header='Workflow Activity Log',
+                search_title='Search by User First name, Task Name, Process Name, Project, App Number' %}
+                    {% include 'core/base/datatable.html' %}
+                {% endwith %}
+            </div>
+        </section>
+    </section>
+    <div class="modal fade" id="wf_activity_summary_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header search_sum_modal_header">
+                    <h3 class="modal-title search_sum_modal_title"><i class="zmdi zmdi-case m-r-10"></i> Case Summary
+                    </h3>
+                </div>
+                <div class="modal-body">
+                    <div role="tabpanel">
+                        <ul class="tab-nav" role="tablist">
+                            <li class="active" id="wf_activity_general_tab_li"><a href="#wf_activity_summary" aria-controls="wf_activity_summary" role="tab"
+                                                                      data-toggle="tab">General Information</a></li>
+                            <li id="wf_activity_uploaded_tab_li"><a href="#wf_activity_uploaded_document" aria-controls="wf_activity_uploaded_document"
+                                                        role="tab"
+                                                        id="wf_activity_uploaded_document_tab" data-info=""
+                                                        data-toggle="tab">Uploaded Document</a>
+                            </li>
+                            <li id="wf_activity_search_process_tab_li"><a href="#wf_activity_search_process_map"
+                                                              aria-controls="wf_activity_search_process_map"
+                                                              role="tab"
+                                                              data-toggle="tab" id="wf_activity_search_process_map_tab"
+                                                              data-info="">Process
+                                Map</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="wf_activity_summary">
+                                {#                            <div class="modal-body">#}
+                                <div class="panel-group" data-collapse-color="teal" id="accordionTeal"
+                                     role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-collapse">
+                                        <div class="panel-heading" role="tab">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordionTeal"
+                                                   href="#accordionTeal-one" aria-expanded="true">
+                                                    Case Properties
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="accordionTeal-one" class="collapse in" role="tabpanel">
+                                            <div class="panel-body" id="wf_activity_case_property">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="pmbb-body p-l-30">
+                                                            <div class="pmbb-view">
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Process</dt>
+                                                                    <dd class="process_name"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Application Number</dt>
+                                                                    <dd class="applicaion"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Current User</dt>
+                                                                    <dd class="current_user_name"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Next User</dt>
+                                                                    <dd class="next_user"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Status</dt>
+                                                                    <dd class="status"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Init Date</dt>
+                                                                    <dd class="init_date"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Init User</dt>
+                                                                    <dd class="init_user_name"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Updated at</dt>
+                                                                    <dd class="updated_at"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Description</dt>
+                                                                    <dd class="description"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Finish Date</dt>
+                                                                    <dd class="finished_at"></dd>
+                                                                </dl>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="wf_activity_uploaded_document">
+                                <div class="card-body table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Type</th>
+                                            <th>Original Task</th>
+                                            <th>Create Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="wf_activity_upload_doc_body">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="wf_activity_search_process_map">
+                                <div class="card-body table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th width="20%">Task</th>
+                                            <th width="15%">User</th>
+                                            <th width="15%">Delegation</th>
+                                            <th width="15%">Due Date</th>
+                                            <th width="15%">Finish Date</th>
+                                            <th width="20%">Time Taken</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="wf_activity_search_map_table">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {#    <script type="text/javascript">#}
+    {#        var wf_activity_api = "{{ url('workflow:workflow_report:wf_activity-list') }}";#}
+    {#    </script>#}
+    <script>
+        var user_role = "{{ request.user.role.id}}";
+        var user_id = "{{ request.user.id }}";
+        var user = "{{ request.user }}";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}core/report/loginReport/js/daterangepicker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/report/wf_activity/js/wf_activity.js"></script>
+
+{% endblock %}

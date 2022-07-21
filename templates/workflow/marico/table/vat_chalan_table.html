@@ -1,0 +1,37 @@
+<table id="vat_chalan_attach" class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Number</th>
+        <th>Attachment</th>
+        {% if task.name == 'Capture Information' %}
+            <th>Delete</th>
+        {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% if vatchalan_info %}
+        {% for vat in vatchalan_info %}
+            <tr data-attachment-id="{{ vat.id }}">
+                <td>{{ vat.number }}</td>
+                <td><a href="{{ vat.file.url }}" target="_blank">{{ vat.file.name }}</a>
+                </td>
+                {% if task.name == 'Capture Information' %}
+                    <td>
+                        <button class="delete-attachment btn btn-danger btn-sm waves-effect"><i
+                                class="zmdi zmdi-delete"></i> Delete
+                        </button>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr id="vat_chalan_row">
+            <td>-</td>
+            <td>-</td>
+            {% if task.name == 'Capture Information' %}
+                <td>-</td>
+            {% endif %}
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

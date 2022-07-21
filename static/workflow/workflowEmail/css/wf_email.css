@@ -1,0 +1,45 @@
+.input-daterange .input-group-addon {
+    /*remove this line*/
+    min-width: 16px;
+    padding: 4px 5px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    text-align: center;
+    text-shadow: 0 1px 0 #fff;
+    vertical-align: middle;
+    background-color: #eeeeee;
+    border: solid #cccccc;
+    border-width: 1px 0;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.date_form{
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-top: 0px !important;
+    padding-right: 6px !important;
+    padding-bottom: 0px !important;
+    padding-left: 28px !important;
+}
+.date_input {
+    width: 158px !important;
+}
+.daterangepicker td.active, .daterangepicker td.active:hover {
+    background-color: #009688;
+    border-color: transparent;
+    color: #fff;
+}
+.daterangepicker td.start-date {
+    border-radius: 4px 0 0 4px;
+}
+.daterangepicker td.active, .daterangepicker td.active:hover {
+    background-color: #009688;
+    border-color: transparent;
+    color: #fff;
+    border-radius: 4px;
+}

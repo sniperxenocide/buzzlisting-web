@@ -1,0 +1,91 @@
+{% extends BASE_TEMPLATE %}
+
+{% block content %}
+    <div class="login-content">
+        <!-- Login -->
+        <div class="lc-block toggled" id="l-login">
+            {% if WORKFLOW == 'aBX3RODumf' %}
+                <img src="{{ STATIC_URL }}img/logo.png" alt="" style="top: -15px !important;position: relative;">
+            {% else %}
+                <img src="{{ STATIC_URL }}assets/images/buzzlistingLogin.png" alt=""
+                     style="top: -15px !important;position: relative;">
+            {% endif %}
+            <form id="login_form">
+                <div class="lcb-form">
+                    <div class="input-group m-b-20">
+                        <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                        <div class="fg-line">
+                            <input type="text" name="username" class="form-control" placeholder="Username/Email">
+                        </div>
+                    </div>
+
+                    <div class="input-group m-b-20">
+                        <span class="input-group-addon"><i class="zmdi zmdi-male"></i></span>
+                        <div class="fg-line">
+                            <input type="password" name="password" class="form-control" placeholder="Password">
+                        </div>
+                    </div>
+
+                    {#                    <div class="checkbox">#}
+                    {#                        <label>#}
+                    {#                            <input type="checkbox" value="">#}
+                    {#                            <i class="input-helper"></i>#}
+                    {#                            Keep me signed in#}
+                    {#                        </label>#}
+                    {#                    </div>#}
+
+                    <button class="btn btn-login btn-success btn-float" type="submit"><i
+                            class="zmdi zmdi-arrow-forward"></i></button>
+                </div>
+
+                {#                <div class="lcb-navigation">#}
+                {#                    <a href="#" data-ma-action="login-switch" data-ma-block="#l-forget-password"><i>?</i>#}
+                {#                        <span>Forgot Password</span></a>#}
+                {#                </div>#}
+            </form>
+            <br>
+            <br>
+        {% if WORKFLOW == 'aBX3RODumf' %}
+            <br>
+            <br>
+            <br>
+        {% endif %}
+
+{#            <p style="color: #333">Powered by <img style="position: relative; top: -11px"#}
+{#                                                   src="{{ STATIC_URL }}img/infosapex.png" alt=""></p>#}
+        </div>
+
+
+        <!-- Forgot Password -->
+        {#        <div class="lc-block" id="l-forget-password">#}
+        {#            <div class="lcb-form">#}
+        {#                <p class="text-left">Please provide your email.</p>#}
+        {##}
+        {#                <div class="input-group m-b-20">#}
+        {#                    <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>#}
+        {#                    <div class="fg-line">#}
+        {#                        <input type="text" class="form-control" placeholder="Email Address">#}
+        {#                    </div>#}
+        {#                </div>#}
+        {##}
+        {#                <a href="#" class="btn btn-login btn-success btn-float"><i class="zmdi zmdi-check"></i></a>#}
+        {#            </div>#}
+        {##}
+        {#            <div class="lcb-navigation">#}
+        {#                <a href="#" data-ma-action="login-switch" data-ma-block="#l-login"><i#}
+        {#                        class="zmdi zmdi-long-arrow-right"></i> <span>Sign in</span></a>#}
+        {#            </div>#}
+        {#        </div>#}
+{#        <a class="open_account" target="_blank" href="/workflow/case/account_opening"> Open Account</a>#}
+{#    </div>#}
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        let login_url = "{{ url('api:login') }}";
+        let dashboard_url = "{{ url('dashboard:dashboard') }}";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/auth.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}core/auth/js/app/application.js"></script>
+    {#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/app/auth.min.js"></script>#}
+{% endblock %}

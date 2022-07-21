@@ -1,0 +1,176 @@
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    font-size: 12px;
+
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+.content,
+.content > div {
+    width: 100%;
+    height: 100%;
+}
+
+.content > .message {
+    text-align: center;
+    display: table;
+    position: absolute;
+    font-size: 16px;
+    color: #111;
+}
+
+.content > .message .note {
+    vertical-align: middle;
+    text-align: center;
+    /*display: table-cell;*/
+}
+
+.content .error .details {
+    max-width: 500px;
+    font-size: 12px;
+    margin: 20px auto;
+    text-align: left;
+}
+
+.content .error pre {
+    border: solid 1px #CCC;
+    background: #EEE;
+    padding: 10px;
+}
+
+.content:not(.with-error) .error,
+.content.with-error .intro,
+.content.with-diagram .intro {
+    display: none;
+}
+
+.content .canvas,
+.content.with-error .canvas {
+    visibility: hidden;
+}
+
+.content.with-diagram .canvas {
+    visibility: visible;
+}
+
+.buttons {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.buttons > li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.buttons > li > a {
+    /*  background: #DDD;
+      border: solid 1px #666;*/
+    display: inline-block;
+    padding: 5px;
+}
+
+.buttons a {
+    opacity: 0.3;
+}
+
+.buttons a.active {
+    opacity: 1.0;
+}
+
+.pmui-gridpanel-footer {
+    margin-top: 464px !important;
+}
+
+.pmui-field-label {
+    padding: 6px 30px 4px 9px !important;
+}
+
+.button-left-right-wrap {
+    margin-top: 25%;
+}
+
+#free_list, #assigned_list {
+    border: 1px solid #454545;
+}
+.rule_panel_wrap {
+    display: none;
+}
+.rule_panel {
+    padding: 10px;
+    border: 1px solid #eee;
+}
+.no_rules_wrap {
+    padding: 10px 0;
+    text-align: center;
+    display: none;
+}
+.actions_buttons > a {
+    font-size: 18px;
+    margin: 10px;
+}
+.actions_buttons .remove_rule {
+    padding: 0 9px;
+}
+.help-block.filled span{
+    color: #f00;
+}
+.existing_step_table th,
+.existing_step_table td{
+    padding: 5px !important;
+}
+/*
+.existing_step_table th:nth-child(1),
+.existing_step_table td:nth-child(1){
+    width: 4%;
+}
+.existing_step_table th:nth-child(2),
+.existing_step_table td:nth-child(2){
+    width: 10%;
+}
+.existing_step_table th:nth-child(3),
+.existing_step_table td:nth-child(3){
+    width: 20%;
+}
+.existing_step_table th:nth-child(4),
+.existing_step_table td:nth-child(4){
+    width: 20%;
+}
+.existing_step_table th:nth-child(5),
+.existing_step_table td:nth-child(5){
+    width: 10%;
+}
+.existing_step_table th:nth-child(5),
+.existing_step_table td:nth-child(5){
+    width: 20%;
+}
+.existing_step_table th:nth-child(6),
+.existing_step_table td:nth-child(6){
+    width: 16%;
+}*/
+
+.existing_step_table th:nth-child(5),
+.existing_step_table td:nth-child(5){
+    width: 30%;
+}
+
+.existing_step_table th:nth-child(6),
+.existing_step_table td:nth-child(6){
+    width: 10%;
+}

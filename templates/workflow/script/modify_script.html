@@ -1,0 +1,108 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}workflow/script/plugin/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}workflow/script/plugin/codemirror/theme/lesser-dark.css">
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Modify Your .py/.html file Here</h2>
+                </div>
+                <form id="modify_code">
+                    <input type="hidden" value="{{ csrf_token }}" name="csrfmiddlewaretoken">
+                    <div class="row">
+                        <div class="col-md-12 p-t-30">
+                                <!--<label class="fg-label">File Name:</label>
+                                <textarea class="textarea" name="file" id="file_name"></textarea>-->
+                                <label class="fg-label">File Name</label>
+                                <textarea readonly
+                                          id="file_name"
+                                          name="file_name"
+                                          value={{ file_name }}>{{ file_name }}</textarea>
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 p-t-30">
+                            <label class="fg-label">Code</label>
+                            <textarea class="codemirror-textarea" name="script" id="script_content">{{ code }}</textarea>
+
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 p-t-30">
+{#                            <button class="btn bgm-bluegray waves-effect" id='save'>Save</button>#}
+                            <input type="submit" class="btn bgm-bluegray waves-effect" value="Save" id="save">
+                        </div>
+                    </div>
+                </form>
+                <form action="start_script" method="post">
+                    <input type="hidden" value="{{ csrf_token }}" name="csrfmiddlewaretoken">
+                    <div class="row">
+                        <div class="col-md-12 p-t-30">
+                            <input type="submit" class="btn bgm-bluegray waves-effect" value="Done">
+                        </div>
+                    </div>
+                 </form>
+            </div>
+        </div>
+
+    </section>
+
+
+
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/script/plugin/codemirror/lib/codemirror.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/script/plugin/codemirror/mode/python/python.js"></script>
+    <script>
+        var editor;
+        $(document).ready(function(){
+	        //code here...
+	        var code = $(".codemirror-textarea")[0];
+	        editor = CodeMirror.fromTextArea(code, {
+		          lineNumbers : true,
+                  mode : "python",
+                  theme : "lesser-dark"
+	     });
+        });
+
+        var modify_python_code = "{{ url('workflow:script:save_modification') }}";
+        let modify_script = $('#modify_code').parsley();
+        $('#save').on('click', (e) => {
+            modify_script.validate();
+            e.preventDefault();
+            if (modify_script.isValid()) {
+                $.ajax({
+                url: modify_python_code,
+                method: 'POST',
+                //data: $('#save_code').serialize(),
+                data: {
+                    "file_name": $('#file_name').val() ,
+                    "content": editor.getValue()
+                },
+
+                success: (data) => {
+                    console.log(data)
+                    notify('Congratulations!!! ', 'Selected script modified Successfully', '', 'success');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1500);
+
+                },
+                error: (res) => {
+                    console.log(res.responseText);
+                    notify('Sorry!! ', res.responseText, '', 'danger', 5000)
+                },
+            });
+
+            }
+        });
+    </script>
+
+{% endblock %}

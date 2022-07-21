@@ -1,0 +1,78 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+
+        .selected-single {
+            background: #c7d9fc !important;
+        }
+
+        ul.actions {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+                {% set icons =  '' %}
+
+                {% with icons=icons, table_id='requested_downloads', table_header='Requested downloads
+                (These files will be deleted after 7 days by calculating the creation date individual files.)',
+                search_title='' %}
+                    {% include 'core/base/datatable.html' %}
+                {% endwith %}
+            </div>
+        </section>
+    </section>
+{% endblock %}
+
+{% block js %}
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript">
+        {
+            let _requested_download_api = location.origin + '/api/v1/dms/documents/download_search_result/';
+
+            $('#requested_downloads').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: $.fn.dataTable.pipeline({
+                    url: _requested_download_api,
+                    pages: 1
+                }),
+                scrollY: 300,
+                deferRender: true,
+                scroller: true,
+                order: [[0, "asce"]],
+                columns: [
+                    {"title": "Process Title", "data": "path"},
+                    {"title": "Created at", "data": "created_at"},
+                ],
+                columnDefs: [
+                    {
+                        "targets": 0,
+                        "render": (data) => {
+                            return `<a href="${location.origin}/${data}" _target="blank">Download</a>`
+                        }
+                    },
+                    {
+                        "targets": 1,
+                        "render": (data) => {
+                            let dbDate = moment.utc(data).toDate();
+                            return moment(dbDate).local().format('MMMM Do YYYY, h:mm:ss a')
+                        }
+                    },
+                ]
+            });
+        }
+    </script>
+{% endblock %}

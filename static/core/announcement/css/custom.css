@@ -1,0 +1,55 @@
+.select_list {
+    display: none;
+}
+
+.custom {
+    max-height: 62px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: justify;
+    padding: 5px;
+}
+
+.custom img {
+    height: 100px;
+    width: auto !important;
+}
+#write{
+    display: none;
+}
+#announcemet_list tr {
+    cursor: pointer;
+}
+
+.message {
+    margin-top: 20px;
+    margin-bottom: 35px;
+}
+
+.custom p,
+.message p {
+    margin-bottom: 10px;
+}
+
+/*---Loader Start----*/
+.loading-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+}
+
+.loader {
+    display: none;
+    width: 200px;
+    height: 200px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    margin-left: -50px;
+    margin-top: -100px;
+    z-index: 2;
+    overflow: auto;
+}
+/*----Loader End-----*/

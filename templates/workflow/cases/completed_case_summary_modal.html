@@ -1,0 +1,236 @@
+{#  Summary Modal#}
+<div class="modal fade" id="summary_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close m-r-10" data-dismiss="modal">
+                    <i class="zmdi zmdi-close modal_top_botton" title="Close"></i>
+                </button>
+                <button type="button" class="printing_button close m-r-10">
+                    <i class="zmdi zmdi-print modal_top_botton" title="Print summary"></i>
+                </button>
+
+                <h3 class="modal-title"><i class="zmdi zmdi-case m-r-10"></i>Information</h3>
+            </div>
+            <div class="modal-body">
+                <div role="tabpanel">
+                    <ul class="tab-nav" role="tablist">
+                        <li class=""><a href="#general_info" aria-controls="summary" role="tab"
+                                        data-toggle="tab">General Information</a>
+                        </li>
+                        <li class=""><a href="#upload_doc" aria-controls="summary" role="tab"
+                                        data-toggle="tab">Uploaded Document</a>
+                        </li>
+                        <li id="generated_tab_li"><a href="#generated_document" aria-controls="uploaded_document"
+                                                     role="tab"
+                                                     id="generated_document_tab" data-info=""
+                                                     data-toggle="tab">Generated Document</a>
+                        </li>
+                        <li><a href="#process_map" aria-controls="process_map" role="tab"
+                               data-toggle="tab">Process Map</a>
+                        </li>
+                        <li><a href="#comment_tab" aria-controls="comment_tab" role="tab"
+                               data-toggle="tab">Comments (<span id="comment_count"></span>)</a>
+                        </li>
+                        <li><a href="#query_tab" aria-controls="query_tab" role="tab"
+                               data-toggle="tab">Query (<span id="query_count"></span>)</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="general_info">
+                            <div class="modal-body">
+                                <div class="panel-group" data-collapse-color="teal"
+                                     id="accordionTeal"
+                                     role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-collapse">
+                                        <div class="panel-heading" role="tab">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse"
+                                                   data-parent="#accordionTeal"
+                                                   href="#accordionTeal-one" aria-expanded="true">
+                                                    Application Properties
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="accordionTeal-one" class="collapse in"
+                                             role="tabpanel">
+                                            <div class="panel-body" id="case_property">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="pmbb-body p-l-30">
+                                                            <div class="pmbb-view">
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Process Name</dt>
+                                                                    <dd class="process_name"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Application Number</dt>
+                                                                    <dd class="case_number"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Case Status</dt>
+                                                                    <dd class="case_status"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Creator</dt>
+                                                                    <dd class="creator"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Create Date</dt>
+                                                                    <dd class="create_date"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Last Update</dt>
+                                                                    <dd class="last_update"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Case Description</dt>
+                                                                    <dd class="case_desc"></dd>
+                                                                </dl>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-collapse">
+                                        <div class="panel-heading" role="tab">
+                                            <h4 class="panel-title">
+                                                <a class="collapsed" data-toggle="collapse"
+                                                   data-parent="#accordionTeal"
+                                                   href="#accordionTeal-two"
+                                                   aria-expanded="false">
+                                                    Current Task(s) Properties
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="accordionTeal-two" class="collapse"
+                                             role="tabpanel">
+                                            <div class="panel-body" id="current_task">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="pmbb-body p-l-30">
+                                                            <div class="pmbb-view">
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Task</dt>
+                                                                    <dd class="task"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Current user</dt>
+                                                                    <dd class="current_user"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Task Init Date</dt>
+                                                                    <dd class="task_init_date"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Task Due Date</dt>
+                                                                    <dd class="task_due_date"></dd>
+                                                                </dl>
+                                                                <dl class="dl-horizontal">
+                                                                    <dt>Task Finish Date</dt>
+                                                                    <dd class="task_finish_date"></dd>
+                                                                </dl>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="generated_document">
+                            <div class="card-body table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Create Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="generated_doc_body">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="upload_doc">
+                            <div class="card-body table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Type</th>
+                                        <th>Original Task</th>
+                                        <th>Create Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="upload_doc_table">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="process_map">
+                            <div class="card-body table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th width="15%">Task</th>
+                                        <th width="15%">User</th>
+                                        <th width="15%">Delegation</th>
+                                        <th width="15%">Due Date</th>
+                                        <th width="15%">Finish Date</th>
+                                        <th width="15%">Time Taken</th>
+                                        <th width="10%">Status</th>
+                                        <th width="5%">EForm</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="map_table">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="comment_tab">
+
+                            <div class=" comment_side">
+                                <div class="pre_comment">
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="query_tab">
+
+                            <table id="query_tab_show_table"
+                                   class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th width="25%">Query</th>
+                                    <th width="15%">Query From</th>
+                                    <th width="10%">Query Date</th>
+                                    <th width="15%">Query To</th>
+                                    <th width="25%">Answer</th>
+                                    <th width="10%">Answer Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="tab_empty_query_row">
+                                    <td>--</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                

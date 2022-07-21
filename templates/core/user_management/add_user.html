@@ -1,0 +1,392 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/user.min.css">
+    <style>
+        .required_star {
+            color: rgba(244, 67, 54, 0.72) !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {#  User Management Side bar #}
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        {# End User Management Side bar #}
+
+        <section id="content">
+            <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Add New System Admins</h2>
+                    </div>
+                    <div class="card-body card-padding">
+                        <form action="" id="create_user">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-sm-12 m-b-15">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="fg-label ">First Name <span
+                                                            class="required_star">*</span></label>
+                                                    <input class="form-control"
+                                                           name="first_name"
+                                                           required=""
+                                                           tabindex="1"
+                                                           data-parsley-trigger="change"
+                                                           data-parsley-pattern="^[a-zA-Z-. ]{1,20}$"
+                                                           data-parsley-error-message="Name should contain only alphabets, hyphen(-) and dot(.) length should be between 1 to 20 characters">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 m-b-15">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="fg-label">Last Name <span
+                                                            class="required_star">*</span></label>
+                                                    <input class="form-control"
+                                                           name="last_name"
+                                                           required=""
+                                                           tabindex="2"
+                                                           data-parsley-trigger="change"
+                                                           data-parsley-pattern="^[a-zA-Z-. ]{1,20}$"
+                                                           data-parsley-error-message="Name should contain only alphabets, hyphen(-) and dot(.) length should be between 1 to 20 characters">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 ">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="fg-label">User Name <span
+                                                            class="required_star">*</span></label>
+                                                    <input class="form-control"
+                                                           name="username"
+                                                           tabindex="3"
+                                                           data-parsley-pattern="^[a-zA-Z0-9_.]{4,50}$"
+                                                           required="" data-parsley-trigger="change"
+                                                           data-parsley-error-message="User name should contain alphanumeric, underscore(_) and dot(.) length should be between 4 to 50 characters">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="form-group fg-float">
+                                                    <label class="control-label">Profile Picture</label>
+                                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                        <div class="fileinput-preview thumbnail"
+                                                             data-trigger="fileinput"></div>
+                                                        <div>
+                                                        <span class="btn btn-default bgm-bluegray btn-file m-t-10">
+                                                            <span class="fileinput-new">Upload</span>
+                                                            <span class="fileinput-exists">Image</span>
+                                                            <input type="file" name="avatar" id="avatar" tabindex="13"
+                                                                   data-parsley-filemaxmegabytes="2"
+                                                                   data-parsley-filemimetypes="image/jpeg, image/png"
+                                                                   data-parsley-trigger="change"
+                                                                   data-parsley-error-message="Image should be jpeg or png format">
+                                                        </span>
+                                                            <a href="#"
+                                                               class="btn btn-default bgm-gray fileinput-exists m-t-10"
+                                                               data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="form-group">
+                                                <div class="form-group fg-float">
+                                                    <label class="control-label">Signature</label>
+                                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                                        <div class="fileinput-preview thumbnail"
+                                                             data-trigger="fileinput"></div>
+                                                        <div>
+                                                        <span class="btn btn-default bgm-bluegray btn-file m-t-10">
+                                                            <span class="fileinput-new">Upload</span>
+                                                            <span class="fileinput-exists">Image</span>
+                                                            <input type="file" name="signature" id="signature"
+                                                                   tabindex="13"
+                                                                   data-parsley-filemaxmegabytes="2"
+                                                                   data-parsley-filemimetypes="image/jpeg, image/png"
+                                                                   data-parsley-trigger="change"
+                                                                   data-parsley-error-message="Image should be jpeg or png format">
+                                                        </span>
+                                                            <a href="#"
+                                                               class="btn btn-default bgm-gray fileinput-exists m-t-10"
+                                                               data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-sm-4 m-b-25 m-t-5">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="fg-label">Email <span
+                                                            class="required_star">*</span></label>
+                                                    <textarea class="form-control"
+                                                              name="email"
+                                                              required
+                                                              tabindex="4"
+                                                              data-parsley-pattern="[a-zA-z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                                              data-parsley-trigger="change"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8 m-b-25">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="fg-label">Address</label>
+                                                    <textarea class="form-control auto-size"
+                                                              name="address"
+                                                              id=""
+                                                              tabindex="5"
+                                                              data-parsley-trigger="change"
+                                                              maxlength="120"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4 m-b-25 m-t-15">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="fg-label">Phone <span
+                                                            class="required_star">*</span></label>
+                                                    <input type="text" class="form-control"
+                                                           name="phone_number"
+                                                           tabindex="6"
+                                                           data-parsley-trigger="change"
+                                                           maxlength="11"
+                                                           required=""
+                                                           data-parsley-pattern="^01[5-9]\d{8}$"
+                                                           data-parsley-error-message="Ex. 01(5-9)* * * * * * * *">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 m-b-25 m-t-15">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="fg-label">Position </label>
+                                                    <input class="form-control"
+                                                           name="position"
+                                                           tabindex="7">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 m-t-15 m-b-25">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="fg-label">Expire Date</label>
+                                                    <input class="form-control date-time-picker"
+                                                           id="date_box"
+                                                           tabindex="8"
+                                                           data-parsley-trigger="change"
+                                                           name="expiry_date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4 m-b-25">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="control-label">Status <span
+                                                            class="required_star">*</span></label>
+                                                    <select class="selectpicker"
+                                                            name="status"
+                                                            required=""
+                                                            tabindex="9">
+                                                        <option value="1">Active</option>
+                                                        <option value="0">Inactive</option>
+{#                                                        <option value="2">Vacation</option>#}
+{#                                                        <option value="3">Expire</option>#}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 m-b-25 ">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="control-label">Role <span
+                                                            class="required_star">*</span></label>
+                                                    <select class="selectpicker"
+                                                            id="role_select"
+                                                            tabindex="10"
+                                                            data-live-search="true"
+                                                            name="role"
+                                                            data-parsley-required="">
+                                                        <option value="">Nothing Selected</option>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 m-b-25 m-t-15">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="fg-label">Password <span
+                                                            class="required_star">*</span></label>
+                                                    <input type="password"
+                                                           name="password"
+                                                           class="form-control"
+                                                           id="password"
+                                                           tabindex="11"
+                                                           required=""
+                                                           data-parsley-trigger="change"
+                                                           minlength="8">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4 m-b-30 m-t-15">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="fg-label">Confirm Password <span
+                                                            class="required_star">*</span></label>
+                                                    <input type="password"
+                                                           class="form-control"
+                                                           name="cfrm_password"
+                                                           id="cfrm_password"
+                                                           tabindex="12"
+                                                           required=""
+                                                           minlength="8"
+                                                           data-parsley-equalto="#password"
+                                                           data-parsley-trigger="change"
+                                                           data-parsley-error-message="These passwords don't match">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% if WORKFLOW == "aBX3RODumf" and DMS == "9dL53eBFDK" %}
+                                        <div class="col-sm-4 m-b-15 m-t-25">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="control-label">Configure DMS/WORKFLOW </label>
+                                                    <select class="selectpicker"
+                                                            name="configuration_type"
+                                                            id="configuration"
+                                                            tabindex="9"
+                                                            required=""
+                                                            data-parsley-trigger="change">
+                                                        <
+                                                        <option value="0">BOTH</option>
+                                                        <option value="1">DMS</option>
+                                                        <option value="3">WORKFLOW</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 p-t-30">
+                                    <button class="btn bgm-bluegray waves-effect" id="add_user_submit_button">Add User
+                                    </button>
+                                    <button class="btn btn-default bgm-gray" id="go_back">Close</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {#<div class="row">
+            <div class="col-sm-4 m-b-15 m-t-25">
+                <div class="form-group fg-float">
+                    <div class="fg-line">
+                        <label class="control-label">Replaced by</label>
+                        <a data-toggle="modal" href="#modalDefault">
+                            <input type="number" name="replaced_by" id="replaced_by" hidden>
+                            <input class="form-control"
+                                   id="replaced_by_font"
+                            ></a>
+                    </div>
+                </div>
+            </div>
+        </div>#}
+        </section>
+
+
+        <!-- Replaced by Modal Default -->
+        {#<div class="modal fade" id="modalDefault" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header block-header">
+                        <h4 class="modal-title">Users List</h4>
+                        <ul class="actions p-t-15 p-r-15">
+                            <li><input type="text" class="form-control" placeholder="search here"></li>
+                            <li><i class="zmdi zmdi-search"></i></li>
+                        </ul>
+                    </div>
+                    <div class="modal-body" id="user_list">
+
+                    </div>
+                    <div class="modal-footer">
+                        #}{#<button type="button" hidden class="btn btn-link hide" id="previous">Previous</button>
+                        <button type="button" class="btn btn-link" id="next">Next</button>#}{#
+                        <ul class="fw-footer pagination wizard text-left m-t-0 pull-left m-l-10">
+                            <li class="previous">
+                                <a class="a-prevent hide" id="previous" title="previous">
+                                    <i class="zmdi zmdi-chevron-left"></i>
+                                </a>
+                            </li>
+                            <li class="next">
+                                <a class="a-prevent" id="next" title="Next">
+                                    <i class="zmdi zmdi-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        <button type="button" class="btn btn-link m-t-10 pull-right" data-dismiss="modal">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>#}
+    </section>
+
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        var all_user = "{{ url('api:rbac:user-list') }}";
+        var user_management_page = "{{ url('admin:user:list') }}";
+        var all_role = "{{ url('api:rbac:role-list') }}";
+        var add_user_url = "{{ url('api:rbac:user-list') }}";
+        console.log(add_user_url);
+        var param = {
+            'start': 0,
+            'length': 10,
+            'draw': 1
+        };
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/user.min.js"></script>
+    {#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/app/add_user.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}core/user_management/add_user/js/app/add_user.js"></script>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+<aside id="sidebar" class="sidebar c-overflow">
+    <ul class="main-menu">
+        <li>
+            <a href="{{ url('workflow:cases:new_case') }}"><i class="zmdi zmdi-plus-circle"></i> New Case(0)</a>
+        </li>
+        <li class="sub-menu">
+            <a href="#" data-ma-action="submenu-toggle"><i class="zmdi zmdi-case"></i> Cases</a>
+
+            <ul>
+                <li>
+                    <a href="{{ url('workflow:cases:cases') }}"><i class="zmdi zmdi-inbox" style="padding-right: 8px"></i>Inbox(0)</a>
+                </li>
+                <li>
+                    <a href="{{ url('workflow:cases:draft') }}"><i class="zmdi zmdi-edit"></i> Draft(0)</a>
+                </li>
+                <li>
+                    <a href="{{ url('workflow:cases:participated') }}"><i class="zmdi zmdi-forward"></i> Participated(0)</a>
+                </li>
+                <li>
+                    <a href="{{ url('workflow:cases:unassigned') }}"><i class="zmdi zmdi-time-restore-setting"></i> Unassigned(0)</a>
+                </li>
+                <li>
+                    <a href="{{ url('workflow:cases:paused') }}"><i class="zmdi zmdi-pause"></i> Paused(0)</a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</aside>

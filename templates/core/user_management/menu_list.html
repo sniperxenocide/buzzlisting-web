@@ -1,0 +1,91 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/daterangepicker.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}assets/css/sweetalert2.min.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/report/vendor/css/vendor_report.css">
+
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+                {% set icons =  '
+
+                <li>
+                    <a href="#" disabled="disabled">
+                        <i class="zmdi zmdi-edit" id="edit_button" title="Edit "></i>
+                    </a>
+                </li>
+
+                ' %}
+
+
+                {% with icons=icons, table_id='menu', table_header='Menu Items',
+                search_title='Search by menu item' %}
+                    {% include 'core/base/datatable.html' %}
+                {% endwith %}
+            </div>
+        </section>
+    </section>
+
+    <!--Vendor edit modal-->
+    <div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <form action="#" id="edit_form" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit MenuItems</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group fg-float">
+                                    <div class="fg-line e_v_n">
+                                        <input type="text" name="name"
+                                               id="edit_geo_name"
+                                               class="form-control"
+                                               data-parsley-required
+                                               data-parsley-required-message="You can not keep it blank">
+
+                                        <label class="fg-label">Name<span class="required_star">*</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="edit_submit" class="btn btn-link">Save
+                            changes
+                        </button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}core/report/loginReport/js/daterangepicker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/sweetalert2.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}buzzlisting/js/menu_list.js"></script>
+
+{% endblock %}

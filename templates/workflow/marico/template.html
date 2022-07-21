@@ -1,0 +1,82 @@
+{% raw %}
+<script type="template" id="attachmentRow">
+    <tr data-attachment-id="{{=d.id}}">
+        <td>{{=d.number}}</td>
+        <td>
+            <a href="{{=d.file}}" target="_blank">{{=d.file}}</a>
+        </td>
+        <td>
+            <button class="delete-attachment btn btn-danger btn-sm waves-effect">
+                <i class="zmdi zmdi-delete"></i>
+                Delete
+            </button>
+        </td>
+    </tr>
+</script>
+
+<script type="template" id="transactionAttachmentRow">
+    <tr data-attachment-id="{{=d.id}}">
+        <td>{{=d.gl_account}}</td>
+        <td>{{? d.card_type == '0'}}Debit{{??}}Credit{{?}}</td>
+        <td>{{=d.amount}}</td>
+        <td>{{=d.cost_center}}</td>
+        <td>{{=d.profit_center}}</td>
+        <td>{{=d.business_area}}</td>
+        <td>{{=d.io}}</td>
+        <td>
+            <button class="delete-transaction-attachment btn btn-danger btn-sm waves-effect">
+                <i class="zmdi zmdi-delete"></i>
+                Delete
+            </button>
+        </td>
+    </tr>
+</script>
+
+<script type="template" id="po_info_table_row">
+    <tr data-po-id="{{=d.id}}">
+        <td>{{=d.vendor_name}}</td>
+        <td>{{=d.vendor_code}}</td>
+        <td>{{=d.reference}}</td>
+        <td>{{=d.document_date}}</td>
+        <td>{{=d.posting_date}}</td>
+        <td>{{=d.amount}}</td>
+        <td>{{=d.tax_amount}}</td>
+        <td>{{=d.remarks}}</td>
+        <td>
+            <a href="#" class="show_gr">{{=d.gr_count}}</a>
+            <a href="#" class="delete_po" style="display: inline-block;">
+                <i class="zmdi zmdi-delete"></i>
+            </a>
+        </td>
+    </tr>
+</script>
+
+<script type="template" id="empty_tr">
+    <tr class="no_po_info_tr">
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</script>
+<script type="template" id="gr_table_row">
+    <tr data-gr-id="{{=d.id}}">
+        <td>
+            {{=d.number}}
+        </td>
+        <td>
+            <a href="{{=d.file}}" target="_blank">{{=d.file}}</a>
+        </td>
+        <td>
+            <button class="delete-gr-row btn btn-danger btn-sm waves-effect">
+                <i class="zmdi zmdi-delete"></i>
+            </button>
+        </td>
+    </tr>
+</script>
+{% endraw %}

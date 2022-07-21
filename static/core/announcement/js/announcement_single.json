@@ -1,0 +1,11 @@
+{
+  "id": 1,
+  "date": "2017-02-08T11:39:40.619565Z",
+  "audience": "Users",
+  "audienceName": [
+        "User one (user_one)",
+        "User Two (user_two)",
+        "User Thrree (user_thrree)"
+      ],
+  "message": "Donec vel metus nisl. Nam euismod neque et finibus vulputate. Integer in vestibulum orci. Phasellus ut iaculis arcu, Donec vel metus nisl. Nam euismod neque et finibus vulputate. Integer in vestibulum orci. Phasellus ut iaculis arcu, Donec vel metus nisl. Nam euismod neque et finibus vulputate. Integer in vestibulum orci. Phasellus ut iaculis arcu, vitae commodo justo. Ut eu feugiat lorem, quis ornare risus"
+}

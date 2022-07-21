@@ -1,0 +1,12 @@
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=User
+Group=www-data
+WorkingDirectory=/opt/project
+ExecStart=/opt/venv/bin/gunicorn --workers 3 --limit-request-line 8000 --bind unix:/opt/project/project.sock conf.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

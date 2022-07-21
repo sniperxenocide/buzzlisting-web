@@ -1,0 +1,14 @@
+{% extends BASE_TEMPLATE %}
+{% block js %}
+    <script type="text/javascript">
+        var task = "{{ task }}";
+        var app = "{{ app }}";
+        var outer = {
+            application: app,
+            task: task
+        };
+        localStorage.setItem("outer", JSON.stringify(outer));
+        var tasks_url = "/workflow/case/inbox/";
+        window.location = tasks_url;
+    </script>
+{% endblock %}

@@ -1,0 +1,75 @@
+.before_due_text, .after_due_text {
+    margin-bottom: -18px;
+}
+.bootstrap-select .bs-searchbox {
+    color: #5e5e5e;
+}
+/*
+.easy-pie {
+    display: inline-block;
+    position: relative;
+    padding: 0 0 10px
+}
+
+.easy-pie .percent {
+    position: absolute;
+    font-weight: 300;
+    width: 100%;
+    line-height: 100%;
+    left: 4px;
+    color: #fff
+}
+
+.easy-pie .percent:after {
+    content: "%"
+}
+
+.easy-pie.main-pie .percent {
+    margin-top: 49px;
+    font-size: 50px;
+    text-align: center
+}
+
+.easy-pie.main-pie .percent:after {
+    font-size: 30px
+}
+
+.easy-pie.main-pie .pie-title {
+    color: #fff
+}
+
+.easy-pie:not(.main-pie) .percent {
+    font-size: 24px;
+    margin-top: 33px
+}
+
+.easy-pie:not(.main-pie) .percent:after {
+    font-size: 20px
+}
+
+.easy-pie .pie-title {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: -3px;
+    left: 0
+}*/
+.epc-item {
+    padding: 0 !important;
+}
+.gauge_wrap {
+    display: inline-block;
+    width: 100%;
+}
+.guageContainer {
+    width: 100%;
+    min-width: 100px;
+    max-height: 300px;
+    float: left;
+}
+.highcharts-credits {
+    display: none;
+}
+.highcharts-title {
+    font-size: 10px !important;
+}

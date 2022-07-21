@@ -1,0 +1,122 @@
+{% extends BASE_TEMPLATE %}{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}assets/css/sweetalert2.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}dms/document/shared/toolbar.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}dms/document/shared/pdf_viewer.css"/>
+
+    <style>
+        .card .card-header {
+            padding: 5px 15px !important;
+        }
+
+        .card {
+            padding: 20px 20px !important;
+        }
+        .card .card-header {
+            top: 0 !important;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        <div class="container">
+            <div class="card" style="overflow-y: scroll; height:600px;">
+                <div class="card-header" style="height: 30px;text-align: center;font-weight: bold">
+                    META DATA HISTORY
+                </div>
+                {% if meta_title|length > 0 %}
+                    <table class="table table-striped">
+                        <thead>
+{#                        <th style="background:linear-gradient(to top right, #607D8B 50%, #0D507A 51%);"> </th>#}
+                                <th style="text-align: center" width="20%">
+                                    Edited by | Meta data
+                                </th>
+                        {% for meta in meta_title %}
+                            <th style="text-align: center">{{ meta }}</th>
+                        {% endfor %}
+                        </thead>
+                    <tbody>
+                    {% for ind_history in history %}
+
+                        <tr>
+
+                        <td width="14%" style="text-align: center">{{ ind_history['_EDITOR_'] }}</td>
+
+                        {% for element in ind_history %}
+                            {% if element != '_EDITOR_' %}
+                            <td style="text-align: center">{{ ind_history[element] }}</td>
+                            {% endif %}
+
+                        {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+
+
+
+{#                {% comment %}<table class="table">#}
+{#                    <tr>#}
+{#                    <td class="td">#}
+{#                        <table class="table" >#}
+{#                            <thead style="height: 20px">#}
+{#                                <tr class="tr">#}
+{#                                    <th class="th" style="background:linear-gradient(to top right, #607D8B 50%, #0D507A 51%);">#}
+{#                                        <div style="height: 20px">#}
+{#                                            <h3 style="float: left;  color: #FFF; font-size: 15px;margin:0">Edited by</h3>#}
+{#                                             <h3 style="float: right; color: #FFF; font-size: 15px;margin:0">Meta data</h3>#}
+{#                                        </div>#}
+{#                                    </th>#}
+{#                                </tr>#}
+{#                            </thead>#}
+{#                            <tbody>#}
+{#                                 {% for ind_history in history %}#}
+{#                                    <tr class="tr">#}
+{#                                        <td>{{ ind_history['_EDITOR_'] }}</td>#}
+{#                                    </tr>#}
+{#                                 {% endfor %}#}
+{##}
+{#                            </tbody>#}
+{#                        </table>#}
+{#                    </td>#}
+{#                    {% for meta in meta_title %}#}
+{#                        <td class="td">#}
+{#                         <table class="table" >#}
+{#                            <thead style="height: 20px">#}
+{#                                <tr class="tr" >#}
+{#                                    <th class="th">#}
+{#                                        {{ meta }}#}
+{#                                    </th>#}
+{#                                </tr>#}
+{#                            </thead>#}
+{#                            <tbody>#}
+{#                                {% for ind_history in history %}#}
+{#                                    <tr class="tr">#}
+{#                                        {% if meta in ind_history %}#}
+{#                                        <td>{{ ind_history[meta] }}</td>#}
+{#                                        {% else %}#}
+{#                                        <td> </td>#}
+{#                                        {% endif %}#}
+{#                                    </tr>#}
+{#                                {% endfor %}#}
+{##}
+{#                            </tbody>#}
+{#                        </table>#}
+{#                         </td>#}
+{#                     {% endfor %}#}
+{#                    </tr>#}
+{#                </table>{% endcomment %}#}
+
+
+                {% else %}
+                    <div style="height: 30px;text-align: center;">
+                     No history prevails for this document
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+

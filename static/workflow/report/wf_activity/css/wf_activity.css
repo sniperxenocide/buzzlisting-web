@@ -1,0 +1,32 @@
+.date_form{
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-top: 0px !important;
+    padding-right: 6px !important;
+    padding-bottom: 0px !important;
+    padding-left: 28px !important;
+}
+.date_input {
+    width: 158px !important;
+}
+.daterangepicker td.active, .daterangepicker td.active:hover {
+    background-color: #009688;
+    border-color: transparent;
+    color: #fff;
+}
+.daterangepicker td.start-date {
+    border-radius: 4px 0 0 4px;
+}
+.daterangepicker td.active, .daterangepicker td.active:hover {
+    background-color: #009688;
+    border-color: transparent;
+    color: #fff;
+    border-radius: 4px;
+}
+#wf_sel{
+    width: 200px;
+}

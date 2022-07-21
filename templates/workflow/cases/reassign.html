@@ -1,0 +1,101 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/cases/css/cases.css">
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+
+        #upload_doc, #process_map {
+            min-height: 200px;
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <section id="main">
+        <div class="loader">
+            <center>
+                <img class="loading-image" src="{{ STATIC_URL }}img/ajax-loader/ajax-loader (1).gif" alt="Loading..">
+            </center>
+        </div>
+        <!--Sidebar Menu Workflow-->
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <!--End Sidebar Menu Workflow-->
+        {#{% include 'workflow/cases/content.html' %} Shuvo#}
+
+        <section id="content" class="content">
+            {% if not view.sidebar_menu %}
+                <div class="container">
+                    <div class="card">
+                        <div class="card-header m-t-0 m-b-0 text-center">
+                            <h4 class="f-400">Please select your desired menu</h4>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="container" id="application_list">
+                    {% set icons = '' %}
+
+                    {% with icons=icons, table_id='reassign', table_header='Reassign',
+            search_title='Search by Application number, Process name or Sent by user name' %}
+                        {% include 'core/base/datatable.html' %}
+                    {% endwith %}
+                </div>
+            {% endif %}
+        </section>
+    </section>
+    <div class="modal fade" id="reassign_user_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <form action="#" id="reassign_user_form" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add User</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <select id="select_user_report" class="selectpicker" data-live-search="true">
+                                    <optgroup label="Users">
+
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="submit_reassign" class="btn btn-link">Save
+                        </button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        {#  For Application List  #}
+        var todo_app = "{{ url('api:workflow:delegation-list') }}";
+        var e_form_url = "/workflow/case/e_form/";
+        var all_user = "{{ url('api:rbac:user-list') }}";
+        var app_comment_url = "{{ url('api:workflow:app_comment-list') }}";
+        var general_info = "{{ url('api:workflow:general_info-list') }}";
+
+        {#  For form set up  #}
+        var customer = "{{ view.user }}";
+        var case_form = "{{ url('api:workflow:task-list') }}";
+        var user = "{{ request.user.id }}";
+        var user_role = "{{ request.user.role.id}}";
+    </script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/reassign.js"></script>
+{% endblock %}

@@ -1,0 +1,211 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/report/kpiReport/css/kpi_report.css">
+
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+
+        .easy-pie.main-pie .percent {
+            margin-top: 60px !important;
+            font-size: 34px !important;
+            text-align: center !important;
+        }
+
+        .easy-pie .pie-title {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            bottom: -7px;
+            left: 0;
+            font-size: 13px!important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card c-white">
+                            <div class="card-header c-black">
+                                <h2><i class="zmdi zmdi-trending-up m-r-5"></i>KPI Report
+                                    <small style="margin-left: 18px;">Key Performance Indicator Report</small>
+                                </h2>
+                                <ul class="actions">
+                                    <li style="width:320px; margin-top:50px;padding-right: 20px;">
+                                        <select class="selectpicker" data-live-search="true" id="select_user">
+                                            <option value="all">All</option>
+                                        </select>
+                                    </li>
+                                    <br>
+                                    {#                                    <li style="width:320px; margin-top:18px;padding-right: 20px;">#}
+                                    {#                                        <select class="selectpicker" data-live-search="true" id="select_company">#}
+                                    {#                                            <option>Choose Company</option>#}
+                                    {#                                            <option value="1">ACI</option>#}
+                                    {#                                            <option value="2">Marico</option>#}
+                                    {#                                            <option value="3">NRB</option>#}
+                                    {#                                        </select>#}
+                                    {#                                    </li>#}
+                                    {#                                    <br>#}
+                                    {#                                    <li style="padding-left:90px; margin-top: 5px;">#}
+                                    {#                                        <input class="form-control date-time-picker" id="month_box" name="month" placeholder="select month">#}
+                                    {#                                    </li>#}
+                                    {#                                    <button class="btn bgm-teal waves-effect" disabled="disabled" id="apply_btn">Apply</button>#}
+                                </ul>
+                            </div>
+                            {#                                <div id="pie-chart-me" class="dw-item bgm-cyan">#}
+                            {##}
+                            {#                                    <div class="dw-item">#}
+                            {##}
+                            {#                                        <div class="clearfix"></div>#}
+                            {##}
+                            {#                                        <div class="text-center p-20 m-t-15">#}
+                            {#                                            <div class="row">#}
+                            {#                                                <div class="easy-pie main-pie left_task col-md-4" data-percent="45">#}
+                            {#                                                    <div class="percent left_task_parcent">#}
+                            {##}
+                            {#                                                    </div>#}
+                            {#                                                    <div class="pie-title">Left Task</div>#}
+                            {#                                                </div>#}
+                            {#                                                <div class="easy-pie main-pie risk_task col-md-4" data-percent="45">#}
+                            {#                                                    <div class="percent risk_task_parcent">#}
+                            {##}
+                            {#                                                    </div>#}
+                            {#                                                    <div class="pie-title">Risk Task</div>#}
+                            {#                                                </div>#}
+                            {#                                                <div class="easy-pie main-pie completion_task col-md-4"#}
+                            {#                                                     data-percent="45">#}
+                            {#                                                    <div class="percent completion_task_parcent">#}
+                            {#                                                    </div>#}
+                            {#                                                    <div class="pie-title">Completion Task#}
+                            {#                                                    </div>#}
+                            {#                                                </div>#}
+                            {#                                            </div>#}
+                            {#                                            <div class="row">#}
+                            {#                                                <div class="col-md-2">#}
+                            {##}
+                            {#                                                </div>#}
+                            {#                                                <div class="easy-pie main-pie before_due col-md-4" data-percent="45">#}
+                            {#                                                    <div class="percent before_due_parcent"></div>#}
+                            {#                                                    <div class="pie-title before_due_text">#}
+                            {#                                                        Completion Before Due Date#}
+                            {#                                                    </div>#}
+                            {#                                                </div>#}
+                            {#                                                <div class="easy-pie main-pie after_due col-md-4" data-percent="45">#}
+                            {#                                                    <div class="percent after_due_parcent"></div>#}
+                            {#                                                    <div class="pie-title after_due_text">#}
+                            {#                                                        Completion After Due Date#}
+                            {#                                                    </div>#}
+                            {#                                                </div>#}
+                            {#                                                <div class="col-md-2"></div>#}
+                            {#                                            </div>#}
+                            {#                                        </div>#}
+                            {#                                    </div>#}
+                            {#                                </div>#}
+                            <div class="row" style="margin-top: 30px">
+                                <div class="col-sm-4">
+                                    <div class="epc-item">
+                                        <div class="gauge_wrap">
+                                            <div class='guageContainer' id="pending_kpi"></div>
+                                        </div>
+                                        <!--<div class="easy-pie main-pie left_task" data-percent="45">
+                                            <div class="percent left_task_percent">45</div>
+                                            <div class="pie-title">Pending Task</div>
+                                        </div>-->
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="epc-item">
+                                        <div class="gauge_wrap">
+                                            <div class='guageContainer' id="risk_kpi"></div>
+                                        </div>
+                                        <!--<div class="easy-pie main-pie risk_task" data-percent="88">
+                                            <div class="percent risk_task_percent">88</div>
+                                            <div class="pie-title">Risk Task</div>
+                                        </div>-->
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="epc-item">
+                                        <div class="gauge_wrap">
+                                            <div class='guageContainer' id="over_due_kpi"></div>
+                                        </div>
+                                        <!--<div class="easy-pie main-pie completion_task" data-percent="25">
+                                            <div class="percent completion_task_percent">25</div>
+                                            <div class="pie-title">Completed Task</div>
+                                        </div>-->
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="epc-item">
+                                        <div class="gauge_wrap">
+                                            <div class='guageContainer' id="completed_before_due_kpi"></div>
+                                        </div>
+                                        <!--<div class="easy-pie main-pie before_due" data-percent="89">
+                                            <div class="percent before_due_percent">89</div>
+                                            <div class="pie-title before_due_text">Completed Before Due Date</div>
+                                        </div>-->
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="epc-item">
+                                        <div class="gauge_wrap">
+                                            <div class='guageContainer' id="completed_after_due_kpi"></div>
+                                        </div>
+                                        <!--<div class="easy-pie main-pie after_due" data-percent="89">
+                                            <div class="percent after_due_percent">89</div>
+                                            <div class="pie-title after_due_text">Completed After Due Date</div>
+                                        </div>-->
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="epc-item">
+                                        <div class="gauge_wrap">
+                                            <div class='guageContainer' id="completed_kpi"></div>
+                                        </div>
+                                        <!--<div class="easy-pie main-pie over_due" data-percent="89">
+                                            <div class="percent over_due_percent">89</div>
+                                            <div class="pie-title over_due_text">Overdue Task</div>
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        let user_role = "{{ request.user.role.id}}";
+        let user_id = "{{ request.user.id }}";
+        let user = "{{ request.user }}";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript"
+            src="{{ STATIC_URL }}workflow/report/kpiReport/js/jquery.easypiechart.min.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/highcharts.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/highcharts-more.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/report/kpiReport/js/kpi_report.js"></script>
+
+{% endblock %}

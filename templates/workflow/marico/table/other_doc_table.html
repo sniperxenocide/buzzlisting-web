@@ -1,0 +1,38 @@
+<table id="other_doc_attachment" class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Number</th>
+        <th>Attachment</th>
+        {% if task.name == 'Capture Information' %}
+            <th>Delete</th>
+        {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% if other_doc_info %}
+        {% for other in other_doc_info %}
+            <tr data-attachment-id="{{ other.id }}">
+                <td>{{ other.number }}</td>
+                <td><a href="{{ other.file.url }}"
+                       target="_blank">{{ other.file.name }}</a>
+                </td>
+                {% if task.name == 'Capture Information' %}
+                    <td>
+                        <button class="delete-attachment btn btn-danger btn-sm waves-effect"><i
+                                class="zmdi zmdi-delete"></i> Delete
+                        </button>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr id="other_doc_row">
+            <td>-</td>
+            <td>-</td>
+            {% if task.name == 'Capture Information' %}
+                <td>-</td>
+            {% endif %}
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

@@ -1,0 +1,105 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/mail/css/mail.css">
+    <style>
+        .has-error .input-group-addon {
+            color: #f6675d;
+            border-color: #f6675d;
+            background-color: rgba(255, 255, 255, .15) !important;
+        }
+
+        .input-group-addon {
+            border-width: 0 0 0 0 !important;
+            min-width: 42px;
+        }
+
+        .input-group-addon{
+            width: 1%;
+            white-space: nowrap;
+            vertical-align: text-top !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+
+                <div class="card">
+
+                    <form action="#" id="mail_settings_form">
+                        <div class="card-body card-padding">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="input-group fg-float">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                                        <div class="fg-line">
+                                            <input id="to" type="text" name="to" data-parsley-trigger="change" required
+                                                   class="form-control">
+                                            <label class="fg-label">To</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="input-group fg-float">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                                        <div class="fg-line">
+                                            <input id="sub" type="text" name="subject" required
+                                                   data-parsley-pattern="/^(?=.*[a-zA-Z0-9]{2,})[\w\d\s_.-]+$/"
+                                                   data-parsley-pattern-message="Only Letter, number, underscore, dot, hyphen are allowed"
+                                                   class="form-control">
+                                            <label class="fg-label">Subject</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="input-group fg-float">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-comment-text"></i></span>
+                                        <div class="fg-line">
+                                    <textarea id="mail_message" class="form-control auto-size" name="message"
+                                              required placeholder="Type your message"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="form-group">
+                                <div class="col-sm-10">
+                                    <button id="test_mail_btn" type="button" class="btn btn-success btn-sm">Test Mail
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- process_category_modal modal -->
+
+        </section>
+    </section>
+{% endblock %}
+
+{% block js %}
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/mail.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}core/mail/js/app/test_mail.js"></script>
+{% endblock %}

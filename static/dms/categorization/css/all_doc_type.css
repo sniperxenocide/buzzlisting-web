@@ -1,0 +1,28 @@
+.table > thead > tr > th,
+.table > tfoot > tr > th,
+.table > tbody > tr > td {
+    padding: 10px !important;
+}
+
+.table.hover tbody tr:hover {
+    background: #f3f3f3 !important;
+    cursor: pointer;
+}
+
+.table.hover tbody tr.selected {
+    background: #bcbcbc !important;
+}
+
+.table-bordered td,
+.table-bordered th {
+    border: 1px solid #ccc !important;
+}
+
+#meta_order {
+    position: absolute;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+}
+

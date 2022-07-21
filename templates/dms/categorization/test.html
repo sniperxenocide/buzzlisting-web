@@ -1,0 +1,503 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/users.min.css">
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {#  User Management Side bar #}
+        {% include 'core/user_management/sidebar.html' %}
+        {# End User Management Side bar #}
+
+        <section id="content">
+            <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Add New User</h2>
+                    </div>
+
+                    <div class="card-body card-padding">
+                        <form action="" id="create_user">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                            <div class="row">
+                                <div class="col-sm-4 m-b-15">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="control-label">First Name</label>
+                                            <input type="text" class="form-control" name="first_name" required=""
+                                                   data-parsley-trigger="change" data-parsley-length="[1, 20]">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 m-b-15">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="control-label">Last Name</label>
+                                            <input type="text" class="form-control" name="last_name"
+                                                   data-parsley-required="" data-parsley-trigger="change"
+                                                   data-parsley-length="[1, 20]">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 m-b-15">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="control-label">User Name</label>
+                                            <input data-parsley-type="alphanum" class="form-control" name="username"
+                                                   data-parsley-required="" data-parsley-trigger="change"
+                                                   data-parsley-length="[4, 50]">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 m-b-15 m-t-25">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="control-label">Email</label>
+                                            <input type="email" class="form-control" name="email" required
+                                                   data-parsley-trigger="change">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 m-b-15 m-t-25">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="control-label">Address</label>
+                                            <textarea class="form-control" name="address" id=""></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 m-b-15 m-t-25">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="control-label">Phone</label>
+                                            <input type="text" class="form-control" name="phone_number">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 m-b-15 m-t-25">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="control-label">Position</label>
+                                            <input type="text" class="form-control" name="position"
+                                                   data-parsley-required="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 m-b-15 m-t-25">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="control-label">Expire Date</label>
+                                            <input type='text' class="form-control date-time-picker" id="date_box"
+                                                   name="expiry_date">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 m-b-15 m-t-25">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="control-label">Replaced by</label>
+                                            <a data-toggle="modal" href="#modalDefault">
+                                                <input type="number" name="replaced_by" id="replaced_by" hidden>
+                                                <input class="form-control"
+                                                   id="replaced_by_font"
+                                                   ></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 m-b-15 m-t-25">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="control-label">Status</label>
+                                            <select class="selectpicker" name="status" data-parsley-required="">
+                                                <option value="0">Active</option>
+                                                <option value="1">Inactive</option>
+                                                <option value="2">Vacation</option>
+                                                <option value="3">Expire Date</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 m-b-15 m-t-25">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="control-label">Role</label>
+                                            <select class="selectpicker" id="role_select" data-live-search="true"
+                                                    name="role" data-parsley-required="">
+                                                {#<option>Operator</option>
+                                            <option value="1">Admin</option>
+                                            <option value="3">Manager</option>#}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 m-b-30 m-t-25">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="control-label">Profile Picture</label>
+                                            <div class="fileinput fileinput-new m-t-10" data-provides="fileinput">
+                                            <span class="btn btn-default btn-file m-r-10">
+                                                <span class="fileinput-new">Select file</span>
+                                                <span class="fileinput-exists">Change</span>
+                                                <input type="file" name="avatar">
+                                            </span>
+                                                <span class="fileinput-filename"></span>
+                                                <a href="#" class="close fileinput-exists"
+                                                   data-dismiss="fileinput">&times;</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 m-b-30 m-t-25">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="control-label">Password</label>
+                                            <input type="password" name="password" class="form-control" id="password"
+                                                   data-parsley-required="" data-parsley-trigger="change">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 m-b-30 m-t-25">
+                                    <div class="form-group">
+                                        <div class="fg-line">
+                                            <label class="control-label">Confirm Password</label>
+                                            <input type="password" name="cfrm_password" id="cfrm_password"
+                                                   class="form-control" data-parsley-required=""
+                                                   data-parsley-equalto="#password" data-parsley-trigger="change">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3 p-t-30">
+                                    <button class="btn bgm-teal btn-block waves-effect m-t-20">Add User</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Modal Default -->
+        <div class="modal fade" id="modalDefault" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Users List</h4>
+                    </div>
+                    <div class="modal-body" id="user_list">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" hidden class="btn btn-link hide" id="previous">Previous</button>
+                        <button type="button" class="btn btn-link" id="next">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/users.min.js"></script>
+
+    <script type="text/javascript">
+        var all_user = "{{ url('api:rbac:user-list') }}";
+        var user_management_page = "{{ url('user_management:users') }}";
+        var param = {
+            'start': 0,
+            'length': 3,
+            'draw': 1
+        };
+        $(document).ready(function () {
+            {#  Date time picker formate #}
+            $('#date_box').datetimepicker({
+                format: 'YYYY-MM-DD hh:mm'
+            });
+            {#  End Date time picker formate  #}
+
+            {#   Role boostrape selece   #}
+            var all_role = "{{ url('api:rbac:role-list') }}";
+            $.ajax({
+                type: "GET",
+                url: all_role,
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (i, d) {
+                        if (this.code == "general") {
+                            $("#role_select").append($('<option>', {
+                                value: d.id,
+                                text: d.name,
+                                'selected': 'true'
+                            }));
+                        } else {
+                            $("#role_select").append($('<option>', {
+                                value: d.id,
+                                text: d.name,
+                            }));
+                        }
+                    });
+                    $("#role_select").selectpicker('refresh');
+                }
+            });
+            {#   End Role boostrape selece   #}
+
+
+            {#   All User(Replaced by) Modal  #}
+            $.ajax({
+                type: "GET",
+                url: all_user,
+                dataType: "json",
+                data: param,
+                success: function (data) {
+                    $.each(data.data, function (i, d) {
+                        $("#user_list").append('<div class="radio m-b-15">' +
+                            '<label>' +
+                            '<input type="radio" name="radio_selected_user" id="replaced_user" value=' + d.id + '>' +
+                            '<i class="input-helper">' +
+                            '</i>' + '<div class="name">'+d.first_name +' '+d.last_name+ '</div>'+
+                            '</label>' +
+                            '</div>');
+                    });
+
+                    $('input:radio[name=radio_selected_user]')
+                        .change(function () {
+                            if ($(this).is(":checked")) {
+                                var name = $(this).siblings(".name").text();
+                                var val = $(this).val();
+                                $('#replaced_by').val(val);
+
+                                $('#replaced_by_font').val(name);
+                            }
+                        });
+                }
+            });
+
+            {#  Next users on modal     #}
+            $("#next").on("click", function () {
+                $("#previous").removeClass("hide");
+                var start_new = parseInt(param.start) + parseInt(param.length);
+
+                param = {
+                    'start': start_new,
+                    'length': 3,
+                    'draw': 1
+                };
+
+                $.ajax({
+                    type: "GET",
+                    url: all_user,
+                    dataType: "json",
+                    data: param,
+                    success: function (data) {
+                        if(data.recordsTotal == param.start + data.data.length){
+                            $('#next').addClass("hide");
+                        }
+                        $("#user_list").children().remove();
+                        $.each(data.data, function (i, d) {
+
+                            $("#user_list").append('<div class="radio m-b-15">' +
+                                    '<label>' +
+                                    '<input type="radio" name="radio_selected_user" id="replaced_user" value=' + d.id + '>' +
+                                    '<i class="input-helper">' +
+                                    '</i>' + '<div class="name">'+d.first_name +' '+d.last_name+ '</div>'+
+                                    '</label>' +
+                                    '</div>');
+                        });
+
+                        $('input:radio[name=radio_selected_user]')
+                            .change(function () {
+                                if ($(this).is(":checked")) {
+                                    var name = $(this).siblings(".name").text();
+                                    var val = $(this).val();
+                                    $('#replaced_by').val(val);
+
+                                    $('#replaced_by_font').val(name);
+                                }
+                            });
+                    }
+                });
+            });
+
+            {#  Previous users on modal     #}
+            $("#previous").on("click", function () {
+                $("#next").removeClass("hide");
+                console.log(param);
+                if(param.start-param.length == 0){
+                  $("#previous").addClass("hide");
+
+                }
+                var start_new = parseInt(param.start) - parseInt(param.length);
+                param = {
+                    'start': start_new,
+                    'length': 3,
+                    'draw': 1
+                };
+
+                $.ajax({
+                    type: "GET",
+                    url: all_user,
+                    dataType: "json",
+                    data: param,
+                    success: function (data) {
+                        console.log(data.data.length);
+                        if(param.start == data.recordsTotal - param.length){
+                            $('#previous').addClass("hide");
+                            $('#next').removeClass("hide");
+                        }
+                        $("#user_list").children().remove();
+                        $.each(data.data, function (i, d) {
+                            $("#user_list").append('<div class="radio m-b-15">' +
+                                    '<label>' +
+                                    '<input type="radio" name="radio_selected_user" id="replaced_user" value=' + d.id + '>' +
+                                    '<i class="input-helper">' +
+                                    '</i>' + '<div class="name">'+d.first_name +' '+d.last_name+ '</div>'+
+                                    '</label>' +
+                                    '</div>');
+                        });
+
+                        $('input:radio[name=radio_selected_user]')
+                            .change(function () {
+                                if ($(this).is(":checked")) {
+                                    var name = $(this).siblings(".name").text();
+                                    var val = $(this).val();
+                                    $('#replaced_by').val(val);
+
+                                    $('#replaced_by_font').val(name);
+                                }
+                            });
+                    }
+                });
+            })
+            {#   End Role boostrape selece   #}
+
+            {#    Form Validation      #}
+            var parsleyOptions = {
+                successClass: 'has-success',
+                errorClass: 'has-error',
+                classHandler: function (_el) {
+                    return _el.$element.closest('.form-group');
+                },
+                errorsContainer: function (el) {
+                    return el.$element.closest(".form-group");
+                },
+                errorsWrapper: "<span class='help-block'></span>",
+                errorTemplate: "<span></span>"
+
+            };
+
+            $('#create_user').parsley(parsleyOptions);
+
+            {#    create user post request      #}
+            var add_user_url = "{{ url('api:rbac:user-list') }}";
+            var frm = $('#create_user');
+
+
+            {#    Notifications   #}
+            function notify(from, align, icon, type, title, message, animIn, animOut) {
+                $.growl({
+                    icon: icon,
+                    title: title,
+                    message: message,
+                    url: ''
+                }, {
+                    element: 'body',
+                    type: type,
+                    allow_dismiss: true,
+                    placement: {
+                        from: from,
+                        align: align
+                    },
+                    offset: {
+                        x: 20,
+                        y: 85
+                    },
+                    spacing: 10,
+                    z_index: 1031,
+                    delay: 1500,
+                    timer: 1000,
+                    url_target: '_blank',
+                    mouse_over: false,
+                    animate: {
+                        enter: animIn,
+                        exit: animOut
+                    },
+                    icon_type: 'class',
+                    template: '<div data-growl="container" class="alert" role="alert">' +
+                    '<button type="button" class="close" data-growl="dismiss">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '<span class="sr-only">Close</span>' +
+                    '</button>' +
+                    '<span data-growl="icon"></span>' +
+                    '<span data-growl="title"></span>' +
+                    '<span data-growl="message"></span>' +
+                    '<a href="#" data-growl="url"></a>' +
+                    '</div>'
+                });
+            };
+            {#   End Notifications   #}
+
+
+            frm.submit(function (e) {
+                e.preventDefault();
+                var data = new FormData($(this)[0]);
+                $.ajax({
+                    type: "post",
+                    url: add_user_url,
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        var nType = "success";
+                        var nTitle = "Congratulations";
+                        var nMessage = "User Added Successfully ";
+                        var nFrom = $(this).attr('data-from');
+                        var nAlign = $(this).attr('data-align');
+                        var nIcons = $(this).attr('data-icon');
+                        var nAnimIn = 'animated fadeIn';
+                        var nAnimOut = 'animated fadeOut';
+                        notify(nFrom, nAlign, nIcons, nType, nTitle, nMessage, nAnimIn, nAnimOut);
+                        setTimeout(function(){ window.location = user_management_page; }, 1500);
+
+                    }
+                    ,
+                    error: function (response) {
+                        var errors = response.responseText;
+                        $.each(JSON.parse(errors), function (key, value) {
+                            {#alert( key + ": " + value );#}
+
+                            var nType = "danger";
+                            var nTitle = "";
+                            var nMessage = key + ": " + value;
+                            var nFrom = $(this).attr('data-from');
+                            var nAlign = $(this).attr('data-align');
+                            var nIcons = $(this).attr('data-icon');
+                            var nAnimIn = 'animated flipInX';
+                            var nAnimOut = 'animated flipOutX';
+
+                            notify(nFrom, nAlign, nIcons, nType, nTitle, nMessage, nAnimIn, nAnimOut);
+                        });
+                    }
+                });
+                return false;
+            });
+
+
+        });
+
+
+    </script>
+{% endblock %}

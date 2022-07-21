@@ -1,0 +1,91 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Scripting</h2>
+                </div>
+
+
+                <form id="scripting">
+                    <input type="hidden" value="{{ csrf_token }}" name="csrfmiddlewaretoken">
+                    <div class="row">
+                        <div class="col-md-12 p-t-30">
+                                <!--<label class="fg-label">File Name:</label>
+                                <textarea class="textarea" name="file" id="file_name"></textarea>-->
+                                <a href="write" id="create">Create Your Scripts</a>
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 p-t-30">
+                            <a href="#dfiles" data-toggle="collapse">Delete Your Scripts</a>
+                               <div id="dfiles" class="collapse">
+                                    <div class="list-group">
+                                       {% for f in files %}
+                                           <a href="#" class="list-group-item" id="dfiles">{{ f.file_name }}</a>
+                                       {% endfor %}
+                                   </div>
+                               </div>
+                         </div>
+                    </div>
+                </form>
+                    <div class="row">
+                        <div class="col-md-12 p-t-30">
+                            <a href="#mfiles" data-toggle="collapse">Modify Your Scripts</a>
+                               <div id="mfiles" class="collapse">
+                                   <form action=modify method="post">
+                                      <input type="hidden" value="{{ csrf_token }}" name="csrfmiddlewaretoken">
+                                         {% for f in files %}
+                                              <input type="radio" name="file_name" value={{ f.file_name }}> {{ f.file_name }}<br>
+                                         {% endfor %}
+                                      <input type="submit" class="btn bgm-bluegray waves-effect" value="OK">
+                                   </form>
+
+                               </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+
+    </section>
+
+
+
+
+{% endblock %}
+
+{% block js %}
+    <script>
+    var delete_script = "{{ url('workflow:script:delete_script') }}";
+    $('.list-group-item').on('click', function() {
+    console.log($(this).text());
+    $.ajax({
+                url: delete_script,
+                method: 'POST',
+                data: {"file_name": $(this).text()
+                },
+
+                success: (data) => {
+                    console.log(data)
+                    notify('Note: ', 'selected script was deleted Successfully', '', 'success');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1500);
+
+                },
+                error: (res) => {
+                    console.log(res.responseText);
+                    notify('Sorry!! ', res.responseText, '', 'danger', 5000)
+                },
+            });
+    })
+    </script>
+
+{% endblock %}

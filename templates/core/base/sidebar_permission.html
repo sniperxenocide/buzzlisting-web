@@ -1,0 +1,56 @@
+{% macro render_menu(items) -%}
+    {% for item in items %}
+        {% if item|length %}
+            {% if item[4]|length %}
+                <li class="sub-menu
+                {% for x in item[4] %}
+                    {% if request.path == x[2] %}
+                     active toggled
+                    {% endif %}
+                {% endfor %}
+                ">
+                    {% if request.user.role.id == 1 %}
+                        <a href="{{ item[2] }}" data-ma-action="submenu-toggle"><i
+                                class="zmdi {{ item[3] }}"></i> {{ item[1] }}
+                        </a>
+                    {% elif item[0] == "allowed" %}
+                        <a href="{{ item[2] }}" data-ma-action="submenu-toggle"><i
+                                class="zmdi {{ item[3] }}"></i> {{ item[1] }}
+                        </a>
+                    {% else %}
+                        <a href="{{ item[2] }}" style="cursor: not-allowed !important;
+            pointer-events: none;
+            color: #e1e1e1 !important;" data-ma-action="submenu-toggle"><i
+                                class="zmdi {{ item[3] }}"></i> {{ item[1] }}
+                        </a>
+                    {% endif %}
+                    <ul>
+                        {{ render_menu(item[4]) }}
+                    </ul>
+                </li>
+            {% else %}
+                <li
+                        {% if request.path == item[2] %}
+                            class="active"
+                        {% endif %}
+                >
+                    {#                {% if request.user.role.id == 1 %}#}
+                    {#                    <a href="{{ item[2] }}"><i class="zmdi {{ item[3] }}"></i> {{ item[1] }}</a>#}
+                    {% if item[0] == "allowed" %}
+                        <a href="{{ item[2] }}" id="{{ item[3] }}"><i class="zmdi {{ item[3] }}"></i> {{ item[1] }}</a>
+                    {% else %}
+                        <a href="{{ item[2] }}" style="cursor: not-allowed !important;
+            pointer-events: none;
+            color: #e1e1e1 !important;"><i class="zmdi {{ item[3] }}"></i> {{ item[1] }}</a>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+<aside id="sidebar" class="sidebar c-overflow">
+    <ul class="main-menu">
+        {{ render_menu(items) }}
+    </ul>
+</aside>

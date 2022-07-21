@@ -1,0 +1,93 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/daterangepicker.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/workflowEmail/css/wf_email.css">
+
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+                {% set icons =  '
+                <i class="fa fa-calendar"></i>
+                <li>
+                    <input type=\'text\' class= "form-control date_input" name="daterange" placeholder = "Select Date">
+                </li>
+                    ' %}
+
+
+                {% with icons=icons, table_id='wf_email', table_header='Workflow Email Log',
+                search_title='Search by Case ID, Task Name, Process Name, Email Address' %}
+                    {% include 'core/base/datatable.html' %}
+                {% endwith %}
+            </div>
+        </section>
+    </section>
+
+    <!-- Email Preview modal -->
+    <div class="modal fade" id="email_preview" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" {#style="overflow-y: scroll; height:425px"#}>
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="zmdi zmdi-account m-r-10"></i> Email Preview</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+{#                        <div class="col-md-12">#}
+{#                            <div class="pmbb-view p-l-15">#}
+{#                                <dl class="dl-horizontal text-center">#}
+{#                                    <img src="" alt="Image not found"#}
+{#                                         class="avatar img-responsive profile_picture img-circle m-b-10" width="150px">#}
+{#                                </dl>#}
+{#                            </div>#}
+{#                        </div>#}
+                        <div class="col-md-12 detail">
+                            <div class="pmbb-body p-l-30">
+                                <div class="pmbb-view">
+                                    <dl class="dl-horizontal">
+                                        <dt>Sender</dt>
+                                        <dd class="sender"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>Receiver</dt>
+                                        <dd class="receiver"></dd>
+                                    </dl>
+                                    <dl class="dl-horizontal">
+                                        <dt>Mail:</dt>
+                                        <dd class="col-md-12 mail" style="width: 100%; margin-left:-50px; padding-left: 50px;"></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        let wf_email_api = "{{ url('workflow:wf_email_log:email-list') }}";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}core/report/loginReport/js/daterangepicker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/workflowEmail/js/wf_email.js"></script>
+
+{% endblock %}

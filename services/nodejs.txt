@@ -1,0 +1,4 @@
+sudo npm install pm2@latest -g
+pm2 start static/core/node_server/node.js
+sudo pm2 startup systemd
+pm2 save

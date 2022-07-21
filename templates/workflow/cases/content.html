@@ -1,0 +1,98 @@
+<!--Main Content-->
+<!--Content Header-->
+<section id="content">
+    <div class="card container demo">
+        <div class="list-group lg-odd-black">
+            <div class="action-header clearfix">
+                <div class="ah-label hidden-xs">My Task</div>
+
+                <div class="ah-search">
+                    <input type="text" placeholder="Start typing..." class="ahs-input">
+
+                    <i class="ahs-close" data-ma-action="action-header-close">&times;</i>
+                </div>
+
+                <ul class="actions">
+                    <li>
+                        <a class="summary_icon disabled" style="color: #adadad;">
+                                        <span data-toggle="tooltip" data-placement="bottom" title="Summary">
+                                            <i class="zmdi zmdi-comment-alt-text" style="font-size: 20px"></i>
+                                        </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-ma-action="action-header-open" style="color: #191717;">
+                                        <span data-toggle="tooltip" data-placement="bottom" title="search">
+                                            <i class="zmdi zmdi-search" style="font-size: 20px"></i>
+                                        </span>
+                        </a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" aria-expanded="true"
+                           style="color: #191717;">
+                                        <span data-toggle="tooltip" data-placement="bottom" title="category">
+                                            <i class="zmdi zmdi-chevron-down" style="font-size: 20px"></i>
+                                        </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a href="#">Category</a>
+                            </li>
+                            <li>
+                                <a href="#">Category</a>
+                            </li>
+                            <li>
+                                <a href="#">Category</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" aria-expanded="true" style="color: #191717;">
+                                        <span data-toggle="tooltip" data-placement="bottom" title="all">
+                                            <i class="zmdi zmdi-more-vert" style="font-size: 20px"></i>
+                                        </span>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a href="#">All</a>
+                            </li>
+                            <li>
+                                <a href="#">Read</a>
+                            </li>
+                            <li>
+                                <a href="#">Unread</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" id="sa-warning" class="cases_delete" style="color: #adadad;">
+                                    <span data-toggle="tooltip" data-placement="bottom" title="delete">
+                                        <i class="zmdi zmdi-delete cases_delete" style="font-size: 20px"></i>
+                                    </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!--End Content Header-->
+    <!--Main Content-->
+
+    <!--Jquery Rendered element will be added here-->
+    <div class="card container task_content" id="task_content">
+        <div class="card">
+            <div class="list-group lg-odd-black" id="list_group">
+
+            </div>
+        </div>
+    </div>
+    <!--end-->
+    <!--Modal-->
+    {% include 'workflow/cases/inbox_modals/summary_modal.html' %}
+    <!--Modal end-->
+</section>
+<!--Main Content End-->
+<!--End of Main Content-->

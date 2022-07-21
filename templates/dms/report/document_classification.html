@@ -1,0 +1,59 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/daterangepicker.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/report/loginReport/css/login_report.css">
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+                {% set icons =  '
+                <li style="width: 300px!important;" class="p-r-5">
+                            <select class="selectpicker" data-live-search="true" id="select_class"
+                                    title="select class">
+                                    <option value="0">None</option>
+                                    <option value="1">Approve</option>
+                                    <option value="4">Rejected</option>
+                                    <option value="2">Classified</option>
+                                    <option value="3">Confidential</option>
+                            </select>
+                        </li>
+                <i class="fa fa-calendar"></i>
+                <li>
+                    <input type=\'text\' class= "form-control date_input" name="daterange" placeholder="Choose Date Range">
+                </li>
+                ' %}
+
+                {% with icons=icons, table_id='classification', table_header='Document Classification',
+                search_title='Search by File name, Uploader' %}
+                    {% include 'core/base/datatable.html' %}
+                {% endwith %}
+            </div>
+        </section>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        let classification_report = "{{ url('api:documents:document_classification-list') }}";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}core/report/loginReport/js/daterangepicker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript"
+            src="{{ STATIC_URL }}dms/report/document_classification/document_classificatoin.js"></script>
+
+{% endblock %}

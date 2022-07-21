@@ -1,0 +1,17 @@
+{
+  "id":4,
+  "process": "LankaBangla Loan Application",
+  "case_title": "#4",
+  "case_number": 4,
+  "case_status": "Draft",
+  "case_uid": 43463654645646,
+  "creator": "Administrator admin",
+  "create_date": "2017-01-02 01:03:13",
+  "last_update": "2017-01-02 01:54:58",
+  "case_description":"description if needed",
+  "task": "Capture Customer Information",
+  "current_user": "Administrator admin",
+  "task_init_date":"2017-01-02 01:55:59",
+  "task_due_date":"2017-01-02 17:00:00",
+  "finish_date":""
+}

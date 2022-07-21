@@ -1,0 +1,193 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+        .selected-single {
+            background: #c7d9fc !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+                {% set icons =  '
+                <li>
+                    <a href="#" id="create_project_button">
+                        <i class="zmdi zmdi-plus-circle-o-duplicate c-black"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="edit_project_button">
+                        <i class="zmdi zmdi-edit"></i>
+                    </a>
+                </li>
+                <!--<li>
+                    <a href="#" id="delete_project_button">
+                        <i class="zmdi zmdi-delete"></i>
+                    </a>
+                </li>-->
+                ' %}
+
+                {% with icons=icons, table_id='project_list', table_header='Project List',
+                search_title='Search by Project title, Category or Assigned User' %}
+                    {% include 'core/base/datatable.html' %}
+                {% endwith %}
+            </div>
+        </section>
+    </section>
+
+    <!-- new project modal -->
+    <div class="modal fade" id="create_project_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">New Project</h4>
+                </div>
+                <form id="create_project_form">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group fg-float">
+                                    <div class="fg-line">
+                                        <label class="fg-label">Title</label>
+                                        <input type="text"
+                                               name="title"
+                                               class="form-control"
+                                               data-parsley-trigger="onchange"
+                                               data-parsley-minlength="4"
+                                               data-parsley-minlength-message="Come on! You need to enter at least a 4 characters.."
+                                               data-parsley-maxlength="60"
+                                               data-parsley-required
+                                               data-parsley-required-message="Come on! You can not keep it blank..">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group fg-float">
+                                    <div class="fg-line">
+                                        <label class="fg-label">Description</label>
+                                        <textarea name="description"
+                                                  class="form-control auto-size"
+                                                  data-parsley-maxlength="600"
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="f-500 m-b-15 c-black">Project Category</p>
+                                <select name="category" class="selectpicker">
+                                    <option value="">No category</option>
+                                    {% for category in view.category_list %}
+                                        <option value="{{ category.id }}">{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                            </div>
+                            <div class="col-md-6">
+                                <p class="f-500 m-b-15 c-black">Recheck return policy</p>
+                                <select name="recheck" class="selectpicker">
+                                    <option value="1" selected="selected">Flow forward</option>
+                                    <option value="2">Resume forward</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-link waves-effect" id="save_project">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--Edit a project-->
+    <div class="modal fade" id="edit_project" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Process</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="fg-line fg-toggled">
+                            <input type="text" id="process_title" class="form-control" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="fg-line">
+                            <div class="select">
+                                <select class="form-control" id="process_category">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="fg-line">
+                            <div class="select">
+                                <select class="form-control" id="process_publication">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <div class="fg-line">
+                            <div class="select">
+                                <select class="form-control" id="process_recheck">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn save_edit_changes btn-link">Save changes</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="delete_project_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Process</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>Are you sure you want to delete the selected process?</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn delete_project_btn btn-link">Save changes</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        let process_api = "{{ url('api:workflow:project-list') }}";
+        let draw_diagram = "/admin/designer/draw_diagram/";
+    </script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/bpmn/project/js/app/project.js"></script>
+
+{% endblock %}

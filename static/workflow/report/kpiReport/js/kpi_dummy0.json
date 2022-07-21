@@ -1,0 +1,7 @@
+{
+  "leftTask": "70",
+  "riskTask":"30",
+  "completionTask":"30",
+  "competionBeforeDueDate":"50",
+  "completionAfterDueDate":"20"
+}

@@ -1,0 +1,53 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <!-- Workflow CSS -->
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/designer/css/spacing.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/designer/css/app.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/designer/css/form-builder.min.css"/>
+
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        <section id="content" class="content" style="padding-right: 0; padding-left: 0;">
+            <div class="col-lg-12">
+                <div class="" id="form-builder"></div>
+            </div>
+            <div class="col-lg-12 m-t-30">
+                <ul class="buttons">
+                    <li>
+                        <button id="back" class="btn btn-default bgm-lightgreen waves-effect" disabled><i
+                                class="zmdi zmdi-arrow-back"></i></button>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <!-- Workflow Js -->
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/designer/js/form-builder.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/designer/js/form-designer.js"></script>
+
+
+    <script type="text/javascript">
+
+        let api = {
+            eform: {
+                id: {{ eform.id }},
+                edit: "{{url('api:workflow:eform-list')}}{{ eform.id }}/",
+            },
+            project: {
+                diagram: "admin/designer/draw_diagram/"
+            }
+        };
+        $(function () {
+            EForm.api = api;
+            EForm.init(true);
+        });
+    </script>
+
+{% endblock %}

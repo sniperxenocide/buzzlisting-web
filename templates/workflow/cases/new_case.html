@@ -1,0 +1,369 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/cases/css/select2.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/cases/css/cases.css">
+    <style>
+        #permit, #not_permit {
+            display: none;
+        }
+
+        #process_list {
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {##}
+    <section id="main">
+        <div class="loader">
+            <center>
+                <img class="loading-image" src="{{ STATIC_URL }}img/ajax-loader/ajax-loader (1).gif" alt="loading..">
+            </center>
+        </div>
+        <!--Sidebar Menu Workflow-->
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <!--End Sidebar Menu Workflow-->
+        <section id="content" class="content">
+            {% if not view.sidebar_menu %}
+                <div class="container">
+                    <div class="text-center">
+                        <h2 class="f-400">Please select your desired menu</h2>
+                    </div>
+                </div>
+            {% else %}
+                <div class="container " id="permit">
+                    {% set icons =  '<li>
+                    <a href="#">
+                        <i class="zmdi zmdi-power" id="open_button" title="Start case"></i>
+                    </a>
+                </li>' %}
+
+                    {% with icons=icons, table_id='process_list', table_header='Task List',
+                search_title='Search' %}
+                        {% include 'core/base/datatable.html' %}
+                    {% endwith %}
+                </div>
+                <div class="container " id="not_permit">
+                    <div class="card">
+                        <div class="card-header m-t-0 m-b-0 text-center">
+                            <h4 class="">You can't start a case because you don't have a starting task assigned
+                                !!! </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="container" id="new_form_area">
+                    <div class="card card_one m-b-0">
+                        <div class="card-body">
+                            <div class="list-group lg-odd-black">
+                                <div class="action-header clearfix">
+                                    <div class="ah-label f-500" id="application_id"></div>
+                                    <ul class="actions">
+                                        <li>
+                                            <a href="#">
+                                                <i class="zmdi zmdi-info c-black" id="summary_button"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card_two">
+                        <div class="card-body p-l-10 p-r-10">
+                            {% if client == 'xcb59hj' %}
+                                {% include 'workflow/cases/marico_one.html' %}
+                            {% else %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form action="" id="new_form" enctype="multipart/form-data">
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="card card_two">
+                        <div class="card-body p-10">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class=" comment_side">
+                                        <h4 class="m-0">Comments</h4>
+                                        <form action="" id="new_comment">
+                                            <div class="wic-form">
+                                                <textarea placeholder="Write Comment..."
+                                                          data-ma-action="wall-comment-open"
+                                                          required="" name="comment"></textarea>
+
+                                                <div class="wicf-actions text-right">
+                                                    <button class="btn btn-default btn-danger "
+                                                            data-ma-action="wall-comment-close">
+                                                        <i class="zmdi zmdi-close"></i>
+                                                    </button>
+                                                    <button class="btn btn-default btn-success"
+                                                            id="comment_submit"><i
+                                                            class="zmdi zmdi-check"></i></button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="panel-group" role="tablist">
+                                            <div class="panel panel-collapse">
+                                                <div class="panel-heading" role="tab" id="old_com">
+                                                    <h4 class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion"
+                                                           href="#collapseOne"
+                                                           aria-expanded="true" aria-controls="collapseOne"
+                                                           id="comm_list">
+                                                            Previous Comments <span id="comment_count"></span>
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseOne" class="collapse" role="tabpanel"
+                                                     aria-labelledby="old_com">
+                                                    <div class="panel-body">
+                                                        <div class="pre_comment">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Summary modal -->
+                    <div class="modal fade" id="summary_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close m-r-10" data-dismiss="modal">
+                                        <i class="zmdi zmdi-close modal_top_botton" title="Close"></i>
+                                    </button>
+                                    <button type="button" class="close m-r-10">
+                                        <i class="zmdi zmdi-print modal_top_botton" title="Print summary"></i>
+                                    </button>
+
+                                    <h3 class="modal-title"><i class="zmdi zmdi-case m-r-10"></i>Information</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <div role="tabpanel">
+                                        <ul class="tab-nav" role="tablist">
+                                            <li class=""><a href="#general_info" aria-controls="summary" role="tab"
+                                                            data-toggle="tab">General Information</a>
+                                            </li>
+                                            <li><a href="#process_map" aria-controls="process_map" role="tab"
+                                                   data-toggle="tab">Process Map</a>
+                                            </li>
+                                        </ul>
+
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane active " id="general_info">
+                                                <div class="modal-body">
+                                                    <div class="panel-group" data-collapse-color="teal"
+                                                         id="accordionTeal"
+                                                         role="tablist" aria-multiselectable="true">
+                                                        <div class="panel panel-collapse">
+                                                            <div class="panel-heading " role="tab">
+                                                                <h4 class="panel-title">
+                                                                    <a class="collapsed" data-toggle="collapse"
+                                                                       data-parent="#accordionTeal"
+                                                                       href="#accordionTeal-two"
+                                                                       aria-expanded="true">
+                                                                        Task Information
+                                                                    </a>
+                                                                </h4>
+                                                            </div>
+                                                            <div id="accordionTeal-two" class="collapse in"
+                                                                 role="tabpanel">
+                                                                <div class="panel-body" id="current_task">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="pmbb-body p-l-30">
+                                                                                <div class="pmbb-view">
+                                                                                    <dl class="dl-horizontal">
+                                                                                        <dt>Title</dt>
+                                                                                        <dd class="title"></dd>
+                                                                                    </dl>
+                                                                                    <dl class="dl-horizontal">
+                                                                                        <dt>Task Duration</dt>
+                                                                                        <dd class="task_duration"></dd>
+                                                                                    </dl>
+                                                                                    <dl class="dl-horizontal">
+                                                                                        <dt>Init Date</dt>
+                                                                                        <dd class="init_date"></dd>
+                                                                                    </dl>
+                                                                                    <dl class="dl-horizontal">
+                                                                                        <dt>Due Date</dt>
+                                                                                        <dd class="due_date"></dd>
+                                                                                    </dl>
+                                                                                    <dl class="dl-horizontal">
+                                                                                        <dt>Finish Date</dt>
+                                                                                        <dd class="finish_date"></dd>
+                                                                                    </dl>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel panel-collapse">
+                                                            <div class="panel-heading" role="tab">
+                                                                <h4 class="panel-title">
+                                                                    <a class="collapsed" data-toggle="collapse"
+                                                                       data-parent="#accordionTeal"
+                                                                       href="#accordionTeal-one"
+                                                                       aria-expanded="false">
+                                                                        Process Information
+                                                                    </a>
+                                                                </h4>
+                                                            </div>
+                                                            <div id="accordionTeal-one" class="collapse"
+                                                                 role="tabpanel">
+                                                                <div class="panel-body" id="process_info">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="pmbb-body p-l-30">
+                                                                                <div class="pmbb-view">
+                                                                                    <dl class="dl-horizontal">
+                                                                                        <dt>Title</dt>
+                                                                                        <dd class="title"></dd>
+                                                                                    </dl>
+                                                                                    <dl class="dl-horizontal">
+                                                                                        <dt>Description</dt>
+                                                                                        <dd class="description"></dd>
+                                                                                    </dl>
+                                                                                    <dl class="dl-horizontal">
+                                                                                        <dt>Category</dt>
+                                                                                        <dd class="category"></dd>
+                                                                                    </dl>
+                                                                                    <dl class="dl-horizontal">
+                                                                                        <dt>Author</dt>
+                                                                                        <dd class="author"></dd>
+                                                                                    </dl>
+                                                                                    <dl class="dl-horizontal">
+                                                                                        <dt>Created Date</dt>
+                                                                                        <dd class="create_date"></dd>
+                                                                                    </dl>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane" id="process_map">
+                                                <div class="card-body table-responsive">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                        <tr>
+                                                            <th width="15%">Task</th>
+                                                            <th width="15%">User</th>
+                                                            <th width="15%">Delegation</th>
+                                                            <th width="15%">Due Date</th>
+                                                            <th width="15%">Finish Date</th>
+                                                            <th width="15%">Time Taken</th>
+                                                            <th width="10%">Status</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="map_table">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- For manual input -->
+                    <div class="modal fade" id="next_user_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title"><i class="zmdi zmdi-account-box m-r-10"></i>Next User
+                                    </h4>
+                                </div>
+                                <form id="next_user_form">
+                                    <div class="modal-body">
+                                        <div class="row m-b-30">
+                                            <div class="col-md-12">
+                                                <label class="control-label">Select Next User <span
+                                                        class="required_star"> *</span></label>
+                                                <select class="selectpicker"
+                                                        id="next_user"
+                                                        data-live-search="true"
+                                                        name="next_user"
+                                                        data-parsley-required=""
+                                                        data-trigger="change">
+                                                    <option value="">Nothing Selected</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn bgm-bluegray waves-effect" id="save_next_user">
+                                            Save
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </section>
+    </section>
+
+{% endblock %}
+{% block js %}
+     <script type="text/javascript">
+        function stopRKey(evt) {
+            var evt = (evt) ? evt : ((event) ? event : null);
+            var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+            if ((evt.keyCode == 13) && (node.type=="text")) {return false;}
+            if ((evt.keyCode == 13) && (node.type=="radio")) {return false;}
+            if ((evt.keyCode == 13) && (node.type=="checkbox")) {return false;}
+            //if ((evt.keyCode == 13) && (node.type=="textarea")) {return false;}
+            if ((evt.keyCode == 13) && (node.type=="dropdown")) {return false;}
+            if ((evt.keyCode == 13) && (node.type=="file")) {return false;}
+        }
+        document.onkeypress = stopRKey;
+     </script>
+
+    <script>
+        var all_permissions_api = "{{ url('api:rbac:permission-list') }}";
+        var init_process = "{{ url('api:workflow:task-list') }}";
+        var general_info = "{{ url('api:workflow:general_info-list') }}";
+        var app_comment_url = "{{ url('api:workflow:app_comment-list') }}";
+        var customer = "{{ client }}";
+        var user = "{{ request.user.id }}";
+        var out_task_id = "{{ view.task_id }}";
+        var out_open = "{{ view.out_open }}";
+    </script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/new_case.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/application_count.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/grid.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/select2.full.js"></script>
+    {#<script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/sweetalert2.min.js"></script>#}
+    <script src="{{ STATIC_URL }}workflow/cases/js/jquery-ui.js"></script>
+
+    {% if client == 'e78tfb9' %}
+        <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/nrb_loan_list.js"></script>
+    {% endif %}
+
+{% endblock %}

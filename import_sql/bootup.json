@@ -1,0 +1,364 @@
+[
+  {
+    "model": "rbac.permission",
+    "pk": 1,
+    "fields": {
+      "name": "User Management",
+      "code": "user_management",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 2,
+    "fields": {
+      "name": "Design Process",
+      "code": "design_process",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 3,
+    "fields": {
+      "name": "All Cases",
+      "code": "all_cases",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 4,
+    "fields": {
+      "name": "Create Case",
+      "code": "create_case",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 5,
+    "fields": {
+      "name": "Cancel Case",
+      "code": "cancel_case",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 6,
+    "fields": {
+      "name": "Delete Case",
+      "code": "delete_case",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 7,
+    "fields": {
+      "name": "Reassign Case",
+      "code": "reassign_case",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 8,
+    "fields": {
+      "name": "Categorization",
+      "code": "categorization",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 9,
+    "fields": {
+      "name": "Create New Document",
+      "code": "new_document",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 10,
+    "fields": {
+      "name": "Upload Document",
+      "code": "upload_document",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 11,
+    "fields": {
+      "name": "View Document",
+      "code": "view_document",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 12,
+    "fields": {
+      "name": "Delete Document",
+      "code": "delete_document",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 13,
+    "fields": {
+      "name": "Checkout Document",
+      "code": "checkout_document",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 14,
+    "fields": {
+      "name": "Download Document",
+      "code": "download_document",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 15,
+    "fields": {
+      "name": "Print Document",
+      "code": "print_document",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 16,
+    "fields": {
+      "name": "Edit Metadata",
+      "code": "edit_metadata",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 17,
+    "fields": {
+      "name": "Version Control",
+      "code": "version_control",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 18,
+    "fields": {
+      "name": "Related File",
+      "code": "related_file",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 19,
+    "fields": {
+      "name": "Review File",
+      "code": "review_file",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 20,
+    "fields": {
+      "name": "Review Log",
+      "code": "review_log",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 21,
+    "fields": {
+      "name": "Review Report",
+      "code": "review_report",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 22,
+    "fields": {
+      "name": "Manage Announcement",
+      "code": "manage_announcement",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 23,
+    "fields": {
+      "name": "Settings",
+      "code": "settings",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 24,
+    "fields": {
+      "name": "Archive Document",
+      "code": "archive",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 25,
+    "fields": {
+      "name": "Page count",
+      "code": "page_count",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.permission",
+    "pk": 26,
+    "fields": {
+      "name": "Monitor",
+      "code": "monitor",
+      "active": true
+    }
+  },
+  {
+    "model": "rbac.role",
+    "pk": 1,
+    "fields": {
+      "name": "Admin",
+      "code": "admin",
+      "active": true,
+      "created_date": "2017-01-01 00:00:00.000000",
+      "modified_date": "2017-01-01 00:00:00.000000",
+      "permission": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
+      ]
+    }
+  },
+  {
+    "model": "rbac.role",
+    "pk": 2,
+    "fields": {
+      "name": "General User",
+      "code": "general",
+      "active": true,
+      "created_date": "2017-01-01 00:00:00.000000",
+      "modified_date": "2017-01-01 00:00:00.000000",
+      "permission": [1]
+    }
+  },
+  {
+    "model": "rbac.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$30000$9U0ScFUXmPf1$LxGHVipZwsUOJMVoVll9uuq+pNWh9bibBruP8qiBTeA=",
+      "last_login": null,
+      "is_superuser": true,
+      "email": "admin@workflow.dev",
+      "username": "admin",
+      "first_name": "Administrator",
+      "last_name": "Administrator",
+      "date_joined": "2017-01-01 00:00:00.000000",
+      "is_active": true,
+      "avatar": "",
+      "address": "",
+      "phone_number": "",
+      "position": "superuser",
+      "expiry_date": "3000-01-01 00:00:00.000000",
+      "status": 1,
+      "role": 1,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "oauth2_provider.application",
+    "pk": 1,
+    "fields": {
+      "client_id": "rRfdf2vcQWOZn3giZVomGmk1hsXOSgWHIWufnIxw",
+      "user": 1,
+      "redirect_uris": "http://0.0.0.0:8000/",
+      "client_type": "confidential",
+      "authorization_grant_type": "password",
+      "client_secret": "62YKlcrMTjrkKpKqtG1hzdP7cxOstW6nKUBq2rj7Ob2S3eUsmDsdR4h0WKCGv6K0M7NhQLhlfWYhkWJ0G5C3fPDlVT60YI64ClRXgBIep0895FtQ9ey11fM9u0s9l374",
+      "name": "workflow",
+      "skip_authorization": false
+    }
+  },
+  {
+    "model": "documents.watermarkfiles",
+    "pk": 1,
+    "fields": {
+          "name" :"classified",
+          "file" :"watermark/classified.jpg",
+          "value":2
+
+    }
+  },
+  {
+    "model": "documents.watermarkfiles",
+    "pk": 2,
+    "fields": {
+          "name" :"rejected",
+          "file" :"watermark/rejected.jpg",
+          "value":4
+
+    }
+  },
+  {
+    "model": "documents.watermarkfiles",
+    "pk": 3,
+    "fields": {
+          "name" :"approved",
+          "file" :"watermark/approved.jpg",
+          "value":1
+
+    }
+  },
+  {
+    "model": "documents.watermarkfiles",
+    "pk": 4,
+    "fields": {
+          "name" :"confidential",
+          "file" :"watermark/confidential.jpg",
+          "value":3
+
+    }
+  }
+]

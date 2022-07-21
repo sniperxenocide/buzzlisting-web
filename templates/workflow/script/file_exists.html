@@ -1,0 +1,29 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+          <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}workflow/script/plugin/codemirror/lib/codemirror.css">
+          <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}workflow/script/plugin/codemirror/theme/eclipse.css">
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>{{ Error }}</h2>
+                    </div>
+
+                </div>
+        </div>
+
+    </section>
+
+
+
+
+{% endblock %}
+
+{% block js %}
+
+
+{% endblock %}

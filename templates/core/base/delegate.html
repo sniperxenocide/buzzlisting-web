@@ -1,0 +1,213 @@
+<div class="modal fade" id="delegate_modal">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delegatee</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" id="add_delegate_button" class=" m-b-10 btn btn-success waves-effect"><i
+                                class="zmdi zmdi-plus"></i>
+                        </button>
+                        <table id="delegate_show_table"
+                               class="table table-bordered hover custom_table table-responsive">
+                            <thead>
+                            <tr>
+                                <th width="30%">Name</th>
+                                <th width="25%">Activation date</th>
+                                <th width="25%">Expiry date</th>
+                                <th width="20%">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="empty_delegation_row">
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+{#                <button type="submit" id="gr_save_button_" class="btn btn-default">Save#}
+{#                </button>#}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="add_delegate_modal">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Delegatee</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="add_delegate_form">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        <label class="fg-label">Delegatee</label>
+                                        <select class="selectpicker"
+                                                id="to_duty"
+                                                name="to_duty"
+                                                data-live-search="true"
+                                                data-parsley-required="true"
+                                                data-trigger="change">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        <label class="fg-label">Date Range</label>
+                                        <input type='text' id='duration_' class="form-control date_input"
+                                               data-parsley-required="true" name="duration"
+                                               placeholder="Select Duration">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="delegate_save_button_" class="btn bgm-bluegray">Save
+                </button>
+            </div>
+            {#            <div class="modal-body">#}
+            {#                <div class="row">#}
+            {#                    <div class="col-md-12">#}
+            {#                        <button type="button" id="add_gr" class="btn btn-success waves-effect">#}
+            {#                            Add Delegate <i class="zmdi zmdi-plus"></i>#}
+            {#                        </button>#}
+            {#                        <table id="gr_show_table" class="table table-bordered table-responsive">#}
+            {#                            <thead>#}
+            {#                                <tr>#}
+            {#                                    <th>#}
+            {#                                        Name#}
+            {#                                    </th>#}
+            {#                                    <th>#}
+            {#                                        Activation date#}
+            {#                                    </th>#}
+            {#                                    <th>#}
+            {#                                        Expiry date#}
+            {#                                    </th>#}
+            {#                                    <th>#}
+            {#                                        Action#}
+            {#                                    </th>#}
+            {#                                </tr>#}
+            {#                            </thead>#}
+            {#                            <tbody>#}
+            {#                                <tr class="empty_delegation">#}
+            {#                                    <td>--</td>#}
+            {#                                    <td>--</td>#}
+            {#                                    <td>--</td>#}
+            {#                                    <td>--</td>#}
+            {#                                </tr>#}
+            {#                            </tbody>#}
+            {#                        </table>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit_delegate_modal">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Delegatee</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="edit_delegate_form">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        <label class="fg-label">Delegatee</label>
+                                        <select class="selectpicker"
+                                                id="_to_duty_"
+                                                name="to_duty"
+                                                data-live-search="true"
+                                                data-parsley-required="true"
+                                                data-trigger="change">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        <label class="fg-label">Date Range</label>
+                                        <input type='text' id='_duration_' class="form-control date_input"
+                                               data-parsley-required="true" name="duration"
+                                               placeholder="Select Duration">
+                                    </div>
+                                </div>
+                            </div>
+                            <input id='_delegation_id_' hidden>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="delegate_edit_button_" class="btn bgm-bluegray">Update
+                </button>
+            </div>
+            {#            <div class="modal-body">#}
+            {#                <div class="row">#}
+            {#                    <div class="col-md-12">#}
+            {#                        <button type="button" id="add_gr" class="btn btn-success waves-effect">#}
+            {#                            Add Delegate <i class="zmdi zmdi-plus"></i>#}
+            {#                        </button>#}
+            {#                        <table id="gr_show_table" class="table table-bordered table-responsive">#}
+            {#                            <thead>#}
+            {#                                <tr>#}
+            {#                                    <th>#}
+            {#                                        Name#}
+            {#                                    </th>#}
+            {#                                    <th>#}
+            {#                                        Activation date#}
+            {#                                    </th>#}
+            {#                                    <th>#}
+            {#                                        Expiry date#}
+            {#                                    </th>#}
+            {#                                    <th>#}
+            {#                                        Action#}
+            {#                                    </th>#}
+            {#                                </tr>#}
+            {#                            </thead>#}
+            {#                            <tbody>#}
+            {#                                <tr class="empty_delegation">#}
+            {#                                    <td>--</td>#}
+            {#                                    <td>--</td>#}
+            {#                                    <td>--</td>#}
+            {#                                    <td>--</td>#}
+            {#                                </tr>#}
+            {#                            </tbody>#}
+            {#                        </table>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
+
+        </div>
+    </div>
+</div>

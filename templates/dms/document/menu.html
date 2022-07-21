@@ -1,0 +1,142 @@
+<ul class="dropdown-menu dropdown-menu-right dm-icon doc-action" role="menu">
+    <li role="presentation">
+        {% if request.user.role.permission.filter(pk=16).count() and not documents.locked and not documents.archived or request.user.role.id == 1 and not documents.locked and not documents.archived %}
+            <a role="menuitem" tabindex="-1" href="#" data-action="editMeta">
+                <i class="zmdi zmdi-edit"></i> Edit metadata
+            </a>
+        {% else %}
+            <a role="menuitem" tabindex="-1" href="#" class="not-allowed" data-action="editMeta">
+                <i class="zmdi zmdi-edit"></i> Edit metadata
+            </a>
+        {% endif %}
+    </li>
+    {#    <li role="presentation">#}
+    {#        <a role="menuitem" tabindex="-1" href="#" class="not-allowed" data-action="sendForReview">#}
+    {#            <i class="zmdi zmdi-cast"></i> Send For Review#}
+    {#        </a>#}
+    {#    </li>#}
+    <li role="presentation" id="checkout">
+        {% if request.user.role.permission.filter(pk=13).count() and not documents.archived or request.user.role.id == 1 and not documents.archived %}
+            <a role="menuitem" tabindex="-1" href="#" data-action="checkOut">
+                <i class="zmdi zmdi-badge-check"></i> Check Out
+            </a>
+            {#        {% else %}#}
+            {#            <a role="menuitem" tabindex="-1" href="#" class="not-allowed" data-action="checkOut">#}
+            {#                <i class="zmdi zmdi-badge-check"></i> Check Out#}
+            {#            </a>#}
+        {% endif %}
+    </li>
+    <li class="divider"></li>
+        <li role="presentation">
+            {% if request.user.role.permission.filter(pk=14).count() and not documents.locked and not documents.archived or request.user.role.id == 1 and not documents.locked and not documents.archived %}
+                <a id="v_download" role="menuitem" tabindex="-1" href="#" data-action="download" data-v_id="{{ latestfile.id }}">
+                    <i class="zmdi zmdi-download"></i> Download
+                </a>
+            {% else %}
+                <a role="menuitem" tabindex="-1" href="#" class="not-allowed" data-action="download">
+                    <i class="zmdi zmdi-download"></i> Download
+                </a>
+            {% endif %}
+        </li>
+    <li role="presentation">
+        {% if request.user.role.permission.filter(pk=14).count() and request.user.role.permission.filter(pk=15).count() and  not documents.locked and not documents.archived or request.user.role.id == 1 and not documents.locked and not documents.archived %}
+            {#            {% if latestfile.watermark == '0' %}#}
+            {#                <a role="menuitem" tabindex="-1"#}
+            {#                   onclick="window.open ('{{ MEDIA_URL }}{{ latestfile.filepath }}', ''); return false"#}
+            {#                   href="javascript:void(0);" target="_blank">#}
+            {#                    <i class="zmdi zmdi-eye"></i> View#}
+            {#                </a>#}
+            {#            {% else %}#}
+            {#                <a role="menuitem" tabindex="-1"#}
+            {#                   onclick="window.open ('{{ MEDIA_URL }}{{ latestfile.watermark_file_path }}', ''); return false"#}
+            {#                   href="javascript:void(0);" target="_blank">#}
+            {#                    <i class="zmdi zmdi-eye"></i> View#}
+            {#                </a>#}
+            {#            {% endif %}#}
+            <a id="file_view_link" role="menuitem" tabindex="-1" href="#" data-filepath="">
+                <i class="zmdi zmdi-eye"></i> View
+            </a>
+        {% else %}
+            <a role="menuitem" tabindex="-1" class="not-allowed">
+                <i class="zmdi zmdi-eye"></i> View
+            </a>
+        {% endif %}
+    </li>
+    {#    <li role="presentation">#}
+    {#        {% if request.user.role.permission.filter(pk=15).count() and not documents.locked and not documents.archived or request.user.role.id == 1 and not documents.locked and not documents.archived %}#}
+    {#            <a role="menuitem" tabindex="-1" href="#" data-action="print" id="print">#}
+    {#                <i class="zmdi zmdi-print"></i> Print#}
+    {#            </a>#}
+    {#        {% else %}#}
+    {#            <a role="menuitem" tabindex="-1" href="#" class="not-allowed" data-action="print">#}
+    {#                <i class="zmdi zmdi-print"></i> Print#}
+    {#            </a>#}
+    {#        {% endif %}#}
+    {#    </li>#}
+    <li role="presentation">
+        {% if request.user.role.permission.filter(pk=12).count() and not documents.locked and not documents.archived or request.user.role.id == 1 and not documents.locked and not documents.archived %}
+            <a id="v_delete" role="menuitem" tabindex="-1" href="#" data-action="delete" data-v_id="{{ latestfile.id }}" data-v="{{ latestfile.version }}">
+                <i class="zmdi zmdi-delete"></i> Delete
+            </a>
+        {% else %}
+            <a role="menuitem" tabindex="-1" href="#" class="not-allowed" data-action="delete">
+                <i class="zmdi zmdi-delete"></i> Delete
+            </a>
+        {% endif %}
+    </li>
+    <!--Comment out for demo purpose by shuvo-->
+{#    <li class="divider watermark_display" style="display: none"></li>#}
+{#    <li role="presentation" class="dropdown watermark_display" style="display: none">#}
+{#        <a class=" dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">#}
+{#            <i class="zmdi zmdi-layers"></i>Watermark <i class="zmdi zmdi-caret-right"></i>#}
+{#        </a>#}
+{#        <ul class="dropdown-menu">#}
+{#            <li class="watermark" data-value="approved"><a href="#">Approved</a></li>#}
+{#            <li class="watermark" data-value="classified"><a href="#">Classified</a></li>#}
+{#            <li class="watermark" data-value="confidential"><a href="#">Confidential</a></li>#}
+{#            <li class="watermark" data-value="rejected"><a href="#">Rejected</a></li>#}
+{#            <li class="divider"></li>#}
+{#            <li class="free_text"><a href="#">Free Text</a></li>#}
+{#            <li class="divider"></li>#}
+{#            <li class="watermark" data-value="reset"><a href="#">Reset</a></li>#}
+{#        </ul>#}
+{#    </li>#}
+{#    <li role="presentation" class="annotation_display" style="display: none">#}
+{#        <a role="menuitem" tabindex="-1" href="#" data-action="annotation" data-filepath="{{ MEDIA_URL }}{{ latestfile.filepath }}">#}
+{#                <i class="zmdi zmdi-texture"></i> Annotation#}
+{#        </a>#}
+{#    </li>#}
+{#    <li role="presentation" class="redaction_display" style="display: none">#}
+{#        <a role="menuitem" tabindex="-1" href="#" data-action="redaction" data-filepath="{{ MEDIA_URL }}{{ latestfile.filepath }}">#}
+{#                <i class="zmdi zmdi-shield-security"></i> Redaction#}
+{#        </a>#}
+{#    </li>#}
+
+    <li class="divider"></li>
+    <li role="presentation">
+        {#        <a role="menuitem" tabindex="-1" href="#" data-action="achive">#}
+        {#            <i class="zmdi zmdi-archive"></i> Archive#}
+        {#        </a>#}
+        {% if request.user.role.id == 1  and not documents.archived and not documents.locked %}
+            <a role="menuitem" tabindex="-1" href="#" data-action="achive">
+                <i class="zmdi zmdi-archive"></i> Archive
+            </a>
+        {% elif request.user.role.id == 1  and documents.archived and not documents.locked %}
+            <a role="menuitem" tabindex="-1" href="#" data-action="archive" id="restore_archive">
+                <i class="zmdi zmdi-archive"></i> Restore Archive
+            </a>
+        {% elif request.user.role.permission.filter(pk=24).count() and not documents.archived and not documents.locked %}
+            <a role="menuitem" tabindex="-1" href="#" data-action="achive" id="achive">
+                <i class="zmdi zmdi-archive"></i> Archive
+            </a>
+        {% elif request.user.role.permission.filter(pk=24).count() and documents.archived and not documents.locked %}
+            <a role="menuitem" tabindex="-1" href="#" data-action="archive" id="restore_archive">
+                <i class="zmdi zmdi-archive"></i> Restore Archive
+            </a>
+        {% else %}
+            <a role="menuitem" tabindex="-1" href="#" data-action="achive" class="not-allowed">
+                <i class="zmdi zmdi-archive"></i> Archive
+            </a>
+        {% endif %}
+    </li>
+</ul>

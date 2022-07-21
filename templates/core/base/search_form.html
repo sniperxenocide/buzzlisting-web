@@ -1,0 +1,127 @@
+<div class="modal fade" id="search_modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Search Result</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row m-b-5">
+                    <div class="pull-right">
+                        <button class="btn bgm-orange waves-effect search_result_download" disabled
+                                style="display: none;">
+                            <i class="zmdi zmdi-cloud-download"></i>
+                        </button>
+                    </div>
+                    <div class="checkbox pull-left select_all_file_area" style="left: 16px; display: none">
+                        <label>
+                            <input type="checkbox" value="" class="select_all_file">
+                            <i class="input-helper"></i> Select all
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="search_history_content" style="overflow-y: scroll; height:300px"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <ul id="search_pagination" class="pagination lg-pagination"></ul>
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{#---------wf search summary---------#}
+{#  Summary Modal#}
+{% include 'core/base/search_summary_modal.html' %}
+{#----------------Search Quickview-------------------#}
+<div class="modal fade" id="searchViewFile" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header p-5">
+                <h4 class="modal-title c-gray"></h4>
+            </div>
+
+            <div class="modal-body p-0 p-l-10 p-r-10">
+                <div class="modal-preview search-doc-preview"></div>
+            </div>
+
+            <div class="modal-footer p-5">
+                <br>
+                <ul id="search_doc_pagination" class="pagination lg-pagination" style="display:none;"></ul>
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# ---------Save Search------------- #}
+<div class="modal fade" id="name_search" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bgm-blue">
+                <h4 class="modal-title c-white">Saved search name</h4>
+            </div>
+            <br>
+            <br>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="form-group fg-float">
+                            <div class="fg-line">
+                                <label class="fg-label">Write a name:<span
+                                        class="required_star" style="color: red">*</span></label>
+                                <input class="form-control"
+                                       name="search_name"
+                                       id="search_name"
+                                       required=""
+                                       tabindex="1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link waves-effect" id="save_search">Save</button>
+                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="seved_search_modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bgm-blue">
+                <h4 class="modal-title c-white">Saved searches</h4>
+                <small class="c-white">Double click to search</small>
+            </div>
+            <br>
+            <div class="modal-body">
+                <div class="save_search_no_data text-center" style="display: none">
+                    <h3>No saved search found</h3>
+                    <hr><br><br>
+                </div>
+                <div class="table-responsive save_search_table">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Created at</th>
+                            <th style="text-align:center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody class="saved_search_tbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link close" data-dismiss="modal">Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

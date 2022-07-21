@@ -1,0 +1,193 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/cases.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/cases/css/parsley.css">
+{% endblock %}
+{% block content %}
+    <section id="main">
+        <!--Sidebar Menu Workflow-->
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar.html' %}
+        {% endwith %}
+        <!--End Sidebar Menu Workflow-->
+        <!--Main Content-->
+        <!--Content Header-->
+        <section id="content">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Registration Form</h2>
+                </div>
+
+                <div class="card-body card-padding">
+                    <form action="" method="post" id="create_user" data-parsley-validate="">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <div class="row">
+                            <div class="col-sm-4 m-b-25">
+                                <div class="input-group fg-float">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                                    <div class="fg-line">
+                                        <input type="text" class="form-control" name="first_name"
+                                               data-parsley-required="">
+                                        <label class="fg-label">First Name</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 m-b-25">
+                                <div class="input-group fg-float">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                                    <div class="fg-line">
+                                        <input type="text" class="form-control" name="last_name"
+                                               data-parsley-required="">
+                                        <label class="fg-label">Last Name</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 m-b-25">
+                                <div class="input-group fg-float">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-account-o"></i></span>
+                                    <div class="fg-line">
+                                        <input type="text" class="form-control" name="username"
+                                               data-parsley-required="">
+                                        <label class="fg-label">User Name</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 m-b-25 m-t-25">
+                                <div class="input-group fg-float">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+                                    <div class="fg-line">
+                                        <input type="email" class="form-control" name="email" required
+                                               data-parsley-trigger="change">
+                                        <label class="fg-label">Email</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-8 m-b-25 m-t-25">
+                                <div class="input-group fg-float">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                                    <div class="fg-line">
+                                        <label class="fg-label">Address</label>
+                                        <textarea class="form-control" name="address" id=""></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 m-b-25 m-t-25">
+                                <div class="input-group fg-float">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-local-phone"></i></span>
+                                    <div class="fg-line">
+                                        <input type="text" class="form-control" name="phone_number">
+                                        <label class="fg-label">Phone</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 m-b-25 m-t-25">
+                                <div class="input-group fg-float">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                                    <div class="fg-line">
+                                        <input type="text" class="form-control" name="position"
+                                               data-parsley-required="">
+                                        <label class="fg-label">Position</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 m-b-25 m-t-25">
+                                <div class="input-group fg-float">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-timer-off"></i></span>
+                                    <div class="fg-line">
+                                        <input type='text' class="form-control date-time-picker" name="expiry_date">
+                                        <label class="fg-label">Expire Date</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 m-b-25 m-t-25">
+                                <div class="form-group fg-line p-l-30">
+                                    <p class="f-500 m-b-15">Replaced by</p>
+
+                                    <select class="selectpicker" name="replaced_by">
+                                        <option>Mustard</option>
+                                        <option>Ketchup</option>
+                                        <option>Relish</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 m-b-25 m-t-25">
+                                <div class="form-group fg-line p-l-30">
+                                    <p class="f-500 m-b-15">Status</p>
+                                    <select class="selectpicker" name="status" data-parsley-required="">
+                                        <option value="0">Active</option>
+                                        <option value="1">Inactive</option>
+                                        <option value="2">Vacation</option>
+                                        <option value="3">Expire Date</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 m-b-25 m-t-25">
+                                <div class="form-group fg-line p-l-30">
+                                    <p class="f-500 m-b-15 ">Role</p>
+                                    <select class="selectpicker" data-live-search="true" name="role"
+                                            data-parsley-required="">
+                                        <option>Operator</option>
+                                        <option value="1">Admin</option>
+                                        <option value="3">Manager</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 m-b-30 m-t-25">
+                                <div class="input-group fg-float">
+                                    <div class="fg-line">
+                                        <p class="f-500 m-b-15 ">Profile Picture</p>
+
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <span class="btn btn-default btn-file m-r-10">
+                                                <span class="fileinput-new">Select file</span>
+                                                <span class="fileinput-exists">Change</span>
+                                                <input type="file" name="profile_picture">
+                                            </span>
+                                            <span class="fileinput-filename"></span>
+                                            <a href="#" class="close fileinput-exists"
+                                               data-dismiss="fileinput">&times;</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 m-b-30 m-t-25">
+                                <div class="input-group fg-float">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                                    <div class="fg-line">
+                                        <input type="password" name="password" class="form-control" id="password"
+                                               data-parsley-required="">
+                                        <label class="fg-label">Password</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 m-b-30 m-t-25">
+                                <div class="input-group fg-float">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                                    <div class="fg-line">
+                                        <input type="password" class="form-control" name="cfrm_password"
+                                               data-parsley-required="" data-parsley-equalto="#password"
+                                               data-parsley-trigger="change">
+                                        <label class="fg-label">Confirm Password</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-md-offset-3 p-t-30">
+                                <button class="btn bgm-teal btn-block waves-effect m-t-20">Add User</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!--Main Content End-->
+        <!--End of Main Content-->
+
+    </section>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/cases.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/app/cases.min.js"></script>
+{% endblock %}

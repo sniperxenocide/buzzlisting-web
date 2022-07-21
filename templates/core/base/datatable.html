@@ -1,0 +1,56 @@
+<div class="card" style="margin-bottom: 0 !important;">
+    <div class="card-body">
+        <div class="list-group lg-odd-black">
+            <div class="action-header clearfix">
+                <div class="ah-label hidden-xs">{{ table_header }}</div>
+
+                <div class="ah-search">
+                    <input type="text" placeholder="{{ search_title }}" class="ahs-input search_in_table">
+                    <i class="ahs-close" data-ma-action="action-header-close">×</i>
+                </div>
+
+                <ul class="actions">
+                    {% if icons is not none %}
+                        {{ icons|safe }}
+                    {% endif %}
+                    <li>
+                        <a href="#" data-ma-action="action-header-open">
+                            <i class="zmdi zmdi-search c-black"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown length_change">
+                        <a href="#" data-toggle="dropdown" aria-expanded="true">
+                            <i class="zmdi zmdi-filter-list c-black"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a data-toggle="dropdown" href="javascript:void(0)" data-value="10">10</a>
+                            </li>
+                            <li>
+                                <a data-toggle="dropdown" href="javascript:void(0)" data-value="20">20</a>
+                            </li>
+                            <li>
+                                <a data-toggle="dropdown" href="javascript:void(0)" data-value="50">50</a>
+                            </li>
+                            <li>
+                                <a data-toggle="dropdown" href="javascript:void(0)" data-value="100">100</a>
+                            </li>
+{#                            <li>#}
+{#                                <a data-toggle="dropdown" href="javascript:void(0)" data-value="1000">All</a>#}
+{#                            </li>#}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <table id="{{ table_id }}"
+               class="table table-striped" cellspacing="0"
+               width="100%">
+        </table>
+    </div>
+</div>

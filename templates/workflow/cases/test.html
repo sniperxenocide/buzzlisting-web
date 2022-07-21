@@ -1,0 +1,122 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/cases.min.css">
+{% endblock %}
+{% block content %}
+    <section id="main">
+        <!--Sidebar Menu Workflow-->
+        {% include 'workflow/cases/sidebar.html' %}
+        <!--End Sidebar Menu Workflow-->
+        <!--Main Content-->
+        <!--Content Header-->
+        <div id="content">
+            <div class="container">
+                <div class="card">
+                    <div class="list-group lg-odd-black">
+                        <div class="action-header clearfix">
+                            <div class="ah-label hidden-xs">Some text here</div>
+
+                            <div class="ah-search">
+                                <input type="text" placeholder="Start typing..." class="ahs-input">
+
+                                <i class="ahs-close" data-ma-action="action-header-close">&times;</i>
+                            </div>
+
+                            <ul class="actions">
+                                <li>
+                                    <a href="#" data-ma-action="action-header-open">
+                                        <i class="zmdi zmdi-search"></i>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        <i class="zmdi zmdi-time"></i>
+                                    </a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" data-toggle="dropdown" aria-expanded="true">
+                                        <i class="zmdi zmdi-sort"></i>
+                                    </a>
+
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li>
+                                            <a href="#">Last Modified</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Last Edited</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Name</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Date</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="zmdi zmdi-info"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="content-3" class="content mCustomScrollbar">
+                    <h2>Scrollbar position outside <br/>theme: "light-thick" <br/>with buttons</h2>
+                    <hr/>
+                    <p>Lorem ipsum dolor sit amet...</p>
+                    <p><input type="text" value="input"/></p>
+                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                        est laborum.</p>
+                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
+                        magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                    <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed
+                        quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat
+                        voluptatem.</p>
+                    <p><input type="text" value="input"/></p>
+                    <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae
+                        consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+                    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
+                        deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
+                        provident...</p>
+                    <p><textarea>textarea</textarea></p>
+                    <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil...</p>
+                    <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae
+                        consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+                    <hr/>
+                    <p>End of content.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Main Content End-->
+    <!--End of Main Content-->
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        {#let e_form_url = "{{ url('workflow:cases:e_form') }}";#}
+        let e_form_url = "/workflow/cases/";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/cases.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/app/cases.min.js"></script>
+    <script>
+        {#(function ($) {
+            $(window).load(function () {
+#}{#                scrollBar("#content-3", "minimal-dark", "y")#}{#
+                $("#content-3").mCustomScrollbar();
+
+            });
+        })(jQuery);#}
+        $(document).ready(function () {
+            $("#content-3").mCustomScrollbar({
+                scrollButtons: {enable: true},
+                theme: "light-thick",
+                scrollbarPosition: "outside"
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Download searched files</title>
+
+    <!— Common CSS-->
+    <link href="{{ STATIC_URL }}assets/css/common.min.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}core/search/css/search.css" rel="stylesheet">
+
+</head>
+
+<body>
+<p style="margin-bottom: 10px; padding: 5px 0px; font-family: Georgia; font-size: 13px; letter-spacing: 1px;">
+    Dear <strong style="letter-spacing: 1px;">{{ user_full_name }},</strong>
+</p>
+<p style="margin-bottom: 5px; font-family: Georgia; font-size: 13px; letter-spacing: 1px;">
+    Greetings from Green Office,
+
+</p>
+<p style="font-family: Georgia;font-size: 13px; letter-spacing: 1px;">
+    Your file is ready to download. Click the link below to download it. This file will valid till {{ validity_date }}
+    (7 days).
+    <br>
+    Download link: <a href="{{ download_link }}">{{ zip_filename }}</a>
+</p>
+<p style="font-family: Georgia; font-size: 13px; letter-spacing: 1px;"> Thanks & Best Regards,<br>
+    <strong style="letter-spacing: 1px;">InfoSapex</strong>
+</p>
+</body>
+</html>

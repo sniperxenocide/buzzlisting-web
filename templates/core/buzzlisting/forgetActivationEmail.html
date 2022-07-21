@@ -1,0 +1,14 @@
+{% autoescape off %}
+    Hi {{ user.username }},
+
+    <p colspan="2" style="color: black; font-family: Georgia;">{{ text }}
+    </p>
+    <p style="font-family: Georgia;font-size: 13px; letter-spacing: 1px;">
+
+        You are receiving this email because you indicated that you have forgotten your BuzzListing account password. To reset your password, click "Reset Password" below.
+        {#http://{{ domain }}{%url 'activate' uidb64=uid token=token %}#}
+        <a href="http://{{ domain }}">Reset Password</a>
+    </p>
+
+
+{% endautoescape %}

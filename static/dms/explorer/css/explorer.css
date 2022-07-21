@@ -1,0 +1,140 @@
+
+#main {
+    padding-bottom: 0 !important;
+}
+
+#explorer {
+    /*display: inline-block;*/
+    display: flex;
+    width: 100%;
+}
+
+#explorer #left {
+    float: left;
+    /*border: 1px dotted #3c3c3c;*/
+    border-left: 3px solid rgba(103, 189, 106, 0.06);
+    background-color: rgba(103, 189, 106, 0.06);
+    min-height: 200px;
+    overflow: auto;
+    padding-top: 25px;
+}
+
+#explorer #right {
+    padding: 2.5%;
+    /*border: 1px dotted #3c3c3c;*/
+    border-left: 3px solid #4caf50;
+    background-color: rgba(103, 189, 106, 0.06);
+    min-height: 200px;
+    float: right;
+}
+
+#explorer .lg-pagination {
+    position: relative !important;
+    padding: 20px 20px 0px 20px !important;
+}
+
+#explorer .pagination {
+    margin-bottom: 0px;
+}
+
+a.ci-avatar {
+    text-align: center;
+    color: inherit;
+    cursor: pointer;
+}
+
+.c-info {
+    margin-top: 15px;
+    padding: 0 5px;
+    display: inline-block;
+    width: 100%;
+    text-overflow: clip;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.c-info strong {
+    max-width: 80%;
+    width: 80%;
+    float: left;
+    text-overflow: clip !important;
+    white-space: normal !important;
+    font-size: 12px !important;
+}
+
+.c-info .actions {
+    max-width: 20%;
+    width: 20%;
+    float: right;
+    margin-left: 1px;
+}
+
+.folder-thumb .c-info strong {
+    max-width: 100%;
+    width: 100%;
+}
+
+.folder-thumb .c-item,
+.file-thumb .c-item {
+    border: none !important;
+}
+
+.folder-thumb .ci-avatar > .zmdi,
+.file-thumb .ci-avatar > .zmdi {
+    font-size: 80px;
+}
+
+.folder-thumb .ci-avatar > .fa,
+.file-thumb .ci-avatar > .fa {
+    font-size: 55px;
+}
+
+a.ci-avatar,
+.folder-thumb,
+.file-thumb {
+    color: #709E32 !important;
+    cursor: pointer;
+    margin: 20px 0;
+}
+
+.file-thumb {
+    cursor: default;
+    /*height: 109px;*/
+    height: auto;
+}
+
+.no-data-available {
+    text-align: center;
+    display: none;
+}
+
+.lg-pagination {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-bottom: 0 !important;
+}
+
+.fa::before {
+    color: #709e32;
+}
+
+.c-item i.fa-lock {
+    font-size: 29px;
+}
+
+.c-item i.fa-lock::before {
+    color: rgb(96, 125, 139);
+}
+
+@media all and (max-width: 767px) {
+    .lg-pagination {
+        position: static !important;
+        display: inline-block !important;
+    }
+
+    #explorer #left,
+    #explorer #right {
+        min-height: auto !important;
+    }
+}

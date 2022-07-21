@@ -1,0 +1,1241 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <!-- Workflow CSS -->
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/designer/css/diagram.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/designer/css/spacing.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/designer/vendor/bpmn-font/css/bpmn-embedded.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/designer/css/app.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/designer/css/mafe.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/summernote.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/cases/css/jquery-ui.css"> {#  Rawnak #}
+    <style>
+        .ui-dialog-titlebar {
+            height: auto !important;
+        }
+
+        #existing_templates {
+            width: 100%;
+        }
+
+        #existing_templates td:nth-child(1) {
+            width: 80%;
+        }
+
+        .note-editor .fa {
+            font-size: 16px !important;
+        }
+
+        .scrollable-menu {
+            height: auto;
+            max-height: 200px;
+            overflow-x: hidden;
+        }
+
+        .converter_wrap .c-item {
+            border: 1px solid #e2e2e2;
+            border-radius: 2px;
+            margin-bottom: 24px;
+        }
+
+        .converter_wrap .c-info {
+            margin-top: 15px;
+            padding: 0;
+        }
+
+        .converter_wrap .c-footer {
+            border-top: 1px solid #e2e2e2;
+            margin-top: 0;
+            padding: 0 5px;
+            text-align: center;
+        }
+
+        .equal_content {
+            text-align: center;
+        }
+
+        .converter_wrap input.form-control, #tasks_duration {
+            padding: 0 10px;
+            text-align: center;
+        }
+
+        .has-error #calculator_opener {
+            background: none !important;
+            border: none !important;
+        }
+
+        #indexableOption {
+            display: inline-block !important;
+        }
+
+        /* http://docs.jquery.com/UI/Autocomplete#theming*/
+        .ui-autocomplete {
+            position: absolute;
+            cursor: default;
+            background: #FFFFFF
+        }
+
+        /* workarounds */
+        html .ui-autocomplete {
+            width: 1px;
+        }
+
+        /* without this, the menu expands to 100% in IE6 */
+        .ui-menu {
+            list-style: none;
+            padding: 2px;
+            margin: 0;
+            display: block;
+            float: left;
+            box-shadow: 2px 2px 1px #888888;
+            overflow-y: scroll;
+            height: auto;
+            max-height: 300px;
+            z-index: 1000;
+        }
+
+        .ui-menu .ui-menu {
+            margin-top: -3px;
+        }
+
+        .ui-menu .ui-menu-item {
+            margin: 0;
+            padding: 0;
+            zoom: 1;
+            float: left;
+            clear: left;
+            width: 100%;
+        }
+
+        .ui-menu .ui-menu-item a {
+            text-decoration: none;
+            display: block;
+            padding: .2em .4em;
+            line-height: 2;
+            zoom: 1;
+        }
+
+        .ui-menu .ui-menu-item a.ui-state-hover,
+        .ui-menu .ui-menu-item a.ui-state-active {
+            font-weight: normal;
+            margin: -1px;
+            background-color: #ECECEC;
+            color: #333;
+            text-decoration: none;
+            border: 0px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block content %}
+    <section id="content" class="content" style="padding-right: 0; padding-left: 0;">
+        <div class="content" id="js-drop-zone">
+            <div class="canvas" id="js-canvas"></div>
+        </div>
+
+        <ul class="buttons bottom-control">
+            <li>
+                <a href="#" id="supervisor_button" class="active" title="Set Supoervisor">
+                    <i class="zmdi zmdi-library" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#" id="template_button" class="active" title="Templates">
+                    <i class="fa fa-code" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#" id="outputdoc_button" class="active" title="Output Documents">
+                    <i class="zmdi zmdi-file" aria-hidden="true"></i>
+                </a>
+            </li>
+            <!--<li>
+                <a href="#" id="js-download-diagram" class="active" title="download BPMN diagram">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </a>
+            </li>-->
+            <li>
+                <a href="#" id="js-download-svg" class="active" title="download as SVG image">
+                    <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#" v-on:click="eFormListModal('eform-list-modal')" class="active" title="EForm">
+                    <i class="fa fa-list-alt" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#" @click="openVariableModal" class="active" title="Variable">
+                    <i class="fa fa-indent" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="gateway_condition" title="Routing Rules">
+                    <i class="fa fa-map-signs" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="assignment_rules" title="Assignment Rules">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a href="#" id="js-save-diagram" class="active" title="Save Diagram">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+
+        <modal ref="eform-list-modal">
+            <div class="modal-header" slot="header">
+                <button type="button"
+                        class="close"
+                        @click="EHideModal('eform-list-modal')"
+                >&times;</button>
+                <h4 class="modal-title">Eform List</h4>
+            </div>
+            <div class="modal-body" slot="body">
+                <div class="row m-b-15">
+                    <button class="btn bgm-teal waves-effect pull-right"
+                            @click.prevent="createEformModal('eform-creation-modal', 'createEformForm')"
+                    >
+                        <i class="zmdi zmdi-plus"></i>
+                    </button>
+                </div>
+                <div class="row">
+                    <div class="list-group lg-odd-black" v-if="eforms.length">
+                        <div class="list-group-item media" v-for="(eform, key) in eforms">
+                            <div class="checkbox pull-left">
+                                <label>
+                                    <input type="checkbox" value="">
+                                    <i class="input-helper"></i>
+                                </label>
+                            </div>
+
+                            <div class="pull-right">
+                                <div class="actions dropdown">
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown"
+                                       aria-expanded="true">
+                                        <i class="zmdi zmdi-more-vert"></i>
+                                    </a>
+
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu"
+                                        aria-labelledby="dLabel">
+                                        <li>
+                                            <a href="" @click.prevent="editEform(eform.id)">Edit</a>
+                                        </li>
+                                        <li>
+                                            <a href="" @click.prevent="deleteEform(key, eform.id)">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="media-body">
+                                <div class="lgi-heading">
+                                    @{ eform.title }
+                                </div>
+                                <ul class="lgi-attrs">
+                                    <li>Date Created: @{ eform.created_at | humanReadableDate }</li>
+                                    <li>ID: @{ eform.id }</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 v-if="!eforms.length"
+                        style="color: rgb(105, 105, 105)"
+                        class="text-center"
+                    >
+                        No Eform created
+                    </h1>
+                </div>
+            </div>
+            <div class="modal-footer" slot="footer"></div>
+        </modal>
+
+        <modal ref="eform-creation-modal" modal-class="modal-sm">
+            <div class="modal-header" slot="header">
+                <button type="button"
+                        class="close"
+                        @click="EHideModal('eform-creation-modal')"
+                >&times;</button>
+                <h4 class="modal-title">Create Eform</h4>
+            </div>
+            <div class="modal-body" slot="body">
+                <form data-vv-scope="createEformForm"
+                      @submit.prevent="createEform('eform-creation-modal', 'createEformForm')"
+                >
+                    <div class="row">
+                        <div class="col-md-12">
+                            {#                            <div :class="{'form-group': true, 'fg-float': true, 'has-error': errors.has('createEformForm.eform_title.eform_title') }"#}
+                            {#                            >#}
+                            <div class="fg-line">
+                                <label class="fg-label">Title</label>
+                                <input type="text"
+                                       class="form-control"
+                                       v-model="eform_title"
+                                       name="eform_title"
+                                       v-validate:eform_title="{
+                                                rules: {
+                                                    required: true,
+                                                    regex: /^[a-zA-Z\s0-9-_()]{1,100}$/
+                                                }
+                                           }"
+                                >
+                            </div>
+                            {#                                <small v-show="errors.has('createEformForm.eform_title')"#}
+                            {#                                       class="help-block"#}
+                            {#                                >#}
+                            Title can not be blanked. It can be alphanumeric with underscores,
+                            spaces
+                            and hyphens.
+                            The max length is 40 char.
+                            </small>
+                        </div>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group fg-float">
+                        <div class="fg-line">
+                            <label class="fg-label">Description</label>
+                            <textarea name="description"
+                                      v-model="eform_description"
+                                      class="form-control auto-size"
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+            </div>
+            <div class="modal-footer" slot="footer">
+                <button type="submit"
+                        @click.prevent="createEform('eform-creation-modal', 'createEformForm')"
+                        class="btn btn-link waves-effect">
+                    Save
+                </button>
+            </div>
+        </modal>
+    </section>
+
+    <div class="modal fade" id="gateway_condition_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="max-width: 90%; float: left;">Routing Rules</h4>
+
+                    <ul class="actions" style="max-width: 9%; float: right;">
+                        <li>
+                            <a href="#" data-dismiss="modal">
+                                <i class="zmdi zmdi-close"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-body">
+                    <span id="inner_container">
+
+                    </span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" id="save_condtions">Save
+                    </button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="assignment_rules" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
+         data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="max-width: 90%; float: left;">Assignment Rules</h4>
+
+                    <ul class="actions" style="max-width: 9%; float: right;">
+                        <li>
+                            <a href="#" data-dismiss="modal">
+                                <i class="zmdi zmdi-close"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-body">
+                    <span id="inner_container">
+                        <div role="tabpanel">
+                            <ul class="assignment-rules-header tab-nav" role="tablist">
+                                <li class="active">
+                                    <a href="#assignment_type" aria-controls="assignment_type" role="tab"
+                                       data-toggle="tab">Type</a>
+                                </li>
+                                <li>
+                                    <a href="#assignment_user" aria-controls="assignment_user" role="tab"
+                                       data-toggle="tab">Assignment</a>
+                                </li>
+                                <li>
+                                    <a href="#assignment_rule" aria-controls="assignment_rule" role="tab"
+                                       data-toggle="tab">Rule</a>
+                                </li>
+                                <li>
+                                    <a href="#assignment_step" aria-controls="assignment_step" role="tab"
+                                       data-toggle="tab">Step</a>
+                                </li>
+                                <li>
+                                    <a href="#task_duration" aria-controls="task_duration" role="tab"
+                                       data-toggle="tab">Duration</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="assignment_type">
+                                    <label class="radio radio-inline m-r-20">
+                                        <input id="cyclic_assignment_rule" type="radio" name="assignment_rules"
+                                               value="0">
+                                        <i class="input-helper"></i>
+                                        Cyclic Assignment
+                                    </label>
+
+                                    <label class="radio radio-inline m-r-20">
+                                        <input id="manager_assignment_rule" type="radio" name="assignment_rules"
+                                               value="1">
+                                        <i class="input-helper"></i>
+                                        Manager Assignment
+                                    </label>
+
+                                    <label class="radio radio-inline m-r-20">
+                                        <input id="manual_assignment_rule" type="radio" name="assignment_rules"
+                                               value="2">
+                                        <i class="input-helper"></i>
+                                        Manual Assignment
+                                    </label>
+
+                                    <label class="radio radio-inline m-r-20">
+                                        <input id="self_service_rule" type="radio" name="assignment_rules"
+                                               value="3">
+                                        <i class="input-helper"></i>
+                                        Self Service
+                                    </label>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="assignment_user">
+                                    <div class="row" id="users_list_panel">
+                                        <div class="col-xs-12">
+                                            <label class="radio radio-inline">
+                                                <input id="assignable_view_user" type="radio" name="assignable_views"
+                                                       value="user">
+                                                <i class="input-helper"></i>
+                                                View User
+                                            </label>
+
+                                            <label class="radio radio-inline">
+                                                <input id="assignable_view_groups" type="radio" name="assignable_views"
+                                                       value="group">
+                                                <i class="input-helper"></i>
+                                                View Groups
+                                            </label>
+                                            <br>
+                                            <br>
+                                        </div>
+                                        <div class="col-xs-5">
+                                            <b>Assignable free list</b>
+
+                                            <select name="assign_from[]" id="free_list" class="form-control" size="26"
+                                                    multiple="multiple">
+                                            </select>
+                                        </div>
+
+                                        <div class="col-xs-2 button-left-right-wrap">
+                                            <button type="button" id="assign_rightAll" class="btn btn-default btn-block"
+                                                    style="margin-top: 20px;"><i
+                                                    class="glyphicon glyphicon-forward"></i></button>
+                                            <button type="button" id="assign_rightSelected"
+                                                    class="btn btn-default btn-block"><i
+                                                    class="glyphicon glyphicon-chevron-right"></i></button>
+                                            <button type="button" id="assign_leftSelected"
+                                                    class="btn btn-default btn-block"><i
+                                                    class="glyphicon glyphicon-chevron-left"></i></button>
+                                            <button type="button" id="assign_leftAll" class="btn btn-default btn-block">
+                                                <i
+                                                        class="glyphicon glyphicon-backward"></i></button>
+                                        </div>
+
+                                        <div class="col-xs-5">
+                                            <b>Assigned list</b>
+                                            <select name="assign_to[]" id="assigned_list" class="form-control" size="26"
+                                                    multiple="multiple"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="assignment_rule">
+                                    <button id="add_new_rule" class="btn btn-success">
+                                        Add New Rule
+                                        <i class="zmdi zmdi-plus"></i>
+                                    </button>
+                                    <br>
+                                    <br>
+                                    <div class="rule_panel_wrap">
+                                        <form action="" id="rules_form">
+                                            <div class="rule_panel">
+
+                                            </div>
+                                        </form>
+                                        <br>
+                                        <a href="#" class="btn btn-success save_all_rule" title="Save rules">
+                                            <i class="zmdi zmdi-check"></i> Save rules
+                                        </a>
+                                    </div>
+                                    <div class="no_rules_wrap">No rules applied.</div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="assignment_step">
+                                    <button id="add_new_step" class="btn btn-success">
+                                        Add New Step
+                                        <i class="zmdi zmdi-plus"></i>
+                                    </button>
+                                    <br>
+                                    <br>
+                                    <div class="row" id="existing_steps_wrap">
+                                        <div class="col-sm-12">
+                                            <table class="existing_step_table table">
+                                                <thead>
+                                                <tr>
+                                                    <th>Pos</th>
+                                                    <th>Type</th>
+                                                    <th>Name</th>
+                                                    <!--<th>Mode</th>
+                                                    <th>Condition</th>-->
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="task_duration">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="input-group">
+                                                <div class="fg-line">
+                                                    <input type="number" min="1" step="0.000001"
+                                                           data-parsley-errors-container="#task_duration"
+                                                           data-parsley-required id="tasks_duration"
+                                                           class="form-control input-sm"
+                                                           placeholder="Hours">
+                                                </div>
+                                                <span id="calculator_opener"
+                                                      style="color: #2196F3; text-decoration: underline; cursor: pointer;"
+                                                      class="input-group-addon last">Calc</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button id="save_duration"
+                                                    class="btn btn-primary btn-sm waves-effect">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-link" id="save_assignment_rules">Save
+                    </button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Cancel
+                    </button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="add_new_step_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="#" id="add_step_form">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="max-width: 90%; float: left;">Step</h4>
+
+                        <ul class="actions" style="max-width: 9%; float: right;">
+                            <li>
+                                <a href="#" data-dismiss="modal">
+                                    <i class="zmdi zmdi-close"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-body">
+                        <div id="inner_container">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group fg-float">
+                                        <div class="fg-line fg-toggled">
+                                            <label class="fg-label ">Position</label>
+                                            <input class="form-control" id="position" name="position" disabled
+                                                   data-parsley-required=""
+                                                   value="1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group fg-float">
+                                        <div class="fg-line fg-toggled">
+                                            <label class="fg-label ">Type</label>
+                                            <select name="type" data-parsley-required="" id="type" class="selectpicker">
+                                                <option value="">Choose Type</option>
+                                                <option value="0">eForm</option>
+                                                <!--<option value="1">Script</option>-->
+                                                <option value="2">Output Document</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 eformrs-or-output-document-wrap">
+
+                                </div>
+                            </div>
+                            <!--<div class="col-sm-6">
+                                <div class="form-group fg-float">
+                                    <div class="fg-line fg-toggled">
+                                        <label class="fg-label ">Mode</label>
+                                        <select name="mode" data-parsley-required="" id="mode" class="selectpicker">
+                                            <option value="">Choose Mode</option>
+                                            <option value="0">Edit</option>
+                                            <option value="1">View</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p class="c-black f-500 m-b-20">Condition</p>
+
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        <textarea class="form-control" id="condition" rows="5"
+                                                  placeholder="Please type a condition"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-link" id="save_step">Save
+                        </button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="duration_calculation_modal" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="max-width: 90%; float: left;">Calculate Duration</h4>
+
+                    <ul class="actions" style="max-width: 9%; float: right;">
+                        <li>
+                            <a href="#" data-dismiss="modal">
+                                <i class="zmdi zmdi-close"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-body">
+                    <div class="converter_wrap row">
+                        <div class="col-md-5">
+                            <div class="c-item">
+                                <div class="c-info">
+                                    <div class="fg-line">
+                                        <input id="converter_days" min="0" max="999" type="number"
+                                               class="form-control input-lg">
+                                    </div>
+                                </div>
+
+                                <div class="c-footer">
+                                    <h3>Days</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <h2 class="equal_content">=</h2>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="c-item">
+                                <div class="c-info">
+                                    <div class="fg-line">
+                                        <input id="converter_hours" min="0" max="999999999" type="number"
+                                               class="form-control input-lg">
+                                    </div>
+                                </div>
+
+                                <div class="c-footer">
+                                    <h3>Hours</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn pick_hour btn-link">Pick Hour</button>
+                    <!--<button type="button" class="btn btn-link" data-dismiss="modal">No</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="delete_a_step">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete step</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this step?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn delete_step_button btn-link">Yes</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="supervisor_assign_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="max-width: 90%; float: left;">Assign Supervisors</h4>
+
+                    <ul class="actions" style="max-width: 9%; float: right;">
+                        <li>
+                            <a href="#" data-dismiss="modal">
+                                <i class="zmdi zmdi-close"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <b>User list</b>
+
+                            <select name="users_assign_from[]" id="users_free_list" class="form-control" size="26"
+                                    multiple="multiple">
+                            </select>
+                        </div>
+
+                        <div class="col-xs-2 button-left-right-wrap">
+                            <button type="button" id="users_assign_rightAll" class="btn btn-default btn-block"
+                                    style="margin-top: 20px;"><i
+                                    class="glyphicon glyphicon-forward"></i></button>
+                            <button type="button" id="users_assign_rightSelected"
+                                    class="btn btn-default btn-block"><i
+                                    class="glyphicon glyphicon-chevron-right"></i></button>
+                            <button type="button" id="users_assign_leftSelected"
+                                    class="btn btn-default btn-block"><i
+                                    class="glyphicon glyphicon-chevron-left"></i></button>
+                            <button type="button" id="users_assign_leftAll" class="btn btn-default btn-block">
+                                <i
+                                        class="glyphicon glyphicon-backward"></i></button>
+                        </div>
+
+                        <div class="col-xs-5">
+                            <b>Assigned list</b>
+                            <select name="users_assign_to[]" id="assigned_supervisor_list" class="form-control"
+                                    size="26"
+                                    multiple="multiple"></select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="template_list_modal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="max-width: 90%; float: left;">Templates</h4>
+
+                    <button type="button" class="close" data-dismiss="modal">
+                        <i class="zmdi zmdi-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row m-b-15">
+                        <button id="add_new_template" class="btn bgm-teal waves-effect pull-right"><i
+                                class="zmdi zmdi-plus"></i></button>
+                    </div>
+                    <div class="row">
+                        <table class="table" id="existing_templates">
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="add_template_modal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="max-width: 90%; float: left;">Template</h4>
+
+                    <button type="button" class="close" data-dismiss="modal">
+                        <i class="zmdi zmdi-close"></i>
+                    </button>
+                </div>
+                <form action="#" id="add_template_form">
+                    <div class="modal-body">
+                        <div class="row m-b-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        <input type="text" data-parsley-required
+                                               data-parsley-trigger="keyup"
+                                               data-parsley-pattern="/^[\w\d_]+$/"
+                                               data-parsley-pattern-message="Only Letter, number, underscore are allowed"
+                                               class="form-control" id="file_name" placeholder="File Name">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea id="template_gen"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="save_template" class="btn btn-link">Save</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="delete_template_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="max-width: 90%; float: left;">Delete Template</h4>
+
+                    <button type="button" class="close" data-dismiss="modal">
+                        <i class="zmdi zmdi-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this template?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="delete_template_btn" class="btn btn-link">Save</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="outputdoc_list_modal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="max-width: 90%; float: left;">Output Documents</h4>
+
+                    <button type="button" class="close" data-dismiss="modal">
+                        <i class="zmdi zmdi-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row m-b-15">
+                        <button id="add_new_outputdoc" class="btn bgm-teal waves-effect pull-right"><i
+                                class="zmdi zmdi-plus"></i></button>
+                    </div>
+                    <div class="row">
+                        <table class="table" id="existing_outputdoc">
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="add_outputdoc_modal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="max-width: 90%; float: left;">Output Document</h4>
+
+                    <button type="button" class="close" data-dismiss="modal">
+                        <i class="zmdi zmdi-close"></i>
+                    </button>
+                </div>
+                <form action="#" id="add_outputdoc_form">
+                    <div class="modal-body">
+                        <div class="row m-b-15">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        <input type="text" data-parsley-required
+                                               data-parsley-trigger="keyup"
+                                               data-parsley-pattern="/^[\w\d_]+$/"
+                                               data-parsley-pattern-message="Only Letter, number, underscore are allowed"
+                                               class="form-control" id="doc_generated_name"
+                                               placeholder="Generated Name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        <input type="text" data-parsley-required
+                                               data-parsley-trigger="keyup"
+                                               class="form-control" id="doc_title" placeholder="Title">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-b-15">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                    <textarea class="form-control auto-size" id="doc_description"
+                                              placeholder="Description"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-b-15">
+                            <!--
+                            <div class="col-md-6">
+                                <label class="checkbox checkbox-inline m-r-20">
+                                    <input type="checkbox" id="doc_version" value="version">
+                                    <i class="input-helper"></i>
+                                    Version
+                                </label>
+                                <label class="checkbox checkbox-inline m-r-20">
+                                    <input type="checkbox" id="doc_download" value="download">
+                                    <i class="input-helper"></i>
+                                    Download
+                                </label>
+                            </div>
+                            -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        <div class="select">
+                                            <select id="template_lists" required="required"
+                                                    class="selectpicker"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="save_outputdoc" class="btn btn-link">Save</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="delete_outputdoc_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="max-width: 90%; float: left;">Delete Output Document</h4>
+
+                    <button type="button" class="close" data-dismiss="modal">
+                        <i class="zmdi zmdi-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this Output document?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="delete_outputdoc_btn" class="btn btn-link">Save</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {% raw %}
+    <script type="template" id="conditional_row">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>{{=d.target_name}}</h4>
+                <div class="form-group">
+                    <div class="fg-line">
+                        <input type="text"
+                               data-task-id="{{=d.id}}"
+                               class="condition_input form-control"
+                               value="{{=d.condition}}"
+                               placeholder="Condition">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="template" id="rule_raw_template">
+        <div class="rule_row row" data-rule-id="{{=d.id}}">
+                <div class="user_list_wrap col-xs-5">
+                    <select data-parsley-required name="rule_user" class="assigned_users selectpicker">
+                        <option value="">None</option>
+                        {{ for(var key in d["available_users"]) { }}
+                        <option value="{{=d['available_users'][key].id}}">
+                            {{=d["available_users"][key]["username"]}}</option>
+                        {{ } }}
+                    </select>
+                </div>
+                <div class="rule_condition_wrap col-xs-6">
+                    <input data-parsley-required type="text" class="form-control" class="rule_condition"
+                           value="{{=d.condition}}">
+                </div>
+                <div class="col-xs-1 actions_buttons">
+                    <a href="#" class="btn btn-danger remove_rule" title="Delete rule">
+                        <i class="zmdi zmdi-delete"></i>
+                    </a>
+                </div>
+            </div>
+    </script>
+
+    <script type="template" id="existing_step">
+        <tr
+                data-position="{{=d.position}}"
+                data-step-type-id="{{=d.type}}"
+                data-step-id="{{=d.id}}"
+                data-mode-id="{{=d.mode}}"
+                data-eform-id="{{=d.eform}}"
+                data-output-doc-id="{{=d.output_document}}"
+                data-condition="{{=d.condition}}">
+            <td>{{=d.position}}</td>
+            <td>{{=d.type_name}}</td>
+            <td>{{=d.eform_name}}{{=d.document_name}}</td>
+            <!--<td>{{=d.mode_name}}</td>
+            <td>{{? d.condition == '' || d.condition == null }}
+                N/A
+                {{??}}
+                {{=d.condition}}
+                {{?}}
+            </td>-->
+            <td>
+                <a href="#" class="btn btn-success edit_step"
+                   title="Edit Step">
+                    <i class="zmdi zmdi-edit"></i>
+                </a>
+                <a href="#" class="btn btn-danger remove_step"
+                   title="Delete Step">
+                    <i class="zmdi zmdi-delete"></i>
+                </a>
+            </td>
+        </tr>
+    </script>
+
+    <script type="template" id="eforms-or-output-docs">
+        {{?d.eform_or_output == '0'}}
+        <div class="form-group fg-float">
+            <div class="fg-line fg-toggled">
+                <label class="fg-label">Eforms</label>
+                <select name="eforms" id="eforms" data-parsley-required="">
+                    {{? d['options'].length > 0 }}
+                    <option value="">Choose an eForm</option>
+                    {{ for(var key in d['options']){ }}
+                    <option value="{{=d['options'][key].id}}">{{=d['options'][key].title}}</option>
+                    {{ } }}
+                    {{??}}
+                    <option value="">No eForm Available</option>
+                    {{?}}
+                </select>
+            </div>
+        </div>
+        {{??d.eform_or_output == '2'}}
+        <div class="form-group fg-float">
+            <div class="fg-line fg-toggled">
+                <label class="fg-label">Output Documents</label>
+                <select id="output_documents" name="output_documents" data-parsley-required="">
+                    {{? d['options'].length > 0 }}
+                    <option value="">Choose a document</option>
+                    {{ for(var key in d['options']){ }}
+                    <option value="{{=d['options'][key].id}}">{{=d['options'][key].title}}</option>
+                    {{ } }}
+                    {{??}}
+                    <option value="">No eForm Available</option>
+                    {{?}}
+                </select>
+            </div>
+        </div>
+        {{?}}
+    </script>
+
+    <script type="template" id="template_tr">
+        <tr data-template-id="{{=d.id}}">
+            <td>{{=d.file_name}}</td>
+            <td>
+                <div class="pull-right">
+                    <div class="actions dropdown">
+                        <a href="#" data-toggle="dropdown">
+                            <i class="zmdi zmdi-more-vert"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a class="edit_template" href="#">Edit</a></li>
+                            <li><a class="delete_template" href="#">Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </script>
+
+    <script type="template" id="outputdoc_tr">
+        <tr data-outputdoc-id="{{=d.id}}">
+            <td>{{=d.generated_name}}</td>
+            <td>
+                <div class="pull-right">
+                    <div class="actions dropdown">
+                        <a href="#" data-toggle="dropdown">
+                            <i class="zmdi zmdi-more-vert"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a class="edit_ouputdoc" href="#">Edit</a></li>
+                            <li><a class="delete_ouputdoc" href="#">Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </script>
+    {% endraw %}
+    <!-- Workflow Js -->
+    <script type="text/javascript">
+        let csrf_token_ = '{{ csrf_token }}';
+
+        var prj_uid = "887158740588580da623219038811110";
+        var app_uid = "";
+        var consolidated = "0";
+        var enterprise = "0";
+        var prj_readonly = "false";
+        var credentials = "eyJhY2Nlc3NfdG9rZW4iOiJhMmI4NWNhMGY2ZjA4YTBjN2M5NWFlNTI2MmQ4MjY5ZjQ5NDAyMTI0IiwiZXhwaXJlc19pbiI6ODY0MDAsInRva2VuX3R5cGUiOiJiZWFyZXIiLCJzY29wZSI6InZpZXdfcHJvY2Vzc2VzIGVkaXRfcHJvY2Vzc2VzICoiLCJyZWZyZXNoX3Rva2VuIjoiZDZlM2NiZDc5YjU3NDQ5OGU1ZjhkYmQ4NTNlN2Y5NGM2NjlhY2MyNCIsImNsaWVudF9pZCI6IngtcG0tbG9jYWwtY2xpZW50IiwiY2xpZW50X3NlY3JldCI6IjE3OWFkNDVjNmNlMmNiOTdjZjEwMjllMjEyMDQ2ZTgxIn0=";
+        var distribution = "0";
+        var SYS_SYS = "greenwf";
+        var SYS_LANG = "en";
+        var SYS_SKIN = "neoclassic";
+
+        let IMG_URL = "{{ STATIC_URL }}workflow/designer/img/";
+        let digram_api = "/api/v1/workflow/project/";
+        let digramSave = "/api/v1/workflow/route/";
+        let process_id = "{{ project.id }}";
+        let api = {
+            root: "{{ STATIC_URL }}",
+            img: "{{ STATIC_URL }}workflow/designer/img/",
+            eform: {
+                list: "{{ url('api:workflow:eform-list')}}?project={{ project.id }}",
+                create: "{{ url('api:workflow:eform-list') }}",
+                edit: "/api/v1/workflow/eform/",
+                delete: "/api/v1/workflow/eform/",
+            },
+            project: {
+                id: "{{ project.id }}",
+                new: "/api/v1/workflow/project/{{ project.id }}",
+            },
+            variable: {
+                list: '{{ url('api:workflow:variable-list') }}?project={{ project.id }}',
+                create: '{{ url('api:workflow:variable-list') }}',
+                update: '/api/v1/workflow/variable/',
+                delete: '/api/v1/workflow/variable/',
+            }
+        };
+
+        function notify(title, message, url, type, timer_amount) {
+            $.growl({
+                title: title,
+                message: message,
+                url: url
+            }, {
+                element: 'body',
+                type: type,
+                allow_dismiss: true,
+                offset: {
+                    x: 20,
+                    y: 135
+                },
+                animate: {
+                    enter: 'animated fadeIn',
+                    exit: 'animated fadeOut'
+                },
+
+                spacing: 10,
+                z_index: 10310,
+                delay: 1000,
+                timer: (timer_amount == '') ? 3000 : timer_amount,
+                url_target: '_blank',
+                mouse_over: true,
+                icon_type: 'class',
+                template: '<div data-growl="container" class="alert" role="alert">' +
+                '<button type="button" class="close" data-growl="dismiss">' +
+                '<span aria-hidden="true">&times;</span>' +
+                '<span class="sr-only">Close</span>' +
+                '</button>' +
+                '<span data-growl="icon"></span>' +
+                '<span data-growl="title"></span>' +
+                '<span data-growl="message"></span>' +
+                '<a href="#" data-growl="url"></a>' +
+                '</div>'
+            });
+        }
+    </script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/vue.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/vue-resource.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/vueboot.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/vee-validate.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/bpmn/js/design.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/designer/js/translationsMafe.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/designer/js/mafe.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/summernote.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/designer/js/modified_diagram.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/jquery-ui.js"></script> {#   Rawnak    #}
+
+    <script type="text/javascript">
+        var project_id = "{{ project.id }}";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}core/user_management/department/js/multiselect.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/designer/js/extra_modals.js"></script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}workflow/designer/js/variable_suggestion.js"></script>#}
+
+
+{% endblock %}

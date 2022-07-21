@@ -1,0 +1,146 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/announcement/css/custom.css">
+{% endblock %}
+
+{% block content %}
+
+    <section id="main">
+
+        <div class="loader">
+            <center>
+                <img class="loading-image" src="{{ STATIC_URL }}img/ajax-loader/ajax-loader (1).gif" alt="Loading..">
+            </center>
+        </div>
+
+        {# User Management Side bar #}
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+
+        <section id="content" class="content">
+            <div class="container">
+                <div class="row" id="write">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>New Announcement</h2>
+                            </div>
+                            <div class="card-body card-padding p-b-20">
+                                <form id="announcement_form">
+                                    <div class="row m-b-20">
+                                        <div class="col-md-6">
+                                            <label class="control-label "><b>Select Target Audience</b></label>
+                                            <select class="selectpicker m-b-20"
+                                                    id="targetAudience"
+                                                    name="targetAudience"
+                                                    title="Nothing Selected"
+                                                    data-parsley-required=""
+                                                    data-parsley-errors-container="#announcement_form">
+                                                <option value="" class="c-gray">Nothing Selected</option>
+                                                <option value="1">User</option>
+                                                <option value="2">Group</option>
+                                                <option value="3">All Users</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="select_list">
+                                                <label class="control-label"><b>Select Groups/
+                                                    Users</b></label>
+                                                <select class="selectpicker"
+                                                        multiple
+                                                        data-parsley-required=""
+                                                        data-live-search="true"
+                                                        id="groupUser"
+                                                        name="groupUser">
+                                                    <option value="" class="c-gray">Nothing Selected</option>
+                                                </select>
+                                            </div>
+                                            <p class="c-bluegray  f-500 m-t-10 m-b-0"></p>
+                                        </div>
+                                    </div>
+
+                                    <textarea class="html-editor" name="message" id="message"></textarea>
+
+                                    <button id="announcement_submit" class="btn btn-default bgm-bluegray">Send</button>
+                                    {#<button id="reset_button" class="btn btn-default bgm-gray">Reset</button>#}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {#------------DataTable--------------#}
+                <div class="row" id="read">
+                    <div class="col-md-12">
+                        <div class="card">
+                            {% set icons =  '
+                        <li>
+                            <a href="#">
+                                <i class="zmdi zmdi-info" id="summary_button" title="Details "></i>
+                            </a>
+                        </li>' %}
+
+                            {% with icons=icons, table_id='announcemet_list', table_header='Announcement List',
+                search_title='Search' %}
+                                {% include 'core/base/datatable.html' %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    <!-- Single Announcement modal -->
+    <div class="modal fade" id="summary_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                    </h4>
+                    <small class="m-t-5 col-md-8 p-l-0"></small>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pmbb-body">
+                                <div class="pmbb-view">
+                                    <dl class="dl-horizontal message">
+
+                                    </dl>
+                                    <dl class="dl-horizontal recipients">
+                                        <p class="m-b-5 f-500 f-15">Recipients</p>
+                                        <small class="m-l-10 f-500"></small>
+                                        <ul class="user p-l-15 m-l-15 m-t-10"></ul>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        var all_user_api = "{{ url('api:rbac:user-list') }}",
+                all_group_api = "{{ url('api:rbac:group-list') }}",
+                all_announcement_api = "{{ url('api:announcement:announcement-list') }}",
+                userRole = "{{ request.user.role.id }}";
+    </script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}core/announcement/js/sweetalert2.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}core/announcement/js/announcement.js"></script>
+    <script>
+
+    </script>
+{% endblock %}

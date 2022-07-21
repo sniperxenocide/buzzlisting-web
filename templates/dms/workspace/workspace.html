@@ -1,0 +1,161 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/workspace/css/workspace.css">
+{% endblock %}
+
+{% block content %}
+<section id="main">
+    {% with items=view.sidebar_menu %}
+        {% include 'core/base/sidebar_permission.html' %}
+    {% endwith %}
+    <section id="content" class="content">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <button id="back_button" data-href="#"
+                            class="btn bgm-bluegray waves-effect"
+                            style="display: none;">
+                        <i class="zmdi zmdi-arrow-back"></i>
+                    </button>
+                </div>
+                <div class="card-body card-padding">
+                    <div class="contacts append_cat_files clearfix row">
+
+                    </div>
+                    <div id="preloader_wrap">
+                        <div id="preloader" class="preloader pl-xl pls-bluegray">
+                            <svg class="pl-circular" viewBox="25 25 50 50">
+                                <circle class="plc-path" cx="50" cy="50" r="20"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+
+                    <div class="pagination lg-pagination">
+                        <span style="margin-left: 20px;" class="show-paging-info pull-left">
+                            Showing Page <span class="show-page-numb">1</span> of <span class="total-pages">10</span>
+                            <br>
+                            Showing files <span class="showing-files">1-20</span> of <span class="total-files">100</span> files
+                        </span>
+                        <div id="pagination" class="pull-right" style="margin-right: 20px;">
+                            <button class="first" title="first">
+                                <i class="zmdi zmdi-chevron-left"></i><i class="zmdi zmdi-chevron-left"></i>
+                            </button>
+                            &nbsp;
+                            <button class="prev" title="previous">
+                                <i class="zmdi zmdi-chevron-left"></i>
+                            </button>
+                            &nbsp;
+                            <div id="paging">
+                                <input type="text" class="page_number_input numberBox">
+                                <button class="goPaged" type="button">Go</button>
+                            </div>
+                            &nbsp;
+                            <button class="next" title="next">
+                                <i class="zmdi zmdi-chevron-right"></i>
+                            </button>
+                            &nbsp;
+                            <button class="last" title="last">
+                                <i class="zmdi zmdi-chevron-right"></i><i class="zmdi zmdi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+<div class="modal fade" id="viewFiles" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="max-width: 90%; float: left;"></h4>
+
+                <ul class="actions" style="max-width: 9%; float: right;">
+                    <li>
+                        <a id="hide_self_fixed" href="#"  data-dismiss="modal">
+                            <i class="zmdi zmdi-close"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-body">
+                <span id="file_container">
+
+                </span>
+            </div>
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close
+                </button>
+            </div>-->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+    {% raw %}
+    <script type="template" id="folder-view-template">
+        <div class="col-md-2 col-sm-4 col-xs-6 folder-thumb"
+             data-info="{'parent': {{=d.parent}}, 'self': {{=d.id}}}"
+             data-cat-id="{{=d.id}}">
+            <div class="c-item">
+                <a class="ci-avatar">
+                    <i class="zmdi zmdi-folder"></i>
+                </a>
+                <div class="c-info">
+                    <strong>{{=d.name}}</strong>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="template" id="file-view-template">
+        <div class="col-md-2 col-sm-4 col-xs-6 file-thumb" data-extension="{{=d.extension}}" data-file-id="{{? d.vId }}{{=d.vId}}{{??}}{{=d.id}}{{?}}">
+            <div class="c-item">
+                {{? d.locked == true }}
+                    <i class="fa fa-lock"></i>
+                {{?}}
+                <a target="_blank" href="/dms/document/view/{{? d.vId }}{{=d.vId}}{{??}}{{=d.id}}{{?}}/" class="ci-avatar">
+                    {{? d.thumbnail == ""}}
+                        <i class="fa fa-{{=d.icon}}"></i>
+                    {{??}}
+                        <img width="60" height="60" src="{{=d.thumbnail}}" alt="">
+                    {{?}}
+                </a>
+                <div class="c-info">
+                    <strong>{{=d.filename}}</strong>
+
+                    <ul class="actions">
+                        <li class="dropdown">
+                            <a data-toggle="dropdown">
+                                <i class="zmdi zmdi-more-vert"></i>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a class="quick_view_button" href="#">Quick View</a>
+                                </li>
+                                <!--<li>
+                                    <a class="print_button" href="#">Print</a>
+                                </li>
+                                <li>
+                                    <a class="delete_button" href="#">Delete</a>
+                                </li>
+                                <li>
+                                    <a class="download_button" href="#">Download</a>
+                                </li>-->
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </script>
+    {% endraw %}
+
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/workspace/js/app/workspace.js"></script>
+{% endblock %}

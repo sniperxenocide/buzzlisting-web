@@ -1,0 +1,296 @@
+{% block js %}
+    {% raw %}
+
+    <script type="template" id="string_input">
+        <div class="form-group fg-float">
+            <br>
+            <div class="fg-line">
+                {{=d.displayname}} :
+                <input id="{{=d.id}}" name="{{=d.id}}" class="form-control" value="">
+            </div>
+        </div>
+    </script>
+    <script type="template" id="integer_input">
+        <div class="form-group fg-float">
+            <div class="fg-line">
+                {{=d.displayname}} :
+                <input id="{{=d.id}}" name="{{=d.id}}" class="form-control" value="">
+            </div>
+        </div>
+    </script>
+    <script type="template" id="textArea_input">
+        <div class="form-group">
+            <br>
+            {{=d.displayname}} :
+            <div class="fg-line">
+                <textarea id="{{=d.id}}" name="{{=d.id}}" class="form-control" rows="5"
+                          placeholder="type something..."></textarea>
+            </div>
+        </div>
+    </script>
+    <script type="template" id="dropDown_input">
+        <div>
+            <div class="fg-line">
+                <br>
+                {{=d.displayname}} :
+                <div>
+                    <select id="{{=d.id}}" name="{{=d.id}}"
+                            class="selectpicker">
+                        <option value="">CHOOSE</option>
+                        {{=d.options}}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="template" id="date_input">
+        <div>
+            <br>
+            <div class="fg-line">
+                {{=d.displayname}} :
+                <input id="{{=d.id}}"
+                       name="{{=d.id}}" class="form-control date-time-picker">
+            </div>
+        </div>
+    </script>
+    <!--        <script type="template" id="floatInput">
+    5
+                <div>
+                    <br>
+                    <div class="fg-line">
+                        {{=d.title}} :
+                        <input type="number" step="0.01" id="{{=d.id}}" name="{{=d.id}}" class="form-control" value="{{=d.default_text}}">
+                    </div>
+                </div>
+            </script>
+        -->
+    <script type="template" id="search_list">
+        <div class="media-body search_media_body">
+            <div class="row">
+                <div class="col-lg-11 p-r-0" style="width: 97%;">
+                    <div class="card">
+                        <div class="card-body c-white" style="background-color: #f7f7f7 !important;">
+                            <div class="list-group-item media search_list">
+                                {{? d.applicationType == 'dms'}}
+                                <div class="p-r-0 p-l-0">
+                                    <div class="checkbox pull-left">
+                                        <label>
+                                            <input type="checkbox" value="" class="search_document_id"
+                                                   data-search-item-id="{{=d.id}}">
+                                            <i class="input-helper"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                                {{??}}
+                                {{?}}
+                                <a href="#" class="viewDoc" data-id="{{=d.id}}" data-url="/media/{{=d.filepath}}">
+                                    <div class="col-lg-1 p-r-0 p-l-0">
+                                        {{? d.thumbnail === "" }}
+                                        {{? d.extension === '.pdf'}}
+                                        <i class='fa fa-file-pdf-o' aria-hidden='true'
+                                           style='font-size: 45px;font-weight: 100; color:#3F51B5 !important;'></i>
+                                        {{?? d.extension === '.xlsx' }}
+                                        <i class='fa fa-file-excel-o' aria-hidden='true'
+                                           style='font-size: 45px;font-weight: 100; color:#3F51B5'></i>
+                                        {{?? d.extension === '.xls' }}
+                                        <i class='fa fa-file-excel-o' aria-hidden='true'
+                                           style='font-size: 45px;font-weight: 100; color:#3F51B5'></i>
+                                        {{?? d.extension === '.doc' }}
+                                        <i class='fa fa-file-word-o' aria-hidden='true'
+                                           style='font-size: 45px;font-weight: 100; color:#3F51B5'></i>
+                                        {{?? d.extension === '.docx' }}
+                                        <i class='fa fa-file-word-o' aria-hidden='true'
+                                           style='font-size: 45px;font-weight: 100; color:#3F51B5'></i>
+                                        {{?? d.extension === '.wiz' }}
+                                        <i class='fa fa-file-word-o' aria-hidden='true'
+                                           style='font-size: 45px;font-weight: 100; color:#3F51B5'></i>
+                                        {{?? d.extension === '.dot' }}
+                                        <i class='fa fa-file-word-o' aria-hidden='true'
+                                           style='font-size: 45px;font-weight: 100; color:#3F51B5'></i>
+                                        {{??}}
+                                        {{?}}
+                                        <img width="50" height="60" src="/media/{{=d.thumbnail}}" alt="">
+                                        {{?}}
+                                    </div>
+                                    <div class="col-lg-10 p-l-0 p-r-0 ">
+                                        <div class="lgi-heading">
+                                            <strong class="f-15 m-r-5 c-black">{{=d.filename}}</strong>
+                                            <small>
+                                                {{? d.locked === true }}
+                                                <i class='zmdi zmdi-lock-outline c-red f-15' aria-hidden='true'></i>
+                                                {{?? d.locked === false}}
+                                                <i class='zmdi zmdi-lock-open c-lightgreen f-15' aria-hidden='true'></i>
+                                                {{??}}
+                                                {{?}}
+                                            </small>
+                                            <small>
+                                                {{? d.archived === true }}
+                                                <i class='fa fa-file-archive-o c-deeporange f-13 p-l-5' title="Archived"
+                                                   aria-hidden='true'></i>
+                                                {{?}}
+                                            </small>
+                                            <div class="pull-right">
+                                                <strong class="m-5 openInNew" data-id="{{=d.id}}"
+                                                        title="Open in a New Tab"> <i
+                                                        class='zmdi zmdi-open-in-browser f-20' aria-hidden='true'></i>
+                                                </strong>
+                                            </div>
+                                            <div>
+                                                <span class="c-black">Doctype:</span>
+                                                <span class="text-muted">{{=d.doc_type}}</span>
+                                                <span class="c-black">Locked By:</span>
+                                                <span class="text-muted">{{=d.lockecd_by_name}}</span>
+                                            </div>
+                                        </div>
+                                        <ul class="lgi-attrs search_info">
+                                            <li class="p-l-0">
+                                                <span class="c-black">Uploader:</span>
+                                                <span class="text-muted">{{=d.uploader }}</span>
+                                            </li>
+                                            <li>
+                                                <span class="c-black">Expiry At:</span>
+                                                {{? d.expiry_date }}
+                                                <span class="text-muted">{{=moment(d.expiry_date).format('LL')}} ({{=Math.ceil(moment.duration(moment(d.expiry_date).diff(moment(new Date()))).asDays())}} days remain)</span>
+                                                {{??}}
+                                                <span class="text-muted">N/A</span>
+                                                {{?}}
+                                            </li>
+                                            <li>
+                                                <span class="c-black">Version:</span>
+                                                <span class="text-muted">{{=d.version}}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="template" id="wf_search_list">
+        <div class="media-body wf_media_body">
+            <div class="row">
+                <div class="col-lg-11 p-r-0" style="width: 97%;">
+                    <div class="card">
+                        <div class="card-body c-white" style="background-color: #f7f7f7 !important;">
+                            <a href="#" class="wf_search_link" data-info="{{=d.app_id}}">
+                                <div class="list-group-item media search_list" data-info="{{=d._id}}">
+                                    <div class="col-lg-1 p-r-0 p-l-0">
+                                        <i class='zmdi zmdi-aspect-ratio-alt' aria-hidden='true'
+                                           style='font-size: 45px;font-weight: 100; color:#3F51B5'></i>
+                                    </div>
+                                    <div class="col-lg-11 p-r-0">
+                                        <div class="lgi-heading">
+                                            <strong class="f-15">{{=d.app_number}}</strong>
+                                        </div>
+                                        <ul class="lgi-attrs search_info">
+                                            <li>
+                                                <span class="c-black">Process:</span>
+                                                <span class="text-muted">{{=d.project}}</span>
+                                            </li>
+                                            <li>
+                                                <span class="c-black">Init User:</span>
+                                                <span class="text-muted">{{=d.init_user }}</span>
+                                            </li>
+                                            </li>
+                                            <li>
+                                                <span class="c-black">Current User:</span>
+                                                <span class="text-muted">{{=d.current_user}}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="template" id="search_string_input">
+        <div class="col-md-6">
+            <br>
+            <div class="fg-line">
+                {{=d.name}} :
+                <input id="{{=d.name}}" name="{{=d.name}}" class="form-control">
+            </div>
+        </div>
+    </script>
+    <script type="template" id="search_dropdown">
+        <div class="col-md-6">
+            <div class="fg-line">
+                <br>
+                {{=d.name}} :
+                <div>
+                    <select id="{{=d.name}}" name="{{=d.name}}" class="selectpicker">
+                        <option value="">CHOOSE</option>
+                        {{=d.options}}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!-- save search template-->
+    <script type="template" id="save_string_input">
+        <div class="form-group fg-float">
+            <br>
+            <div class="fg-line">
+                {{=d.displayname}} :
+                <input id="{{=d.title}}" name="{{=d.title}}" class="form-control" value="{{=d.value }}">
+            </div>
+        </div>
+    </script>
+    <script type="template" id="save_integer_input">
+        <div class="form-group fg-float">
+            <div class="fg-line">
+                {{=d.displayname}} :
+                <input id="{{=d.title}}" name="{{=d.title}}" class="form-control" value="{{=d.value }}">
+            </div>
+        </div>
+    </script>
+    <script type="template" id="save_textArea_input">
+        <div class="form-group">
+            <br>
+            {{=d.displayname}} :
+            <div class="fg-line">
+                <textarea id="{{=d.title}}" name="{{=d.title}}" class="form-control" rows="5"
+                          placeholder="type something...">{{=d.value }}</textarea>
+            </div>
+        </div>
+    </script>
+    <script type="template" id="save_dropDown_input">
+        <div>
+            <div class="fg-line">
+                <br>
+                {{=d.displayname}} :
+                <div>
+                    <select id="{{=d.name}}" name="{{=d.name}}"
+                            class="selectpicker">
+                        <option value="">CHOOSE</option>
+                        {{~d.options :value:index}}
+                        {{? d.value === value }}
+                        <option value="{{=value}}" selected>{{=value}}</option>
+                        {{?? d.value !== value }}
+                        <option value="{{=value}}">{{=value}}</option>
+                        {{??}}
+                        {{?}}
+                        {{~}}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="template" id="save_date_input">
+        <div>
+            <br>
+            <div class="fg-line">
+                {{=d.displayname}} :
+                <input id="{{=d.title}}"
+                       name="{{=d.title}}" class="form-control date-time-picker" value="{{=d.value}}">
+            </div>
+        </div>
+    </script>
+    {% endraw %}
+{% endblock %}

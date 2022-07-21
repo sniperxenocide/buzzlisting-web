@@ -1,0 +1,52 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/daterangepicker.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/dms_activity.css">
+
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+                {% set icons =  '
+                <i class="fa fa-calendar"></i>
+                <li>
+                    <input type=\'text\' class= "form-control date_input" name="daterange" placeholder="Choose Date Range">
+                </li>
+        ' %}
+
+
+                {% with icons=icons, table_id='dms_activity', table_header='DMS Activity',
+                search_title='Search by Name, Operation, Source Ip' %}
+                    {% include 'core/base/datatable.html' %}
+                {% endwith %}
+            </div>
+        </section>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        let user_role = "{{ request.user.role.id }}";
+        let user_id = "{{ request.user.id }}";
+        let user_permission = {{ view.permission }};
+        let dms_activity = "/api/v1/dms/dms_report/dms_activity/";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}core/report/loginReport/js/daterangepicker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/report/dmsActivity/js/app/dms_activity.js"></script>
+
+{% endblock %}

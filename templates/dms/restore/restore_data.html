@@ -1,0 +1,77 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+
+                <div class="container">
+                    {% set icons =  '' %}
+
+                    {% with icons=icons, table_id='restore_data', table_header='Restore Data',
+                search_title='Search by File Name, Version, Uploader Firstname' %}
+                        {% include 'core/base/datatable.html' %}
+                    {% endwith %}
+                </div>
+
+            </div>
+
+            <!-- process_category_modal modal -->
+
+        </section>
+    </section>
+{% endblock %}
+
+{% block js %}
+{#    <script>#}
+{#        let api = {#}
+{#            url: {#}
+{#                base: location.protocol + '//' + location.host,#}
+{#                media: "{{ MEDIA_URL }}",#}
+{#                static: "{{ STATIC_URL }}"#}
+{#            },#}
+{#            document: {#}
+{#                id: "{{ documents.id }}",#}
+{#                detail: "{{ url('api:documents:viewdocument-list') }}",#}
+{#                related: "{{ url('api:documents:linkeddocument-list') }}",#}
+{#                versions: "{{ url('api:documents:versions-list') }}",#}
+{#                delete: "{{ url('api:documents:deletedocument-list') }}",#}
+{#                category: "/api/v1/dms/categorization/documenttype/",#}
+{#                metafield: "/api/v1/dms/categorization/metafield/",#}
+{#                updatemeta: "{{ url('api:documents:updatemetadata-list') }}",#}
+{#                download: "/api/v1/dms/documents/download/",#}
+{#                archive: "/api/v1/dms/documents/archive/",#}
+{#                checkout: "/api/v1/dms/documents/checkout/",#}
+{#                checkin: "/api/v1/dms/documents/checkin/",#}
+{#                restoreArchive: "/api/v1/dms/documents/restoreArchive/",#}
+{#            },#}
+{#            comments: {#}
+{#                list: "{{ url('api:documents:comments-list') }}"#}
+{#            },#}
+{#            user: {#}
+{#                loggedIn: "{{ request.user.id }}",#}
+{#                role: "{{ request.user.role.id }}",#}
+{#                avatar: "{{ STATIC_URL }}img/user_img.jpg",#}
+{#                get: "{{ url('api:rbac:user-list') }}",#}
+{#                document: "{{ url('api:documents:related-list') }}",#}
+{#            },#}
+{#            pdf: {#}
+{#                view: "{{ url('dms:document:file_view') }}#",#}
+{#                read: "api/v1/dms/documents/read/",#}
+{#                js: "{{ STATIC_URL }}dms/document/pdf.js",#}
+{#            }#}
+{#        };#}
+{#    </script>#}
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/js/helper.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/restore_data/app/restore_data.js"></script>
+{% endblock %}

@@ -1,0 +1,116 @@
+{
+   "recordsTotal":15,
+   "recordsFiltered":15,
+   "draw":"1",
+   "data":[
+        {
+      "user": "Imrul Hasan (imrulhasan)",
+      "ip": "192.168.72.222",
+      "operation": "Send for Review",
+      "description":"File- '001' Document Id- 5751981485165860 has been sent for reviw from admin to rasel" ,
+      "time": "1 jan 17 10:32 am"
+    },
+    {
+      "user": "Andalib Vai (andalibvai)",
+      "ip": "192.168.72.222",
+      "operation": "Delete",
+      "description": "File- '0032' Document Id- 57561981485165860 has been Deleted",
+      "time": "1 jan 17 10:32 am"
+    },
+    {
+      "user": "Abdulla-Al Mamun (mamunvai)",
+      "ip": "192.168.72.222",
+      "operation": "Upload",
+      "description": "File- '0044' Document Id- 57519814851655460 has been uploaded",
+      "time": "1 jan 17 10:32 am"
+    },
+    {
+      "user": "Rasel Vai(raselvai)",
+      "ip": "192.168.72.222",
+      "operation": "Checkout",
+      "description": "File- '0044' Document Id- 57519814851655460 has been checked out",
+      "time": "1 jan 17 10:32 am"
+    },
+    {
+      "user": "Rawnak Jahan (rawnak)",
+      "ip": "192.168.72.222",
+      "operation": "Add Metadata",
+      "description": "File- '4Can ok' has been updated under Category: Infofort, Sub-Category: General, Document Type: Account Opening Form",
+      "time": "1 jan 17 10:32 am"
+    },
+    {
+      "user": "Abeda Apu (abedaapu)",
+      "ip": "192.168.72.222",
+      "operation": "Add Metadata",
+      "description": "File- '4Can ok' has been updated under Category: Infofort, Sub-Category: General, Document Type: Account Opening Form",
+      "time": "1 jan 17 10:32 am"
+    },
+    {
+      "user": "Jubair Arefin (dipuvai)",
+      "ip": "192.168.72.222",
+      "operation": "Add Metadata",
+      "description": "File- '4Can ok' has been updated under Category: Infofort, Sub-Category: General, Document Type: Account Opening Form",
+      "time": "1 jan 17 10:32 am"
+    },
+    {
+      "user": "Shamim Hasan (shamimvai)",
+      "ip": "192.168.72.222",
+      "operation": "Checkout",
+      "description": "File- '0044' Document Id- 57519814851655460 has been checked out",
+      "time": "1 jan 17 10:32 am"
+    },{
+      "user": "Riyad Vai (riyadvai)",
+      "ip": "192.168.72.222",
+      "operation": "Add Metadata",
+      "description": "File- '4Can ok' has been updated under Category: Infofort, Sub-Category: General, Document Type: Account Opening Form",
+      "time": "1 jan 17 10:32 am"
+    },{
+      "user": "Al-amin Shadhin (shadhin)",
+      "ip": "192.168.72.222",
+      "operation": "Checkout",
+      "description": "File- '0044' Document Id- 57519814851655460 has been checked out",
+      "time": "1 jan 17 10:32 am"
+    },
+    {
+      "user": "Sharmin Apu (sharminapu)",
+      "ip": "192.168.72.222",
+      "operation": "Upload",
+      "description": "File- '0044' Document Id- 57519814851655460 has been uploaded",
+      "time": "1 jan 17 10:32 am"
+    },
+     {
+      "user": "Abeda Apu(abedaapu)",
+      "ip": "192.168.72.222",
+      "operation": "Checkout",
+      "description": "File- '0044' Document Id- 57519814851655460 has been checked out",
+      "time": "1 jan 17 10:32 am"
+    },
+     {
+      "user": "Jubair Arefin (dipuvai)",
+      "ip": "192.168.72.222",
+      "operation": "Send for Review",
+      "description":"File- 001 Document Id- 5751981485165860 has been sent for reviw from admin to rasel" ,
+      "time": "1 jan 17 10:32 am"
+    },
+     {
+      "user": "Riyad Vai (riyadvai)",
+      "ip": "192.168.72.222",
+      "operation": "Upload",
+      "description": "File- '0044' Document Id- 57519814851655460 has been uploaded",
+      "time": "1 jan 17 10:32 am"
+    },
+     {
+      "user": "Al-amin Shadhin (shadhin)",
+      "ip": "192.168.72.222",
+      "operation": "Send for Review",
+      "description":"File- 001 Document Id- 5751981485165860 has been sent for reviw from admin to rasel" ,
+      "time": "1 jan 17 10:32 am"
+    }
+   ]
+}
+
+
+
+
+
+

@@ -1,0 +1,90 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/cases/css/cases.css">
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+
+        #upload_doc, #process_map {
+            min-height: 200px;
+        }
+    #common_case_form{
+        margin: auto;
+    }
+
+    </style>
+{% endblock %}
+{% block content %}
+    <section id="main">
+        <div class="loader">
+            <center>
+                <img class="loading-image" src="{{ STATIC_URL }}img/ajax-loader/ajax-loader (1).gif" alt="Loading..">
+            </center>
+        </div>
+        <div class="container" id="common_case_form">
+            <div class="card card_one m-b-0">
+                <div class="card-body">
+                    <div class="list-group lg-odd-black">
+                        <div class="action-header clearfix">
+                            <div class="ah-label f-500" id="application_id"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card card_two">
+                <div class="card-body card-padding p-t-0">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <form action="" id="new_form" enctype="multipart/form-data"></form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+{% endblock %}
+{% block js %}
+    <script>
+        var delegation_id = {{ delegation_id }};
+        var app_id = "{{ app_id }}";
+        var task_id = "{{ task_id }}";
+
+        {#  For Application List  #}
+        var todo_app = "{{ url('api:workflow:delegation-list') }}";
+        var e_form_url = "/workflow/case/e_form/";
+        var all_user = "{{ url('api:rbac:user-list') }}";
+        var app_comment_url = "{{ url('api:workflow:app_comment-list') }}";
+        var general_info = "{{ url('api:workflow:general_info-list') }}";
+
+        {#  For form set up  #}
+        var customer = "{{ view.customer }}";
+        var case_form = "{{ url('api:workflow:task-list') }}";
+        var user = "{{ request.user.id }}";
+        var user_name = "{{ request.user.get_full_name() }}";
+        var user_designation = "{{ request.user.position }}";
+        var extra_ = "{{ view.extra }}";
+        var process_map_url = "{{ url('api:workflow:process_map-list') }}";
+        var query_url = "{{ url('api:workflow:app_query-list') }}";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js?v=v3.0.1"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/application_count.js?v=v3.0.1"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/eform.js?v=v3.0.1"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/eform_history.js"></script>
+
+    {#  For form set up  #}
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/grid.js?v=v3.0.1"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/select2.full.js?v=v3.0.1"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/sweetalert2.min.js?v=v3.0.1"></script>
+    <script src="{{ STATIC_URL }}workflow/cases/js/jquery-ui.js?v=v3.0.1"></script>
+
+    {% if view.user == 'e78tfb9' %}
+        <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/nrb_loan_list.js?v=v3.0.1"></script>
+    {% endif %}
+
+{% endblock %}

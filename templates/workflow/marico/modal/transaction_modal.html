@@ -1,0 +1,103 @@
+<!-- PO -->
+<div class="modal fade" id="transaction_info_modal_" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Transaction Info.</h4>
+            </div>
+            <form action="" id="tr_add_form_">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <label class='control-label'>GL Account </label>
+                                    <input class="form-control" id="tr_gl_account_" maxlength="100" name="gl_account"
+                                           type="text"
+{#                                           data-parsley-required#}
+                                           data-parsley-type="integer"
+                                           data-parsley-required-message="You can not keep it blank">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="fg-line">
+                                    <label class='control-label f-500'>Card Type </label>
+                                    <select name="card_type" id="tr_card_type_" class="selectpicker"
+{#                                            data-parsley-required=""#}
+                                    >
+                                        <option value="0">Debit</option>
+                                        <option value="1">Credit</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <label class="fg-label">Amount </label>
+                                    <input class="form-control" id="tr_amount_" maxlength="100" type="text"
+                                           name="amount"
+{#                                           data-parsley-required#}
+                                           data-parsley-type="integer"
+                                           data-parsley-required-message="You can not keep it blank">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group fg-float">
+                                <div class="fg-line fg-toggled">
+                                    <label class="fg-label">Cost Center </label>
+                                    <input  class="form-control" id="tr_cost_center_"
+                                           name="cost_center" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group fg-float">
+                                <div class="fg-line fg-toggled">
+                                    <label class="fg-label">Profit Center</label>
+                                    <input class=" form-control" name="profit_center"
+                                           id="tr_profit_center_" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <label class="fg-label">Business Area </label>
+                                    <input class="form-control" id="tr_business_area_" name="business_area" type="text"
+                                           >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <label class="fg-label">IO</label>
+                                    <input class="form-control" id="tr_io_" name="io" type="text"
+                                           >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="tr_save_button_" class="btn bgm-bluegray bgm-bluegray btn-default">Save
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

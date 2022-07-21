@@ -1,0 +1,124 @@
+<!-- PO -->
+<div class="modal fade" id="po_modal_" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">PO Info.</h4>
+            </div>
+            <form action="" id="po_add_form_">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <label class="fg-label">PO Number <span class="required_star">*</span></label>
+                                    <input class="form-control" id="po_number_" maxlength="100" name="number"
+                                           type="text"
+                                           data-parsley-required
+                                           data-parsley-type="integer"
+                                           data-parsley-required-message="You can not keep it blank">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <label class="fg-label">Vendor Name <span class="required_star">*</span></label>
+                                    <input class="form-control" id="po_vendor_name_" maxlength="100"
+                                           name="vendor_name"
+                                           type="text"
+                                           data-parsley-required
+                                           data-parsley-required-message="You can not keep it blank">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group fg-float">
+                                <div class="fg-line po_line">
+                                    <label class="fg-label">Vendor Code <span class="required_star">*</span></label>
+                                    <input class="form-control" id="po_vendor_code_" maxlength="100" type="text"
+                                           name="vendor_code"
+                                           data-parsley-required
+                                           data-parsley-type="integer"
+                                           data-parsley-required-message="You can not keep it blank">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <label class="fg-label">Reference <span class="required_star">*</span></label>
+                                    <input data-parsley-required="" class="form-control" id="po_reference_"
+                                           maxlength="200"
+                                           name="reference" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group fg-float">
+                                <div class="fg-line fg-toggled">
+                                    <label class="fg-label">Document Date <span class="required_star">*</span></label>
+                                    <input data-parsley-required="" class="form-control" id="po_document_date_"
+                                           name="document_date" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group fg-float">
+                                <div class="fg-line fg-toggled">
+                                    <label class="fg-label">Posting Date <span class="required_star">*</span></label>
+                                    <input class=" form-control" readonly="readonly"
+                                           id="po_posting_date_temp_" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <label class="fg-label">Amount <span class="required_star">*</span></label>
+                                    <input class="form-control" id="po_amount_" name="amount" type="text"
+                                           required="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <label class="fg-label">Tax Amount <span class="required_star">*</span></label>
+                                    <input class="form-control" id="po_tax_amount_" name="tax_amount" type="text"
+                                           required="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <label class="fg-label">Remarks </label>
+                                    <input class="form-control" id="po_remarks_" name="remarks" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="po_save_button_" class="btn bgm-bluegray btn-default">Save
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,56 @@
+<!--vat chalan modal-->
+<div class="modal fade" id="vat_chalan_attachment" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <form action="#" id="vat_chalan_attachment_form" enctype="multipart/form-data">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Attach a file</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <input type="text" name="number"
+                                           id="vat_chalan_attachment_number"
+                                           class="form-control"
+                                           data-parsley-required
+                                           data-parsley-type="integer"
+                                           data-parsley-required-message="You can not keep it blank">
+                                    <label class="fg-label">Number<span class="required_star">*</span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <div class="fg-line">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <label>Attach File<span class="required_star">*</span></label>
+                                        <span class="btn btn-primary btn-file m-r-10 waves-effect">
+                                            <span class="fileinput-new">Select file</span>
+                                            <input name="file" id="attachment_file"
+                                                   type="file"
+                                                   data-parsley-required
+                                                   data-parsley-required-message="You can not keep it blank">
+                                        </span>
+                                        <span class="fileinput-filename"></span>
+                                        <a href="#" class="close vat_chalan_fileinput-exists"
+                                           data-dismiss="fileinput">&times;</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="submit_attach" class="btn bgm-bluegray btn-link">Save
+                        changes
+                    </button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Cancel
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

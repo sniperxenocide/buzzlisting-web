@@ -1,0 +1,51 @@
+<table id="transactionTable" class="table table-bordered table-responsive">
+    <thead>
+    <tr>
+        <th>GL Account</th>
+        <th>Card Type</th>
+        <th>Amount</th>
+        <th>Cost Center</th>
+        <th>Profit Center</th>
+        <th>Business Area</th>
+        <th>IO</th>
+        {% if task.name == 'Capture Information' %}
+            <th>Delete</th>
+        {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% if transaction_info %}
+        {% for tr in transaction_info %}
+            <tr data-attachment-id="{{ tr.id }}">
+                <td>{{ tr.gl_account }}</td>
+                <td>{{ tr.get_card_type_display() }}</td>
+                <td>{{ tr.amount }}</td>
+                <td>{{ tr.cost_center }}</td>
+                <td>{{ tr.profit_center }}</td>
+                <td>{{ tr.business_area }}</td>
+                <td>{{ tr.io }}</td>
+                {% if task.name == 'Capture Information' %}
+                    <td>
+                        <button type="button" class="delete-transaction-attachment btn btn-danger btn-sm waves-effect"><i
+                                class="zmdi zmdi-delete"></i> Delete
+                        </button>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr id="transaction_row">
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            {% if task.name == 'Capture Information' %}
+                <td>-</td>
+            {% endif %}
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

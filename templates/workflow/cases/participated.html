@@ -1,0 +1,71 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/cases/css/cases.css">
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <section id="main">
+        <!--Sidebar Menu Workflow-->
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <!--End Sidebar Menu Workflow-->
+        {#{% include 'workflow/cases/content.html' %} Shuvo#}
+
+        <section id="content" class="content">
+            {% if not view.sidebar_menu %}
+                <div class="container">
+                    <div class="text-center">
+                        <h2 class="f-400">Please select your desired menu</h2>
+                    </div>
+                </div>
+            {% else %}
+                <div class="container">
+                    {% set icons =  '
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-info" id="summary_button" title="Case Summary"></i>
+                    </a>
+                </li>' %}
+
+                    {% with icons=icons, table_id='participated_case', table_header='Completed',
+                search_title='Search by Application number or Process name' %}
+                        {% include 'core/base/datatable.html' %}
+                    {% endwith %}
+
+
+                    {#  Summary Modal#}
+                    {% include 'workflow/cases/completed_case_summary_modal.html' %}
+                </div>
+            {% endif %}
+        </section>
+
+    </section>
+
+
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        {#let e_form_url = "{{ url('workflow:cases:e_form') }}";#}
+        let completed_app = "{{ url('api:workflow:delegation-list') }}",
+                e_form_url = "/workflow/case/e_form/",
+                all_user = "{{ url('api:rbac:user-list') }}",
+                general_info = "{{ url('api:workflow:general_info-list') }}",
+                app_comment_url = "{{ url('api:workflow:app_comment-list') }}",
+                user = "{{ request.user.id }}";
+        var query_url = "{{ url('api:workflow:app_query-list') }}";
+    </script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/particicated_case.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/completed_case_summary_modal.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/application_count.js"></script>
+
+{% endblock %}

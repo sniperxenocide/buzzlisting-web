@@ -1,0 +1,38 @@
+<table id="delivery_chalan_attach" class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Number</th>
+        <th>Attachment</th>
+        {% if task.name == 'Capture Information' %}
+            <th>Delete</th>
+        {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% if delivery_chalan_info %}
+        {% for delivery in delivery_chalan_info %}
+            <tr data-attachment-id="{{ delivery.id }}">
+                <td>{{ delivery.number }}</td>
+                <td><a href="{{ delivery.file.url }}"
+                       target="_blank">{{ delivery.file.name }}</a>
+                </td>
+                {% if task.name == 'Capture Information' %}
+                    <td>
+                        <button class="delete-attachment btn btn-danger btn-sm waves-effect"><i
+                                class="zmdi zmdi-delete"></i> Delete
+                        </button>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr id="delivery_chalan_row">
+            <td>-</td>
+            <td>-</td>
+            {% if task.name == 'Capture Information' %}
+                <td>-</td>
+            {% endif %}
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

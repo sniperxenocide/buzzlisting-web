@@ -1,0 +1,357 @@
+<form id="marico_capture_form">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <input type="hidden" name="project">
+    <input type="hidden" name="task">
+    <input type="hidden" name="application">
+    <input type="hidden" name="process">
+    <input type="hidden" name="next_pos">
+
+    <div role="tabpanel">
+        <ul class="tab-nav" role="tablist">
+            <li class="active">
+                <a href="#input" aria-controls="summary" role="tab" data-toggle="tab">Input</a>
+            </li>
+            <li>
+                <a href="#vat_chalan" aria-controls="" role="tab" data-toggle="tab">VAT Challan</a>
+            </li>
+            <li>
+                <a href="#delivery_chalan" aria-controls="" role="tab" data-toggle="tab">Delivery Challan</a>
+            </li>
+            <li>
+                <a href="#supporting_doc" aria-controls="" role="tab" data-toggle="tab">Supporting Doc</a>
+            </li>
+            <li>
+                <a href="#other" aria-controls="" role="tab" data-toggle="tab">Other</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="input">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class='col-md-12'>
+                            <div class='form-group'>
+                                <h4 class='text-center'>{{ task.name }}</h4></div>
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-12'>
+                        <div class='form-group'>
+                            <div class='fg-line'>
+                                <label class='control-label f-500'>Department <span
+                                        class='required_star'>*</span></label>
+                                <input type="text" value="{{ basic_info.department.name }}" class="form-control"
+                                       disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-6'>
+                        <div class='form-group'>
+                            <div class='fg-line'>
+                                <label class='control-label f-500'>Contact
+                                    Person </label>
+                                <input type="text" value="{{ basic_info.contact_person.get_full_name() }}"
+                                       class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-md-6'>
+                        <div class='form-group'>
+                            <div class='fg-line'>
+                                <label class='fg-label'>Mobile </label>
+                                <input type="text" value="{{ basic_info.mobile }}" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-12'>
+                        <div class='form-group'>
+                            <div class='fg-line'>
+                                <h4 class='text-center'>Document Info.</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='row m-b-30'>
+                    <div class='col-md-6'>
+                        <div class='form-group'>
+                            <div class='fg-line'><p class="f-500 m-b-20">
+                                <label class='fg-label'>Category
+                                    <span class='required_star'>*</span></label></p>
+                                <label class='radio radio-inline m-r-20' for="Non-PO">
+                                    <input id="non_po_radio_" type="radio" disabled
+                                            {% if basic_info.category == 0 %}
+                                           checked="true"
+                                            {% endif %}
+                                    >
+                                    <i class="input-helper"></i>Non-PO
+                                </label>
+                                <label class='radio radio-inline m-r-20' for="PO">
+                                    <input id="po_radio_" type="radio" disabled
+                                            {% if basic_info.category == 1 %}
+                                           checked
+                                            {% endif %}
+                                    >
+                                    <i class="input-helper"></i>PO
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-md-6'>
+                        <div class='form-group'>
+                            <div class='fg-line'>
+                                <label class='control-label f-500'>Bill Type {{ basic_info.invoice }}</label>
+                                <input type="text" value="{{ basic_info.get_bill_type_display() }}" class="form-control"
+                                       disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-b-30">
+                    <div id="po_information_area_" class="m-b-15" data-po-count="0" data-last-po-type="">
+                        <h4 class="text-center">PO/Non PO. information</h4>
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Vendor</th>
+                                <th>Reference</th>
+                                <th>Document date</th>
+                                <th>Posting date</th>
+                                <th>Amount</th>
+                                <th>Tax amount</th>
+                                <th>Remarks</th>
+                                <th>GR</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if po_info %}
+                                {% for po in po_info %}
+                                    <tr data-po-id="{{ po.id }}">
+                                        <td>{{ po.number }}</td>
+                                        <td>{{ po.vendor_name }}({{ po.vendor_code }})</td>
+                                        <td>{{ po.reference }}</td>
+                                        <td>{{ po.document_date.strftime('%b %d %Y') }}</td>
+                                        <td>{{ po.posting_date.strftime('%b %d %Y') }}</td>
+                                        <td>{{ po.amount }}</td>
+                                        <td>{{ po.tax_amount }}</td>
+                                        <td>{{ po.remarks }}</td>
+                                        <td><a href="javascript:void(0)" class="show_gr">{{ po.grs.count() }}</a></td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row m-b-30">
+                    <div class="col-md-12">
+                        <h4 class="text-center">Transaction</h4>
+                        {% include 'workflow/marico/table/transaction_table.html' %}
+                    </div>
+                </div>
+                {% if task.name in ['Finance Approval', 'Payment Update'] %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="fg-line">
+                                    <label class="fg-label">Invoice Number <span class="required_star">*</span></label>
+                                    <input class="form-control" id="invoice_id" maxlength="100" name="invoice"
+                                           {% if(basic_info.invoice != None) %}value="{{ basic_info.invoice }}" {% endif %}
+                                           data-parsley-required
+                                           data-parsley-type="integer"
+                                           data-parsley-required-message="You can not keep it blank"
+                                            {% if task.name in ['Payment Update'] %} disabled {% endif %}
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row m-b-30">
+                    {% if task.name in ['Information Verification', 'Payment Update'] %}
+                        <div class='col-md-12'>
+                            <div class='form-group'>
+                                <div class='fg-line'><p class="f-500 m-b-20">
+                                    <label class='fg-label'>Reviewer Decision
+                                        <span class='required_star'>*</span></label></p>
+                                    <label class='radio radio-inline m-r-20' for="reviewed">
+                                        <input id="non_po_radio_"
+                                               type="radio"
+                                               name="reviewer_decision"
+                                               value="1"
+                                                {% if task.name in ['User Approval', 'Finance Approval', 'Payment Update'] %}
+                                               disabled
+                                                {% endif %}
+                                                {% if variables.get('reviewer_decision') and variables.get('reviewer_decision') == '1' %}
+                                               checked
+                                                {% endif %}>
+                                        <i class="input-helper"></i>Reviewed
+                                    </label>
+                                    <label class='radio radio-inline m-r-20' for="reject">
+                                        <input id="po_radio_" type="radio" name="reviewer_decision" value="0"
+                                                {% if task.name in ['User Approval', 'Finance Approval', 'Payment Update'] %}
+                                               disabled
+                                                {% endif %}
+                                                {% if variables.get('reviewer_decision') and variables.get('reviewer_decision') == '0' %}
+                                               checked
+                                                {% endif %}
+                                        >
+                                        <i class="input-helper"></i>Reject
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if task.name in ['User Approval', 'Finance Approval', 'Payment Update'] %}
+                        <div class='col-md-12'>
+                            <div class='form-group'>
+                                <div class='fg-line'><p class="f-500 m-b-20">
+                                    <label class='fg-label'>Approver Decision
+                                        <span class='required_star'>*</span></label></p>
+                                    <label class='radio radio-inline m-r-20' for="reviewed">
+                                        <input id="approve_decision_radio_"
+                                               type="radio"
+                                               name="approve_decision"
+                                               value="1"
+                                                {% if task.name in ['Finance Approval', 'Payment Update'] %}
+                                               disabled
+                                                {% endif %}
+                                                {% if variables.get('approve_decision') and variables.get('approve_decision') == '1' %}
+                                               checked
+                                                {% endif %}
+                                        >
+                                        <i class="input-helper"></i>Approve
+                                    </label>
+                                    <label class='radio radio-inline m-r-20' for="reject">
+                                        <input id="approve_decision_radio_"
+                                               type="radio"
+                                               name="approve_decision"
+                                               value="0"
+                                                {% if task.name in ['Finance Approval', 'Payment Update'] %}
+                                               disabled
+                                                {% endif %}
+                                                {% if variables.get('approve_decision') and variables.get('approve_decision') == '0' %}
+                                               checked
+                                                {% endif %}
+                                        >
+                                        <i class="input-helper"></i>Reject
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if task.name in ['Finance Approval', 'Payment Update'] %}
+                        <div class='col-md-12'>
+                            <div class='form-group'>
+                                <div class='fg-line'><p class="f-500 m-b-20">
+                                    <label class='fg-label'>Finance Decision
+                                        <span class='required_star'>*</span></label></p>
+                                    <label class='radio radio-inline m-r-20' for="reviewed">
+                                        <input id="finance_decision_radio_"
+                                               type="radio"
+                                               name="finance_decision"
+                                               value="1"
+                                                {% if task.name in ['Payment Update'] %}
+                                               disabled
+                                                {% endif %}
+                                                {% if variables.get('finance_decision') and variables.get('finance_decision') == '1' %}
+                                               checked
+                                                {% endif %}
+                                        >
+                                        <i class="input-helper"></i>Approve
+                                    </label>
+                                    <label class='radio radio-inline m-r-20' for="reject">
+                                        <input id="finance_decision_radio_"
+                                               type="radio"
+                                               name="finance_decision"
+                                               value="0"
+                                                {% if task.name in ['Payment Update'] %}
+                                               disabled
+                                                {% endif %}
+                                                {% if variables.get('finance_decision') and variables.get('finance_decision') == '0' %}
+                                               checked
+                                                {% endif %}
+                                        >
+                                        <i class="input-helper"></i>Reject
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="vat_chalan">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="text-center">Vat Chalan</h4>
+                            {% include 'workflow/marico/table/vat_chalan_table.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="delivery_chalan">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="text-center">Delivery Chalan</h4>
+                            {% include 'workflow/marico/table/delivery_chalan_table.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="supporting_doc">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="text-center">Supporting Document</h4>
+                            {% include 'workflow/marico/table/supporting_doc_table.html' %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="other">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="text-center">Other Document</h4>
+                            {% include 'workflow/marico/table/other_doc_table.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class='form-group'>
+                <div class='fg-line'>
+                    <button class='btn bgm-bluegray waves-effect' id="marico_capture_form_submit" type='submit'>Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

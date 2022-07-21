@@ -1,0 +1,59 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/daterangepicker.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/report/loginReport/css/login_report.css">
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            {% if view.permission == 0 %}
+                <div class="container">
+                    <div class="card">
+                        <div class="card-header m-t-0 m-b-0 text-center">
+                            <h4 class="f-400">Please select your desired menu</h4>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="container">
+                    {% set icons =  '
+                <i class="fa fa-calendar"></i>
+                <li>
+                    <input type=\'text\' class= "form-control date_input" name="daterange" placeholder="Choose Date Range">
+                </li>
+                ' %}
+
+                    {% with icons=icons, table_id='login_report_list', table_header='Login Report',
+                search_title='Search by UserName or Ip Address' %}
+                        {% include 'core/base/datatable.html' %}
+                    {% endwith %}
+                </div>
+            {% endif %}
+        </section>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        let login_report = "{{ url('api:login_report:audit-list') }}";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}core/report/loginReport/js/daterangepicker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}core/report/loginReport/js/app/login_report.js"></script>
+
+{% endblock %}

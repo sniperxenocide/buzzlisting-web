@@ -1,0 +1,38 @@
+<table id="supporting_doc_attach" class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Number</th>
+        <th>Attachment</th>
+        {% if task.name == 'Capture Information' %}
+            <th>Delete</th>
+        {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% if supporting_doc_info %}
+        {% for support in supporting_doc_info %}
+            <tr data-attachment-id="{{ support.id }}">
+                <td>{{ support.number }}</td>
+                <td><a href="{{ support.file.url }}"
+                       target="_blank">{{ support.file.name }}</a>
+                </td>
+                {% if task.name == 'Capture Information' %}
+                    <td>
+                        <button class="delete-attachment btn btn-danger btn-sm waves-effect"><i
+                                class="zmdi zmdi-delete"></i> Delete
+                        </button>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr id="supportig_doc_row">
+            <td>-</td>
+            <td>-</td>
+            {% if task.name == 'Capture Information' %}
+                <td>-</td>
+            {% endif %}
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

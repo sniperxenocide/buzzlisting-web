@@ -1,0 +1,151 @@
+{% extends BASE_TEMPLATE %}
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/dropzone.min.css">
+{% endblock %}
+
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+
+        <section id="content">
+            {% if not request.user.role.permission.filter(pk=10).exists() %}
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="f-400">Please select your desired menu</h2>
+                </div>
+            </div>
+            {% else %}
+            <div class="card">
+                <div class="card-header">
+                    <h2>Drop Your File Here!</h2>
+                    <br> <br>
+                    <div class="card-body">
+
+                        <form id="single_upload_form" role="form" class="dropzone dz-clickable" method="post"
+                              data-parsley-validate="" enctype="multipart/form-data">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                            <div class="dz-message needsclick">
+
+                                <br>
+                                <span class="note needsclick">You can upload <strong> 20 MB</strong> at once</span>
+                            </div>
+                        </form>
+                        <br> <br>
+                        <div class="row">
+
+                            <button disabled="disabled"
+                                    class="btn btn-success next-to-pending-meta-button pull-right waves-effect"
+                                    id="submit-all">
+                                Next
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            {% endif %}
+        </section>
+    </section>
+{% endblock %}
+{% block js %}
+
+    <script src="{{ STATIC_URL }}assets/js/dropzone.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var upload = new Dropzone('#single_upload_form', {
+                url: "filesave/",
+                maxFilesize: '50',
+                autoProcessQueue: true,
+                paramName: "uploadfile",
+                maxThumbnailFilesize: 5,
+                addRemoveLinks: true,
+                //autoDiscover: false,
+                //uploadMultiple: true,
+                //parallelUploads: 200,
+                {#                acceptedFiles: 'image/jpeg,image/png,application/pdf,application/msword',#}
+{#                acceptedFiles: 'image/jpeg,image/png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx, application/xls,application/excel,application/vnd.ms-excel,application/vnd.ms-excel; charset=binary,application/msexcel,application/x-excel,application/x-msexcel,application/x-ms-excel,application/x-dos_ms_excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/x-excel,application/x-msexcel, application/excel',#}
+
+                init: function () {
+
+                    var submitButton = document.querySelector("#submit-all");
+                    let myDropzone = this;
+
+                    submitButton.addEventListener("click", function () {
+                        window.location = "{{ url('dms:document:pendingmetalist')}}";
+                        //myDropzone.processQueue();
+                        // Tell Dropzone to process all queued files.
+                    });
+                    let docIds = [];
+
+                    myDropzone.on('success', function (file, json) {
+                        docIds.push(JSON.parse(json)['doc_id']);
+                    });
+                    Dropzone.autoDiscover = false;
+
+                    this.on('addedfile', function (file) {
+
+                        //console.log(file);
+
+                    });
+
+                    this.on('drop', function (file) {
+                        // alert('file');
+                    });
+
+                    this.on('error', function (file, errorMessage, xhr) {
+
+                    });
+                    this.on('removedfile', function (file, errorMessage, xhr) {
+                        let current_doc_id = JSON.parse(file.xhr['responseText'])['doc_id'];
+                        console.log(current_doc_id);
+                        $.ajax({
+                            url: '/api/v1/dms/documents/delpendingmeta/' + current_doc_id,
+                            method: 'DELETE',
+                            dataType: 'json',
+                            success: function (data) {
+                                //$table.fnDraw();
+                                //console.log($table);
+                                //$table.clearPipeline().draw();
+                                //console.log(data);
+
+                                let index = docIds.indexOf(current_doc_id);
+                                if (index > -1) {
+                                    docIds.splice(index, 1);
+                                }
+
+                                notify('', 'Removed from pending list', '', 'danger', 500);
+                                if (docIds.length === 0) {
+                                    $('.next-to-pending-meta-button').attr('disabled', 'disabled');
+                                    console.log('no file!');
+                                }
+
+                            },
+                            error: function (response, jqXHR, textStatus, errorThrown) {
+                                console.log(response);
+                            }
+                        });
+                    });
+
+                    myDropzone.on("complete", function (file) {
+                        //  myDropzone.removeAllFiles();
+                        //  window.location = "{{ url('dms:document:pendingmetalist')}}"
+                        if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                            $('.next-to-pending-meta-button').removeAttr('disabled');
+                        }
+                    });
+                }
+            });
+
+
+        });
+    </script>
+
+{% endblock %}
+

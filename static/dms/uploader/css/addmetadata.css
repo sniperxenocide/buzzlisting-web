@@ -1,0 +1,264 @@
+#main {
+
+    padding-bottom: 0 !important;
+}
+
+.bootstrap-select .dropdown-menu {
+    max-width: 200px;
+}
+
+/*.bootstrap-select .dropdown-menu span.text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bootstrap-select.btn-group .btn .filter-option {
+    text-overflow: ellipsis;
+    white-space: normal;
+}*/
+
+.meta-data-list-document-field tr.added_item_row {
+    cursor: pointer;
+}
+
+.fixed_wrapper_for_doc_show {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: #fff;
+    left: 22%;
+}
+
+.fixed_wrapper_for_doc_show .card-body {
+    /*background: #454545;
+    height: 586px;
+    height: 586px;*/
+}
+
+.responsive-container {
+    position: relative;
+    width: 100%;
+    /*border: 1px solid black;*/
+}
+
+.dummy {
+    padding-top: 100%; /* forces 1:1 aspect ratio */
+}
+
+.img-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    text-align: center; /* Align center inline elements */
+    font: 0/0 a;
+}
+
+.img-container .centerer {
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.img-container img {
+    vertical-align: middle;
+    display: inline-block;
+    max-height: 100%; /* <-- Set maximum height to 100% of its parent */
+    max-width: 100%; /* <-- Set maximum width to 100% of its parent */
+}
+
+.meta-data-list-head,
+.meta-data-list-document-field {
+    display: none;
+}
+
+.table-inside {
+    height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#move_all_btn {
+    display: none;
+}
+
+.action-header {
+    padding-left: 10px !important;
+}
+
+.meta-data-list-document-field tr td:nth-child(1),
+.meta-data-list-head tr th:nth-child(1) {
+    width: 8%;
+    padding: 9px 0 5px 9px !important;
+    margin: 0 !important;
+    vertical-align: middle;
+}
+
+.meta-data-list-document-field tr td:nth-child(2),
+.meta-data-list-head tr th:nth-child(2) {
+    width: 16%;
+    vertical-align: middle;
+    padding: 0 !important;
+}
+
+.meta-data-list-document-field tr td:nth-child(3),
+.meta-data-list-head tr th:nth-child(3) {
+    width: 76%;
+    padding: 5px 0 !important;
+}
+
+#add_meta_data .dropdown-menu > li > a {
+    white-space: normal !important;
+}
+
+.select2-dropdown .select2-container--default .select2-selection--multiple,
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    border-radius: 0;
+}
+
+.select2-container--default .select2-selection--multiple {
+    border-top: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid #aaa !important;
+    border-left: 0 !important;
+}
+
+.select2-container--default .select2-selection--multiple,
+.select2-container--open .select2-dropdown--below {
+    border-radius: 0 !important;
+}
+
+.select2-container {
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 100%;
+    margin-bottom: 0;
+    display: table;
+    table-layout: fixed;
+}
+
+.meta-data-list-document-field tr.added_item_row {
+    cursor: pointer;
+}
+
+.fixed_wrapper_for_doc_show {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: #fff;
+    left: 22%;
+}
+
+.fixed_wrapper_for_doc_show .card-body {
+    /*background: #454545;
+    height: 586px;
+    height: 586px;*/
+}
+
+.responsive-container {
+    position: relative;
+    width: 100%;
+    /*border: 1px solid black;*/
+}
+
+.dummy {
+    padding-top: 100%; /* forces 1:1 aspect ratio */
+}
+
+.img-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    text-align: center; /* Align center inline elements */
+    font: 0/0 a;
+}
+
+.img-container .centerer {
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.img-container img {
+    vertical-align: middle;
+    display: inline-block;
+    max-height: 100%; /* <-- Set maximum height to 100% of its parent */
+    max-width: 100%; /* <-- Set maximum width to 100% of its parent */
+}
+
+.page_number_input {
+    width: 80px !important;
+    text-align: center;
+
+}
+
+#search_pagination {
+    display: block !important;
+}
+
+#pagination, .show-paging-info {
+    display: none;
+}
+
+.show-paging-info {
+    text-align: left;
+}
+
+.pagination .pull-right > * {
+    float: left;
+}
+
+#preloader_wrap {
+    text-align: center;
+}
+
+.ci-avatar {
+    text-align: center;
+}
+
+.ci-avatar i {
+    font-size: 90px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.nothingPending {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #F7F7F7;
+    margin-bottom: 40px;
+}
+
+.ci-avatar {
+    cursor: pointer;
+}
+
+button.delete_all_pending_docs.btn {
+    display: none;
+}
+
+.pending-meta-container .c-item .ci-avatar img {
+    max-width: 150px !important;
+    min-height: 110px !important;
+    max-height: 110px !important;
+}
+
+.pending-meta-container .col-sm-3 {
+    width: 33% !important;
+}
+.pending-meta-container > [class*=col-] {
+    height: 250px !important;
+}
+.v_action{
+    display: inline-block !important;
+}

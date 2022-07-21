@@ -1,0 +1,83 @@
+a.ci-avatar {
+    text-align: center;
+    color: inherit;
+    cursor: pointer;
+}
+
+.contacts .c-info {
+    margin-top: 15px;
+    padding: 0 5px;
+    display: inline-block;
+    width: 100%;
+}
+.contacts .c-info strong {
+    max-width: 80%;
+    width: 80%;
+    float: left;
+    text-overflow: clip !important;
+    white-space: normal !important;
+    font-size: 12px !important;
+}
+.contacts .c-info .actions {
+    max-width: 20%;
+    width: 20%;
+    float: right;
+    position: absolute;
+    right: 0;
+}
+.contacts .folder-thumb .c-info strong {
+    max-width: 100%;
+    width: 100%;
+}
+
+.contacts .folder-thumb .c-item,
+.contacts .file-thumb .c-item{
+    border:none !important;
+}
+.contacts .folder-thumb .ci-avatar > .zmdi,
+.contacts .file-thumb .ci-avatar > .zmdi {
+    font-size: 80px;
+}
+.contacts .folder-thumb .ci-avatar > .fa,
+.contacts .file-thumb .ci-avatar > .fa {
+    font-size: 55px;
+}
+
+a.ci-avatar:hover,
+.contacts .folder-thumb:hover,
+.contacts .file-thumb:hover {
+    color: #03A9F4;
+    cursor: pointer;
+}
+.no-data-available{
+    text-align: center;
+    display: none;
+}
+
+
+.page_number_input {
+    width: 80px !important;
+    text-align: center;
+}
+#pagination, .show-paging-info {
+    display: none;
+}
+.show-paging-info {
+    text-align: left;
+}
+.pagination .pull-right > * {
+    float: left;
+}
+#preloader_wrap {
+    text-align: center;
+}
+
+.c-item i.fa-lock {
+    font-size: 29px !important;
+    position: absolute;
+    top: 27px;
+    left: 26px;
+}
+.c-item i.fa-lock::before {
+    color: rgb(96, 125, 139) !important;
+}

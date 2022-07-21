@@ -1,0 +1,271 @@
+<form action="/api/v1/workflow/application/" method="post" enctype="multipart/form-data" id="marico_capture_form">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <input type="hidden" name="project">
+    <input type="hidden" name="task">
+    <input type="hidden" name="application">
+    <input type="hidden" name="process">
+    <input type="hidden" name="next_pos">
+
+    <div role="tabpanel">
+        <ul class="tab-nav" role="tablist">
+            <li class="active">
+                <a href="#input" aria-controls="summary" role="tab" data-toggle="tab">Input</a>
+            </li>
+            <li>
+                <a href="#vat_chalan" aria-controls="" role="tab" data-toggle="tab">VAT Challan</a>
+            </li>
+            <li>
+                <a href="#delivery_chalan" aria-controls="" role="tab" data-toggle="tab">Delivery Challan</a>
+            </li>
+            <li>
+                <a href="#supporting_doc" aria-controls="" role="tab" data-toggle="tab">Supporting Doc</a>
+            </li>
+            <li>
+                <a href="#other" aria-controls="" role="tab" data-toggle="tab">Other</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="input">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class='col-md-12'>
+                            <div class='form-group'>
+                                <h4 class='text-center'>Capture Information</h4></div>
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-12'>
+                        <div class='form-group'>
+                            <div class='fg-line'>
+                                <div id="department_saved_id"
+                                     data-department-saved-id="{{ basic_info.department.value() }}"></div>
+                                <label class='control-label f-500'>Department <span
+                                        class='required_star'>*</span></label>
+                                {{ basic_info.department }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-6'>
+                        <div class='form-group'>
+                            <div class='fg-line'>
+                                <div id="contact_person_saved_id" data-contact-person-saved-id="{{ basic_info.contact_person.value() }}"></div>
+                                <label class='control-label f-500'>Contact
+                                    Person </label>
+                                {{ basic_info.contact_person }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-md-6'>
+                        <div class='form-group'>
+                            <div class='fg-line'>
+                                <label class='fg-label'>Mobile </label>
+                                {{ basic_info.mobile }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-12'>
+                        <div class='form-group'>
+                            <div class='fg-line'>
+                                <h4 class='text-center'>Document Info.</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-6'>
+                        <div class='form-group'>
+                            <div class='fg-line'><p class="f-500 m-b-20">
+                                <label class='fg-label'>Category
+                                    <span class='required_star'>*</span></label></p>
+                                <label class='radio radio-inline m-r-20' for="Non-PO">
+                                    <input data-parsley-required="true" id="non_po_radio_" name="category"
+                                           type="radio"
+                                           value="0" required=""
+                                            {% if basic_info.category.value() == 0 %}
+                                           checked
+                                            {% endif %}
+                                    >
+                                    <i class="input-helper"></i>Non-PO
+                                </label>
+                                <label class='radio radio-inline m-r-20' for="PO">
+                                    <input data-parsley-required="true" id="po_radio_" name="category"
+                                           type="radio"
+                                           value="1" required=""
+                                            {% if basic_info.category.value() == 1 %}
+                                           checked
+                                            {% endif %}
+                                    >
+                                    <i class="input-helper"></i>PO
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-md-6'>
+                        <div class='form-group'>
+                            <div class='fg-line'>
+                                <label class='control-label f-500'>Bill Type </label>
+                                {{ basic_info.bill_type }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-b-30">
+                    <div id="po_information_area_" class="m-b-15" data-po-count="{{ po_info.count() }}"
+                         data-last-po-type="{{ basic_info.category.value() }}">
+                        <h4 class="text-center">PO/Non PO. information
+                            <button type="button" id="add_more_po" class="btn btn-success waves-effect">
+                                <i class="zmdi zmdi-plus"></i>
+                            </button>
+                        </h4>
+                        <table id="po_nonpo_info_table" class="table table-bordered table-responsive">
+                            <thead>
+                            <tr>
+                                <th>Number</th>
+                                <th>Vendor</th>
+                                <th>Reference</th>
+                                <th>Document date</th>
+                                <th>Posting date</th>
+                                <th>Amount</th>
+                                <th>Tax amount</th>
+                                <th>Remarks</th>
+                                <th>GRs</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if po_info %}
+                                {% for po in po_info %}
+                                    <tr data-po-id="{{ po.id }}">
+                                        <td>{{ po.number }}</td>
+                                        <td>{{ po.vendor_name }}({{ po.vendor_code }})</td>
+                                        <td>{{ po.reference }}</td>
+                                        <td>{{ po.document_date.strftime('%b %d %Y') }}</td>
+                                        <td>{{ po.posting_date.strftime('%b %d %Y') }}</td>
+                                        <td>{{ po.amount }}</td>
+                                        <td>{{ po.tax_amount }}</td>
+                                        <td>{{ po.remarks }}</td>
+                                        <td>
+                                            <a href="#" class="show_gr">{{ po.grs.count() }}</a>
+                                            <a href="#" class="delete_po" style="display: inline-block;">
+                                                <i class="zmdi zmdi-delete"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr class="no_po_info_tr">
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="text-center">Transaction
+                            <button type="button" class="add_transaction_button_ btn btn-success waves-effect">
+                                <i class="zmdi zmdi-plus"></i>
+                            </button>
+                        </h4>
+                        {% include 'workflow/marico/table/transaction_table.html' %}
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="vat_chalan">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="text-center">
+                                Vat Chalan
+                                <button type="button" class="addAttachment btn btn-success waves-effect">
+                                    <i class="zmdi zmdi-plus"></i>
+                                </button>
+                            </h4>
+                            {% include 'workflow/marico/table/vat_chalan_table.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="delivery_chalan">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="text-center">Delivery Chalan
+                                <button type="button" class="addDeliveryAttachment btn btn-success waves-effect">
+                                    <i class="zmdi zmdi-plus"></i>
+                                </button>
+                            </h4>
+                            {% include 'workflow/marico/table/delivery_chalan_table.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="supporting_doc">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="text-center">Supporting Document
+                                <button type="button" class="addSupportingDocAttachment btn btn-success waves-effect">
+                                    <i class="zmdi zmdi-plus"></i>
+                                </button>
+                            </h4>
+                            {% include 'workflow/marico/table/supporting_doc_table.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="other">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="text-center">Other Document
+                                <button type="button" class="addotherDocAttachment btn btn-success waves-effect">
+                                    <i class="zmdi zmdi-plus"></i>
+                                </button>
+                            </h4>
+                            {% include 'workflow/marico/table/other_doc_table.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class='form-group'>
+                <div class='fg-line'>
+                    <button class='btn bgm-bluegray waves-effect' id="marico_capture_form_submit" type='submit'>Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+{% include 'workflow/marico/modal/non-po_add_modal.html' %}
+{% include 'workflow/marico/modal/po_add_modal.html' %}
+{% include 'workflow/marico/modal/po_info_clean_alert_modal.html' %}
+{% include 'workflow/marico/modal/gr_add_modal.html' %}
+{% include 'workflow/marico/modal/gr_list_view_modal.html' %}
+{% include 'workflow/marico/modal/transaction_modal.html' %}
+
+{% block js %}
+    {% include 'workflow/marico/template.html' %}
+{% endblock %}

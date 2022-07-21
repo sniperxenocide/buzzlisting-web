@@ -1,0 +1,144 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+
+
+        <section id="content">
+            <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Notifications</h2>
+                    </div>
+                    <div class="card-body card-padding">
+                        <form action="" id="socket_chat">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-sm-12 m-b-15">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 m-b-15">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    {# new element #}
+                                                    <ul id="comments">
+                                                       {% for comment in comments %}
+                                                              <li>{{comment.text}}</li>
+                                                       {% endfor %}
+                                                    </ul>
+{#                                                <input type="text" id="comment" name="comment" />#}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 ">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    {# new element #}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-12 ">
+                                            <div class="form-group">
+                                                <div class="form-group fg-float">
+                                                {#  #}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 p-t-30">
+
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+
+    </section>
+
+
+{% endblock %}
+
+{% block js %}
+   <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+{#    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>#}
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+
+
+
+  <script>
+    $(document).ready(function(){
+
+        var socket = io.connect('http://localhost:4000');
+
+
+      socket.on('connect', function(){
+        console.log("connect");
+      });
+
+      var entry_el = $('#comment');
+
+      socket.on('message', function(message) {
+          console.log("bye")
+          //Escape HTML characters
+          var data = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+          //Append message to the bottom of the list
+          //new
+          var chat_data = JSON.parse(data);
+
+          for (i = 0; i < chat_data.recipients.length; i++) {
+              if(chat_data.recipients[i] == "{{ request.user.id }}"){
+
+                  var im = chat_data.message;
+                  $('#comments').append('<li>' + im + '</li>');
+
+              }
+          }
+          //new
+          //$('#comments').append('<li>' + data + '</li>');
+          window.scrollBy(0, 10000000000);
+          entry_el.focus();
+      });
+
+
+{#      $('#socket_chat').submit(function(event){#}
+{#        //When enter is pressed send input value to node server#}
+{#          event.preventDefault();#}
+{##}
+{#       });#}
+
+
+
+    });
+  </script>
+
+{% endblock %}

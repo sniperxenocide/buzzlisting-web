@@ -1,0 +1,248 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/user.min.css">
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+
+        .required_star {
+            color: rgba(244, 67, 54, 0.72) !important;
+        }
+
+        #group_list tbody tr {
+            cursor: pointer;
+        }
+
+        table {
+            margin: 0 auto;
+            width: 100%;
+            clear: both;
+            border-collapse: collapse;
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    {# End Rigth Side bar #}
+    <section id="main">
+        {# Side bar #}
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        {# End Side bar #}
+
+        <section id="content" class="content">
+            <div class="container">
+                {% set icons =  '
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-plus-circle-o-duplicate c-black" id="add_group_button" title="Add Group"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-edit" id="edit_group_button" title="Edit Group"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-delete" id="delete_group_button" title="Delete Group"></i>
+                    </a>
+                </li>' %}
+                {% with icons=icons, table_id='group_list', table_header='Group List',
+                search_title='Search Group by name' %}
+                    {% include 'core/base/datatable.html' %}
+                {% endwith %}
+            </div>
+        </section>
+    </section>
+
+    <!-- Add Group modal -->
+    <div class="modal fade" id="add_group_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="zmdi zmdi-account-box m-r-10"></i> Add New Group</h4>
+                </div>
+                <form id="add_group_form">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 m-t-20">
+                                <div class="form-group fg-float">
+                                    <div class="fg-line">
+                                        <label class="fg-label">Name <span class="required_star">*</span></label>
+                                        <input type="text"
+                                               name="name"
+                                               class="form-control"
+                                               data-parsley-trigger="change"
+                                               data-parsley-pattern="^[a-zA-Z0-9_ ]{2,100}$"
+                                               data-parsley-required
+                                               data-parsley-error-message="Only letters, numbers and underscores. (Min: 2, Max: 100)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label ">Status <span class="required_star">*</span></label>
+                                    <select name="status"
+                                            id="add_status"
+                                            class="selectpicker"
+                                            data-parsley-trigger="change"
+                                            data-parsley-required="">
+                                        <option value="true">Active</option>
+                                        <option value="false">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Users</label>
+                                    <select class="selectpicker"
+                                            multiple
+                                            id="user_select"
+                                            data-live-search="true"
+                                            name="user"
+                                            data-trigger="change">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn bgm-bluegray waves-effect" id="save_group">Save</button>
+                        <button type="button" class="btn bgm-gray waves-effect" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation modal -->
+    <div class="modal fade positive_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Do You want to delete this Group?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>A positive modal body</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Group modal -->
+    <div class="modal fade" id="edit_group_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="zmdi zmdi-account-box m-r-10"></i> Update Group Information</h4>
+                </div>
+                <form id="update_group_form">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 m-t-20">
+                                <div class="form-group fg-float">
+                                    <div class="fg-line">
+                                        <label class="control-label"> Group Name <span
+                                                class="required_star">*</span></label>
+                                        <input type="text"
+                                               name="name"
+                                               id="name"
+                                               class="form-control"
+                                               data-parsley-trigger="change"
+                                               data-parsley-pattern="^[a-zA-Z0-9_ ]{2,100}$"
+                                               data-parsley-required
+                                               data-parsley-error-message="Only letters, numbers and underscores. (Min: 2, Max: 100)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label ">Status <span class="required_star">*</span></label>
+                                    <select name="status"
+                                            id="status"
+                                            class="selectpicker"
+                                            data-parsley-trigger="change"
+                                            data-parsley-required="">
+                                        <option value=true>Active</option>
+                                        <option value=false>Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Users</label>
+                                    <select class="selectpicker"
+                                            id="user_edit_select"
+                                            name="user"
+                                            multiple
+                                            data-live-search="true"
+                                            data-trigger="change">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn bgm-bluegray waves-effect" id="update_group">Update</button>
+                        <button type="button" class="btn bgm-gray waves-effect" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="user_list_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="zmdi zmdi-check-circle-u m-r-10"></i> Assigned Users</h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="clist clist-check" id="user_list">
+
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bgm-bluegray waves-effect" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        var all_group_api = "{{ url('api:rbac:group-list') }}";
+        var all_user_api = "{{ url('api:rbac:user-list') }}";
+        var add_group_api = "{{ url('api:rbac:group-list') }}";
+
+    </script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/user.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}core/user_management/user_list/js/app/user_list.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}core/user_management/group_list/js/app/group_list.js"></script>
+    {#<script type="text/javascript" src="{{ STATIC_URL }}assets/js/app/group_list.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/designer/vendor/doT.js"></script>
+    <script>
+
+    </script>
+{% endblock %}

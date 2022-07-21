@@ -1,0 +1,441 @@
+.task_header {
+    min-height: 70px;
+    position: fixed;
+    z-index: 6;
+    top: 70px;
+    padding-left: 0 !important;
+    width: 1068px !important;
+    display: block;
+    overflow-x: hidden;
+}
+
+@media screen and (max-width: 991px) {
+    .task_header {
+        padding: 0 20px;
+        width: 800px !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .task_header {
+        padding-top: 20px;
+        width: 768px !important;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .task_header {
+        margin-top: 20px;
+        width: 415px !important;
+    }
+
+    #task_content {
+        margin-top: 80px;
+    }
+}
+
+/*@media (min-width: 1200px){
+    .task_header{
+        width:900px;
+    }
+}
+@media (min-width: 1200px){
+    .task_header{
+        width:1068px;
+    }
+}
+@media (min-width: 769px) and (max-width: 992px) {
+    .task_header{
+        width:40px;
+    }
+}*/
+.modal_top_botton {
+    color: #5E5E5E;
+}
+
+.c-lightRed {
+    color: rgba(244, 67, 54, 0.89) !important;
+}
+
+.required_star {
+    color: #f48642 !important;
+}
+
+#new_form .form-group .dropdown-toggle {
+    padding: 0px !important;
+}
+
+
+#new_form .grid .form-group {
+    margin-bottom: 0px !important;
+}
+
+
+#new_form .form-group .bootstrap-select > .btn-default:before {
+    top: 0px !important;
+    right: 0px !important;
+    height: calc(100% - 0px) !important;
+    /*background-color: aliceblue !important;*/
+    background-position: right calc(100% - 0px) !important;
+}
+#new_form .dropdown-menu > li > a{
+    padding: 5px!important;
+}
+#new_form .bootstrap-select.btn-group .dropdown-toggle .filter-option{
+    text-transform: none;
+}
+
+/*#new_form .form-group .bootstrap-select.btn-group .dropdown-toggle .filter-option {*/
+    /*background: aliceblue;*/
+/*}*/
+#new_form .fileinput-exists{
+    width: 100%;
+}
+/*-----------Header-----------*/
+#new_form_area .action-header, #common_case_form .action-header{
+    padding: 14px 10px;
+    min-height: 42px;
+}
+
+#new_form_area .action-header .actions, #common_case_form .action-header .actions{
+        top: 6px;
+}
+
+.grid .table > thead > tr > th {
+    padding: 0px 10px;
+    text-transform: capitalize;
+}
+
+.grid > .table > thead > tr > th:last-child, th:first-child {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+}
+
+#in_word {
+    text-transform: capitalize !important;
+}
+
+#partA-label, #justification-label, #budgetary_info-label, #part-B-label, #note-label {
+    color: black !important;
+}
+#new_form .form-control{
+    background-color: #ffffff !important;
+    border-bottom: 2px dotted #c1c1c1 !important
+}
+
+#new_form input:not([type=submit]) {
+    height: 20px !important;
+}
+
+#new_form .form-group {
+    margin-bottom: 8px !important;
+}
+#new_form .bootstrap-select > .btn-default{
+    border-bottom: 2px dotted #c1c1c1 !important;
+}
+
+#pause_case tbody tr,
+#participated_case tbody tr,
+#draft_case tbody tr,
+#inbox_case tbody tr {
+    cursor: pointer;
+}
+
+.task_content {
+    margin-top: 30px;
+    padding-top: 30px;
+}
+
+.table.case_property td {
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.table.current_task td {
+    font-size: 10px;
+    font-weight: 900;
+}
+
+/* .list-group-item.active{
+    z-index: 2;
+    background-color: yellow;
+} */
+#case_property dl,
+#current_task dl {
+    margin-bottom: 10px !important;
+}
+
+.unread {
+    font-weight: bold;
+}
+
+#uploaded_document, #generated_document, #process_map, #upload_doc, #comment_tab {
+    min-height: 300px;
+}
+
+#gr_show_table > tbody > tr > td {
+    padding: 10px 5px;
+}
+
+#gr_show_table > th:first-child {
+    padding-left: 10px;
+}
+
+#po_information_area_ > .table > tbody > tr > td {
+    padding: 10px 5px;
+}
+
+#vat_chalan_attach, #delivery_chalan_attach, #supporting_doc_attach, #other_doc_attachment, #gr_show_table, #transactionTable, #po_information_area_ > .table {
+    border: 2px solid #f3f3f3;
+}
+
+#gr_show_table {
+    margin-top: 10px;
+}
+
+#po_information_area_ > .table > thead > tr > th:first-child {
+    padding-left: 10px;
+}
+
+#transactionTable > tbody > tr > td {
+    padding: 10px 5px;
+}
+
+#transactionTable tr > th:first-child {
+    padding-left: 10px;
+}
+
+/*#case_property ul li i,
+#current_task ul li i{
+    list-style: none;
+    line-height: 2;
+    font-weight: bold;
+    color: #303a6e;
+}
+#case_property ul li,
+#current_task ul li {
+    list-style: none;
+    line-height: 2;
+    font-weight: bold;
+}*/
+#list_group > .list-group-item {
+    cursor: pointer;
+}
+
+/*
+@media (max-width: 768px) {
+    .task_header{
+        width:1056px;
+    }
+}
+@media (min-width: 769px) and (max-width: 992px) {
+    .task_header{
+        width:100px;
+    }
+}*/
+.close {
+    opacity: 1 !important;
+}
+
+.select2-dropdown .select2-container--default .select2-selection--multiple,
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    border-radius: 0;
+}
+
+.select2-container--default .select2-selection--multiple {
+    border-top: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid #e6e6e6 !important;
+    border-left: 0 !important;
+}
+
+.select2-container--default .select2-selection--multiple,
+.select2-container--open .select2-dropdown--below {
+    border-radius: 0 !important;
+}
+
+.loading-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+}
+
+.loader {
+    display: none;
+    width: 200px;
+    height: 200px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    margin-left: -50px;
+    margin-top: -100px;
+    z-index: 1200;
+    overflow: auto;
+}
+
+.files_list {
+    margin-top: 10px;
+}
+
+.files_list li {
+    margin-bottom: 3px;
+}
+
+.grid {
+    border: 2px solid #ddd!important;
+}
+/*.grid h4{*/
+    /*margin: 2px 0px;*/
+/*}*/
+.grid .table > tbody > tr > td {
+    padding: 5px;
+}
+
+.grid .table > tbody > tr > td:first-child {
+    padding-left: 5px;
+}
+
+.po_input_set {
+    border: 2px solid #f3f3f3;
+    padding: 20px;
+    margin: 10px 0px;
+}
+
+.po_input_set .form-group {
+    margin-bottom: 10px;
+}
+
+.add_grid_row {
+    color: #000;
+}
+
+#summary_modal .table > tbody > tr > td:first-child {
+    padding-left: 5px;
+}
+
+#summary_modal .table > tbody > tr > td {
+    padding: 10px 5px !important;
+}
+
+.comment_side.col-md-4 {
+    padding: 0px 10px;
+    border: 2px solid #f3f3f3;
+}
+
+.comment_side .wic-form {
+    padding: 10px 0px 0px 0px;
+}
+
+.comment_side button {
+    padding: 1px 6px;
+}
+
+.comment_side .wicf-actions {
+    margin-top: 5px;
+}
+
+.pre_comment:last-child {
+    margin-bottom: 10px;
+}
+
+.pre_comment small {
+    color: #009688;
+}
+
+#vendor_list {
+    background: red;
+}
+
+#add_more_po {
+    display: none;
+}
+
+div#gr_modal_ {
+    z-index: 99999;
+}
+
+.show_gr {
+    font-size: 18px;
+}
+
+.delete_po {
+    color: #f00;
+    margin-left: 10px;
+    font-size: 18px;
+}
+
+#gr_show_table td {
+    word-break: break-all;
+}
+
+#gr_show_table td:last-child {
+    text-align: center;
+}
+
+/*#new_form textarea {*/
+    /*padding-bottom: 9px;*/
+/*}*/
+.form-control:not(.fc-alt).auto-size {
+    padding-top: 0px !important;
+}
+/* http://docs.jquery.com/UI/Autocomplete#theming*/
+.ui-autocomplete {
+    position: absolute;
+    cursor: default;
+    background: #FFFFFF
+}
+
+/* workarounds */
+html .ui-autocomplete {
+    width: 1px;
+}
+
+/* without this, the menu expands to 100% in IE6 */
+.ui-menu {
+    list-style: none;
+    padding: 2px;
+    margin: 0;
+    display: block;
+    float: left;
+    box-shadow: 2px 2px 1px #888888;
+    overflow-y: scroll;
+    height: auto;
+    max-height: 300px;
+}
+
+.ui-menu .ui-menu {
+    margin-top: -3px;
+}
+
+.ui-menu .ui-menu-item {
+    margin: 0;
+    padding: 0;
+    zoom: 1;
+    float: left;
+    clear: left;
+    width: 100%;
+}
+
+.ui-menu .ui-menu-item a {
+    text-decoration: none;
+    display: block;
+    padding: .2em .4em;
+    line-height: 2;
+    zoom: 1;
+}
+
+.ui-menu .ui-menu-item a.ui-state-hover,
+.ui-menu .ui-menu-item a.ui-state-active {
+    font-weight: normal;
+    margin: -1px;
+    background-color: #ECECEC;
+    color: #333;
+    text-decoration: none;
+    border: 0px;
+}
+
+#common_case_form {
+    display: none;
+}

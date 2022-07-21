@@ -1,0 +1,24 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/cases.min.css">
+{% endblock %}
+{% block content %}
+    <section id="main">
+        <!--Sidebar Menu Workflow-->
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <!--End Sidebar Menu Workflow-->
+        {% include 'workflow/cases/content.html' %}
+
+    </section>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        {#let e_form_url = "{{ url('workflow:cases:e_form') }}";#}
+        let e_form_url = "/workflow/case/e_form/";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/unassigned.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/app/unassigned.min.js"></script>
+{% endblock %}

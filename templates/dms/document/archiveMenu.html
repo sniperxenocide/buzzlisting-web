@@ -1,0 +1,49 @@
+<ul class="dropdown-menu dropdown-menu-right dm-icon doc-action" role="menu">
+    <li role="presentation">
+        <a role="menuitem" tabindex="-1" href="#" class="not-allowed" data-action="editMeta">
+            <i class="zmdi zmdi-edit"></i> Edit metadata
+        </a>
+    </li>
+    <li role="presentation">
+        <a role="menuitem" tabindex="-1" href="#" class="not-allowed" data-action="checkOut">
+            <i class="zmdi zmdi-badge-check"></i> Check Out
+        </a>
+    </li>
+    <li class="divider"></li>
+    <li role="presentation">
+        <a role="menuitem" tabindex="-1" href="#" class="not-allowed" data-action="download">
+            <i class="zmdi zmdi-download"></i> Download
+        </a>
+    </li>
+    <li role="presentation">
+        <a role="menuitem" tabindex="-1" href="#" class="not-allowed" data-action="print">
+            <i class="zmdi zmdi-print"></i> Print
+        </a>
+    </li>
+    <li role="presentation">
+        <a role="menuitem" tabindex="-1" href="#" class="not-allowed" data-action="delete">
+            <i class="zmdi zmdi-delete"></i> Delete
+        </a>
+    </li>
+    <li class="divider"></li>
+    <li role="presentation">
+        {% if request.user.role.id == 1 %}
+            <a role="menuitem" tabindex="-1" href="#" data-action="archive" id="restore_archive">
+                <i class="zmdi zmdi-archive"></i> Restore Archive
+            </a>
+        {% else %}
+            <a role="menuitem" tabindex="-1" href="#" class="not-allowed" data-action="archive">
+                <i class="zmdi zmdi-archive"></i> Archive
+            </a>
+        {% endif %}
+        {#        {% if 24 in request.user.role.permission.values_list('id', flat=True) %}#}
+        {#            <a role="menuitem" tabindex="-1" href="#" data-action="achive">#}
+        {#                <i class="zmdi zmdi-archive"></i> Archive#}
+        {#            </a>#}
+        {#        {% else %}#}
+        {#            <a role="menuitem" tabindex="-1" href="#" class="not-allowed" data-action="achive">#}
+        {#                <i class="zmdi zmdi-archive"></i> Archive#}
+        {#            </a>#}
+        {#        {% endif %}#}
+    </li>
+</ul>

@@ -1,0 +1,346 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <link rel="stylesheet" href="{{ STATIC_URL }}workflow/cases/css/cases.css">
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <section id="main">
+        <!--Sidebar Menu Workflow-->
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar.html' %}
+        {% endwith %}
+        <!--End Sidebar Menu Workflow-->
+        {#{% include 'workflow/cases/content.html' %} Shuvo#}
+
+        <section id="content" class="content">
+            <div class="container">
+                {% set icons =  '
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-info" id="summary_button" title="Case Summary"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="zmdi zmdi-replay" id="unpause_button" title="Unpause Case"></i>
+                    </a>
+                </li>
+                <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" aria-expanded="true" title="Search status-wise">
+                            <span data-toggle="tooltip" data-placement="bottom">
+                                <i class="zmdi zmdi-more-vert f-20 c-black"></i>
+                            </span>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a href="#">All</a>
+                            </li>
+                            <li>
+                                <a href="#">Read</a>
+                            </li>
+                            <li>
+                                <a href="#">Unread</a>
+                            </li>
+                        </ul>
+                    </li>' %}
+
+                {% with icons=icons, table_id='pause_case', table_header='Paused Case',
+                search_title='Search' %}
+                    {% include 'core/base/datatable.html' %}
+                {% endwith %}
+
+
+                {#  Summary Modal#}
+                <div class="modal fade" id="summary_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close m-r-10" data-dismiss="modal">
+                                    <i class="zmdi zmdi-close modal_top_botton" title="Close"></i>
+                                </button>
+                                <button type="button" class="close m-r-10">
+                                    <i class="zmdi zmdi-print modal_top_botton" title="Print summary"></i>
+                                </button>
+
+                                <h3 class="modal-title">Case Summary</h3>
+                            </div>
+                            <div class="modal-body">
+                                <div role="tabpanel">
+                                    <ul class="tab-nav" role="tablist">
+                                        <li class="active"><a href="#summary" aria-controls="summary" role="tab"
+                                                              data-toggle="tab">General Information</a></li>
+                                        <li><a href="#uploaded_document" aria-controls="uploaded_document" role="tab"
+                                               data-toggle="tab">Uploaded Document</a>
+                                        </li>
+                                        <li><a href="#generated_document" aria-controls="generated_document" role="tab"
+                                               data-toggle="tab">Generated Document</a>
+                                        </li>
+                                        <li><a href="#process_map" aria-controls="process_map" role="tab"
+                                               data-toggle="tab">Process Map</a>
+                                        </li>
+                                    </ul>
+
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="summary">
+                                            <div class="modal-body">
+                                                <div class="panel-group" data-collapse-color="teal" id="accordionTeal"
+                                                     role="tablist" aria-multiselectable="true">
+                                                    <div class="panel panel-collapse">
+                                                        <div class="panel-heading" role="tab">
+                                                            <h4 class="panel-title">
+                                                                <a data-toggle="collapse" data-parent="#accordionTeal"
+                                                                   href="#accordionTeal-one" aria-expanded="true">
+                                                                    Case Properties
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="accordionTeal-one" class="collapse in" role="tabpanel">
+                                                            <div class="panel-body" id="case_property">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="pmbb-body p-l-30">
+                                                                            <div class="pmbb-view">
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>Process Name</dt>
+                                                                                    <dd class="process_name"></dd>
+                                                                                </dl>
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>Case Title</dt>
+                                                                                    <dd class="case_title"></dd>
+                                                                                </dl>
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>Case Number</dt>
+                                                                                    <dd class="case_number"></dd>
+                                                                                </dl>
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>Case Status</dt>
+                                                                                    <dd class="case_status"></dd>
+                                                                                </dl>
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>Case Uid</dt>
+                                                                                    <dd class="case_uid"></dd>
+                                                                                </dl>
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>creator</dt>
+                                                                                    <dd class="creator"></dd>
+                                                                                </dl>
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>Create Date</dt>
+                                                                                    <dd class="create_date"></dd>
+                                                                                </dl>
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>Last Update</dt>
+                                                                                    <dd class="last_update"></dd>
+                                                                                </dl>
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>Case Description</dt>
+                                                                                    <dd class="case_desc"></dd>
+                                                                                </dl>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel panel-collapse">
+                                                        <div class="panel-heading" role="tab">
+                                                            <h4 class="panel-title">
+                                                                <a class="collapsed" data-toggle="collapse"
+                                                                   data-parent="#accordionTeal"
+                                                                   href="#accordionTeal-two"
+                                                                   aria-expanded="false">
+                                                                    Current Task(s) Properties
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="accordionTeal-two" class="collapse" role="tabpanel">
+                                                            <div class="panel-body" id="current_task">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="pmbb-body p-l-30">
+                                                                            <div class="pmbb-view">
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>Task</dt>
+                                                                                    <dd class="task"></dd>
+                                                                                </dl>
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>Current user</dt>
+                                                                                    <dd class="current_user"></dd>
+                                                                                </dl>
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>Task Delegate Date</dt>
+                                                                                    <dd class="task_delegate_date"></dd>
+                                                                                </dl>
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>Task Init Date</dt>
+                                                                                    <dd class="task_init_date"></dd>
+                                                                                </dl>
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>Task Due Date</dt>
+                                                                                    <dd class="task_due_date"></dd>
+                                                                                </dl>
+                                                                                <dl class="dl-horizontal">
+                                                                                    <dt>Task Finish Date</dt>
+                                                                                    <dd class="task_finish_date"></dd>
+                                                                                </dl>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="uploaded_document">
+                                            {#<a href="#"><i class="zmdi zmdi-download" style="font-size: 20px"></i></a>#}
+                                            <div class="card-body table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>File Name</th>
+                                                        <th>Comment</th>
+                                                        <th>Type</th>
+                                                        <th>Version</th>
+                                                        <th>Original Task</th>
+                                                        <th>Created By</th>
+                                                        <th>Create Date</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>Something</td>
+                                                        <td>Alexandra</td>
+                                                        <td>2.0</td>
+                                                        <td>Draft</td>
+                                                        <td>Sleep</td>
+                                                        <td>Ducky</td>
+                                                        <td>2-1-2016</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="generated_document">
+                                            <div class="card-body table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Title</th>
+                                                        <th>Comment</th>
+                                                        <th>Type</th>
+                                                        <th>Version</th>
+                                                        <th>Original Task</th>
+                                                        <th>Created By</th>
+                                                        <th>Create Date</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>Something</td>
+                                                        <td>Alexandra</td>
+                                                        <td>2.0</td>
+                                                        <td>Draft</td>
+                                                        <td>Sleep</td>
+                                                        <td>Ducky</td>
+                                                        <td>2-1-2016</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="process_map">
+                                            <h4>Precess form Will be shown here</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pause modal -->
+                <div class="modal fade" id="pause_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title"><i class="zmdi zmdi-account-box m-r-10"></i> Pause Case</h4>
+                            </div>
+                            <form id="pause_case_form">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-12 m-t-20">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="fg-label ">Unpause Time<span
+                                                            class="required_star"> *</span></label>
+                                                    <input class="form-control date-time-picker"
+                                                           id="unpause_time"
+                                                           tabindex="8"
+                                                           required=""
+                                                           data-parsley-trigger="change"
+                                                           name="unpause_time">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group fg-float">
+                                                <div class="fg-line">
+                                                    <label class="fg-label">Reason To Pause <span class="required_star"> *</span></label>
+                                                    <textarea class="form-control auto-size"
+                                                              name="reason"
+                                                              id="reason"
+                                                              required=""
+                                                              tabindex="5"
+                                                              data-parsley-trigger="change"
+                                                              maxlength="200"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 checkbox m-l-15">
+                                            <label class="p-l-10">
+                                                <input type="checkbox" name="notify_user" id="notify_user" value="true">
+                                                <i class="input-helper"></i>Notify users of case
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn bgm-bluegray waves-effect" id="pause_submit">Pauser Case
+                                    </button>
+                                    <button type="button" class="btn bgm-gray waves-effect" data-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </section>
+
+
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        {#let e_form_url = "{{ url('workflow:cases:e_form') }}";#}
+        let e_form_url = "/workflow/case/e_form/";
+        let all_user = "{{ url('api:rbac:user-list') }}";
+    </script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/pause_case.js"></script>
+    {#<script type="text/javascript" src="{{ STATIC_URL }}assets/js/cases.min.js"></script>#}
+{% endblock %}

@@ -1,0 +1,28 @@
+.affix {
+    top: 0;
+    width: 100%;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.show {
+    visibility: visible;
+}
+
+.task_header {
+    min-height: 70px;
+    position: fixed;
+    z-index: 6;
+    top: 70px;
+}
+
+.task_content {
+    padding-top: 30px;
+}
+
+.profile_picture {
+    margin: auto !important;
+}
+

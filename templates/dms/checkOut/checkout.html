@@ -1,0 +1,48 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/checkout/css/checkout.css">
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+
+        <section id="content">
+        {% if not request.user.role.permission.filter(pk=13).exists() %}
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="f-400">Please select your desired menu</h2>
+                </div>
+            </div>
+        {% else %}
+            <div class="container">
+                <div class="container">
+                    {% set icons =  '
+                <li>
+                    <a href="#" disabled="disabled">
+                        <i class="zmdi zmdi-account-add c-black" id="add_user_button" title="Add User"></i>
+                    </a>
+                </li>
+                ' %}
+
+                    {% with icons='', table_id='checkedOutTaskTable', table_header='Check Out Document',
+                search_title='' %}
+                        {% include 'core/base/datatable.html' %}
+                    {% endwith %}
+                </div>
+            </div>
+        {% endif %}
+        </section>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script>
+        var checkOut_url = "{{ url('api:dms:documents:checkoutdoc-list') }}";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/checkout/js/checkout.js"></script>
+
+{% endblock %}

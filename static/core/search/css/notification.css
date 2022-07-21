@@ -1,0 +1,22 @@
+#notification_bar .lg-body {
+    min-height: 10px;
+}
+
+#task_counts, #announce_count {
+    font-size: 17px;
+    font-weight: bold;
+    color: #009688;
+}
+
+#notification_bar::-webkit-scrollbar {
+    width: 0.31em;
+    height: 0.31em;
+}
+
+#notification_bar::-webkit-scrollbar-thumb {
+    background: #019688;
+}
+
+#notification_bar::-webkit-scrollbar-track {
+    background: transparent;
+}

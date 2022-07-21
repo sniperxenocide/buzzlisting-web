@@ -1,0 +1,115 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/dmsActivity/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}core/search/css/search_result.css">
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        <section id="content" class="content content-alt">
+            <div class="container">
+
+                <div class="card">
+                    <div class="list-group lg-odd-black">
+                        <div class="action-header clearfix">
+                            <div class="ah-label hidden-xs">Search History</div>
+
+                            <ul class="actions">
+                                <li class="dropdown">
+                                    <a href="#" data-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-download c-black" style="font-size:16px;"></i>
+                                    </a>
+
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li>
+                                            <a href="#"><i class="fa fa-file-pdf-o m-r-5" aria-hidden="true"></i>Export
+                                                to PDF</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fa fa-file-excel-o m-r-5" aria-hidden="true"></i>Export
+                                                to XLS</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fa fa-file-text-o m-r-5" aria-hidden="true"></i>Export
+                                                to CSV</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="zmdi zmdi-print c-black" id="print"
+                                           style="font-size:16px;" title="Print"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="search_history_content">
+
+                        </div>
+                    </div>
+
+                    <ul class="pagination lg-pagination" id="paging">
+                        {#<li>
+                            <a href="#" aria-label="Previous" id="previous" class="disabled_li">
+                                <i class="zmdi zmdi-chevron-left"></i>
+                            </a>
+                        </li>#}
+
+                        {#<li class="active" id="page_number"><a href="#">1</a></li>#}
+                        {#<li>
+                            <a href="#" aria-label="Next" id="next">
+                                <i class="zmdi zmdi-chevron-right"></i>
+                            </a>
+                        </li>#}
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </section>
+{% endblock %}
+
+{% block js %}
+    {% raw %}
+    <script type="template" id="search_list">
+        <div class="list-group-item media search_list" data-info="{{=d.id}}">
+            <div class="pull-left">
+                {{=d.extension}}
+            </div>
+            <div class="actions dropdown pull-right">
+                <a href="{{=d.id}}" data-toggle="dropdown" aria-expanded="true">
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <a href="#"><i class="fa fa-eye m-r-5" aria-hidden="true" style="font-size:16px;"></i>View</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="zmdi zmdi-print m-r-5" aria-hidden="true" style="font-size:16px;"></i>Print</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="zmdi zmdi-download m-r-5" aria-hidden="true" style="font-size:16px;"></i>Download</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="media-body">
+                <div class="lgi-heading">{{=d.docName}}
+                </div>
+                <ul class="lgi-attrs search_info">
+                    <li>File Number: {{=d.fileNumber}}</li>
+                    <li>Uploader: {{=d.uploader}}</li>
+                    <li>Metafields: {{=d.metafield}}</li>
+                </ul>
+            </div>
+        </div>
+    </script>
+    {% endraw %}
+    <script>
+        let search_result_url = "/static/core/search/js/search_history_dummy.json";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/document/d3.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}core/search/js/doT.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}core/search/js/app/search_result.js"></script>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Workflow</title>
+
+    <!— Common CSS-->
+    <link href="{{ STATIC_URL }}assets/css/common.min.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}core/search/css/search.css" rel="stylesheet">
+
+</head>
+
+<body>
+{#<section id="main">#}
+{#    <section id="content">#}
+{#        Please check your inbox in workflow. There is a task sent by {{ sent_by }} or click#}
+{#        <a href="http://{{ workflow_link }}" target="_blank">here#}
+{#    </a>.#}
+{#    </section>#}
+{#</section>#}
+
+{#<table class="raw_table">#}
+{#    <tr>#}
+{#        <td style="width: 80px"><img#}
+{#                src="http://i.telegraph.co.uk/multimedia/archive/03589/Wellcome_Image_Awa_3589699k.jpg" alt=""#}
+{#                width="70px"></td>#}
+{#        <td style="font-family: Georgia; padding: 5px 0px; margin: 0px; letter-spacing: 1px;"><h2>InfoSapex Ltd</h2>#}
+{#        </td>#}
+{#    </tr>#}
+{#</table>#}
+<p style="margin-bottom: 10px; padding: 5px 0px; font-family: Georgia; font-size: 13px; letter-spacing: 1px;">
+    Dear <strong style="letter-spacing: 1px;">{{ manager }},</strong>
+</p>
+<p style="margin-bottom: 5px; font-family: Georgia; font-size: 13px; letter-spacing: 1px;">
+    Greetings from Green Office,
+
+</p>
+<p style="font-family: Georgia;font-size: 13px; letter-spacing: 1px;">
+    Green Office would like to kindly inform you that, {{ task }} has been overdue for {{ current_user }}.
+    {% if manager_assignment %}
+        System assigned it to you as per policy.
+    {% else %}
+        Please take necessary steps to complete it.
+    {% endif %}
+    <br/><br/>
+    Task details: <br/>
+    App No: <strong style="letter-spacing: 1px;"> {{ app_number }} </strong><br/>
+    Process Name: <strong style="letter-spacing: 1px;">  {{ project_name }} </strong><br/>
+    Init Date: <strong style="letter-spacing: 1px;"> {{ init_date }} </strong> <br>
+    Due Date: <strong style="letter-spacing: 1px;"> {{ due_date }} </strong> <br>
+    Sent by: <strong style="letter-spacing: 1px;"> {{ sent_by }}</strong> <br>
+
+    {% if manager_assignment %}
+        <br>
+        To view it please click <a href="http://{{ delegation_link }}">here</a>.
+    {% endif %}
+</p>
+
+<p style="font-family: Georgia; font-size: 13px; letter-spacing: 1px;"> Thanks & Best Regards,<br>
+    <strong style="letter-spacing: 1px;">InfoSapex</strong><br>
+</p>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+
+        <section id="content">
+             <div class="container">
+                {% set icons =  '
+                <li>
+                    <a href="#" id="add_meta_button">
+                        <i class="zmdi zmdi-plus-circle-o-duplicate"></i>
+                    </a>
+                </li>
+                 <li>
+                    <a href="#" id="delete_file_button">
+                        <i class="zmdi zmdi-delete"></i>
+                    </a>
+                </li>
+                ' %}
+
+                {% with icons=icons, table_id='pendingMeta_list', table_header='Unfinished File List',
+                search_title='Put your search string' %}
+                    {% include 'core/base/datatable.html' %}
+                {% endwith %}
+            </div>
+        </section>
+    </section>
+{%  endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        let pendingMeta_api = "{{ url('dms:document:pendingMetalist-list') }}";
+        let delete_pending_Meta = "{{ url('dms:document:deletePendingMeta') }}"
+
+    </script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/uploader/js/app/uploader.js"></script>
+
+{% endblock %}

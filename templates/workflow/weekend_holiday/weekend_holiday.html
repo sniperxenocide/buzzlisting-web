@@ -1,0 +1,91 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/datatable.min.css">#}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Weekend
+                            <small>Mark checkboxes to update the weekend.</small>
+                        </h2>
+                    </div>
+
+                    <div class="card-body card-padding">
+                        {% for key, val in weekend_form.day.field.choices %}
+                            {% if key != '' %}
+                                <label class="checkbox checkbox-inline m-r-20">
+                                    <input type="checkbox" class="week_day"
+                                            {% if key in weekend_list %}
+                                           checked
+                                            {% endif %}
+                                           value="{{ key }}">
+                                    <i class="input-helper"></i> {{ val }}
+                                </label>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Holiday
+                            <small>Add or delete the holidays by selecting the dates.</small>
+                        </h2>
+                    </div>
+
+                    <div class="card-body card-padding">
+                        <form class="row" id="holiday_entry_form" role="form">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div class="dtp-container">
+                                        <input type="text" name="date" class="form-control holiday_date_picker"
+                                               placeholder="Click here...">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        <input type="text" name="description" class="form-control" required
+                                               placeholder="Description" data-parsley-error-message="A description for holiday is required">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <button type="submit" class="btn btn-primary btn-sm m-t-5 waves-effect"
+                                        id="save_holiday_button">Save
+                                </button>
+                            </div>
+                        </form>
+
+                        {% with icons='', table_id='holiday_list', table_header='Holidays', search_title='Search by description keyword' %}
+                            {% include 'core/base/datatable.html' %}
+                        {% endwith %}
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        const WeekendAPIURI = "{{ url('api:workflow:weekend-list') }}";
+        const HolidayAPIURI = "{{ url('api:workflow:holiday-list') }}";
+    </script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/weekend_holiday.js"></script>
+{% endblock %}

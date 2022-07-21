@@ -1,0 +1,643 @@
+<header id="header" class="clearfix" data-ma-theme="bluegray">
+    <ul class="h-inner">
+        <li class="hi-trigger ma-trigger" data-ma-action="sidebar-open" data-ma-target="#sidebar">
+            <div class="line-wrap">
+                <div class="line top"></div>
+                <div class="line center"></div>
+                <div class="line bottom"></div>
+            </div>
+        </li>
+        <li class="hi-logo hidden-xs">
+            <a href="{{ url('dashboard:dashboard') }}">
+                {% if DMS == "9dL53eBFDK" and WORKFLOW != "aBX3RODumf" %}
+                    <!-- Only DMS -->
+                    <img src="{{ STATIC_URL }}assets/images/green_office.png" alt="">
+                {% else %}
+                    <img src="{{ STATIC_URL }}assets/images/BuzzlistingLogo.png" alt="">
+                {% endif %}
+
+            </a>
+        </li>
+        <li class="pull-right">
+            <ul class="hi-menu">
+
+                {#               Upama#}
+
+                {# new #}
+
+
+                {# new #}
+
+
+                {# Upama #}
+
+
+                {#                                <li class="dropdown">#}
+                {#                                    <a data-toggle="dropdown" href="#">#}
+                {#                                        <i class="him-icon zmdi zmdi-email"></i>#}
+                {#                                        <i class="him-counts">6</i>#}
+                {#                                    </a>#}
+                {#                                    <div class="dropdown-menu dropdown-menu-lg pull-right">#}
+                {#                                        <div class="list-group">#}
+                {#                                            <div class="lg-header">#}
+                {#                                                Messages#}
+                {#                                            </div>#}
+                {#                                            <div class="lg-body">#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/1.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">David Belle</div>#}
+                {#                                                        <small class="lgi-text">Cum sociis natoque penatibus et magnis dis parturient#}
+                {#                                                            montes#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/2.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">Jonathan Morris</div>#}
+                {#                                                        <small class="lgi-text">Nunc quis diam diamurabitur at dolor elementum, dictum#}
+                {#                                                            turpis vel#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/3.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">Fredric Mitchell Jr.</div>#}
+                {#                                                        <small class="lgi-text">Phasellus a ante et est ornare accumsan at vel magnauis#}
+                {#                                                            blandit turpis at augue ultricies#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/4.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">Glenn Jecobs</div>#}
+                {#                                                        <small class="lgi-text">Ut vitae lacus sem ellentesque maximus, nunc sit amet#}
+                {#                                                            varius dignissim, dui est consectetur neque#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/4.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">Bill Phillips</div>#}
+                {#                                                        <small class="lgi-text">Proin laoreet commodo eros id faucibus. Donec ligula#}
+                {#                                                            quam, imperdiet vel ante placerat#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                            </div>#}
+                {#                                            <a class="view-more" href="#">View All</a>#}
+                {#                                        </div>#}
+                {#                                    </div>#}
+                {#                                </li>#}
+                {#                                <li class="dropdown">#}
+                {#                                    <a data-toggle="dropdown" href="#">#}
+                {#                                        <i class="him-icon zmdi zmdi-notifications"></i>#}
+                {#                                        <i class="him-counts">9</i>#}
+                {#                                    </a>#}
+                {#                                    <div class="dropdown-menu dropdown-menu-lg pull-right">#}
+                {#                                        <div class="list-group him-notification">#}
+                {#                                            <div class="lg-header">#}
+                {#                                                Notification#}
+                {#                                                <ul class="actions">#}
+                {#                                                    <li class="dropdown">#}
+                {#                                                        <a href="#" data-ma-action="clear-notification">#}
+                {#                                                            <i class="zmdi zmdi-check-all"></i>#}
+                {#                                                        </a>#}
+                {#                                                    </li>#}
+                {#                                                </ul>#}
+                {#                                            </div>#}
+                {#                                            <div class="lg-body">#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/1.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">David Belle</div>#}
+                {#                                                        <small class="lgi-text">Cum sociis natoque penatibus et magnis dis parturient#}
+                {#                                                            montes#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/2.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">Jonathan Morris</div>#}
+                {#                                                        <small class="lgi-text">Nunc quis diam diamurabitur at dolor elementum, dictum#}
+                {#                                                            turpis vel#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/3.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">Fredric Mitchell Jr.</div>#}
+                {#                                                        <small class="lgi-text">Phasellus a ante et est ornare accumsan at vel magnauis#}
+                {#                                                            blandit turpis at augue ultricies#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/4.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">Glenn Jecobs</div>#}
+                {#                                                        <small class="lgi-text">Ut vitae lacus sem ellentesque maximus, nunc sit amet#}
+                {#                                                            varius dignissim, dui est consectetur neque#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/4.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">Bill Phillips</div>#}
+                {#                                                        <small class="lgi-text">Proin laoreet commodo eros id faucibus. Donec ligula#}
+                {#                                                            quam, imperdiet vel ante placerat#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                            </div>#}
+                {#                                            <a class="view-more" href="#">View Previous</a>#}
+                {#                                        </div>#}
+                {#                                    </div>#}
+                {#                                </li>#}
+                {#                                <li class="dropdown">#}
+                {#                                    <a data-toggle="dropdown" href="#">#}
+                {#                                        <i class="him-icon zmdi zmdi-case"></i>#}
+                {#                                        <i class="him-counts">2</i>#}
+                {#                                    </a>#}
+                {#                                    <div class="dropdown-menu dropdown-menu-lg pull-right">#}
+                {#                                        <div class="list-group him-notification">#}
+                {#                                            <div class="lg-header">#}
+                {#                                                Notification#}
+                {#                                                <ul class="actions">#}
+                {#                                                    <li class="dropdown">#}
+                {#                                                        <a href="#" data-ma-action="clear-notification">#}
+                {#                                                            <i class="zmdi zmdi-check-all"></i>#}
+                {#                                                        </a>#}
+                {#                                                    </li>#}
+                {#                                                </ul>#}
+                {#                                            </div>#}
+                {#                                            <div class="lg-body">#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/1.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">David Belle</div>#}
+                {#                                                        <small class="lgi-text">Cum sociis natoque penatibus et magnis dis parturient#}
+                {#                                                            montes#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/2.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">Jonathan Morris</div>#}
+                {#                                                        <small class="lgi-text">Nunc quis diam diamurabitur at dolor elementum, dictum#}
+                {#                                                            turpis vel#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/3.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">Fredric Mitchell Jr.</div>#}
+                {#                                                        <small class="lgi-text">Phasellus a ante et est ornare accumsan at vel magnauis#}
+                {#                                                            blandit turpis at augue ultricies#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/4.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">Glenn Jecobs</div>#}
+                {#                                                        <small class="lgi-text">Ut vitae lacus sem ellentesque maximus, nunc sit amet#}
+                {#                                                            varius dignissim, dui est consectetur neque#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                                <a class="list-group-item media" href="#">#}
+                {#                                                    <div class="pull-left">#}
+                {#                                                        <img class="lgi-img" src="{{ STATIC_URL }}img/demo/profile-pics/4.jpg" alt="">#}
+                {#                                                    </div>#}
+                {#                                                    <div class="media-body">#}
+                {#                                                        <div class="lgi-heading">Bill Phillips</div>#}
+                {#                                                        <small class="lgi-text">Proin laoreet commodo eros id faucibus. Donec ligula#}
+                {#                                                            quam, imperdiet vel ante placerat#}
+                {#                                                        </small>#}
+                {#                                                    </div>#}
+                {#                                                </a>#}
+                {#                                            </div>#}
+                {#                                            <a class="view-more" href="#">View Previous</a>#}
+                {#                                        </div>#}
+                {#                                    </div>#}
+                {#                                </li>#}
+
+
+                <li class="dropdown">
+                    <a data-toggle="dropdown" href="#"><i class="him-icon zmdi zmdi-apps"></i></a>
+                    <ul class="dropdown-menu dm-icon pull-right">
+                        <li>
+                            <a href="{{ url('dashboard:dashboard') }}"><i class="zmdi zmdi-view-dashboard"></i>
+                                Dashboard</a>
+                        </li>
+                        {% if DMS == "9dL53eBFDK" %}
+                            <li class="divider hidden-xs"></li>
+                            <li>
+                                <a href="{{ url('dms:document:standard_upload') }}"><i class="zmdi zmdi-file-text"></i>
+                                    Document</a>
+                            </li>
+                        {% endif %}
+                        {% if WORKFLOW == "aBX3RODumf" %}
+                            <li class="divider hidden-xs"></li>
+                            <li>
+                                <a href="{{ url('workflow:case:inbox') }}"><i class="zmdi zmdi-aspect-ratio-alt"></i>
+                                    Workflow</a>
+                            </li>
+                        {% endif %}
+                        {#                        {% if 21 in request.user.role.permission.values_list('id', flat=True) %}#}
+
+                        <li>
+                            <a href="{{ url('report:login_report') }}"><i class="zmdi zmdi-chart"></i> Report</a>
+                        </li>
+                        {#                        {% endif %}#}
+                        <li>
+                            <a href="{{ url('buzzlisting:residential') }}"><i class="zmdi zmdi-city-alt"></i> Property Listing</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('admin:user:list') }}"><i class="zmdi zmdi-settings"></i> Admin</a>
+                        </li>
+                    </ul>
+                </li>
+{#                <li>#}
+{#                    <a data-ma-action="fullscreen" href="#"><i class="him-icon zmdi zmdi-fullscreen"></i></a>#}
+{#                </li>#}
+                <li class="dropdown">
+                    <a data-toggle="dropdown" href="#">
+                        <span class="him-label">{{ request.user.get_username() }}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu dm-icon pull-right" style="width: 200px">
+                        <li>
+                            <a href="{{ url('auth:logout') }}"><i class="zmdi zmdi-layers-off"></i> Logout</a>
+                        </li>
+                        {% if WORKFLOW == "aBX3RODumf" %}
+                            <li>
+                                <a href="#" id="delegate"><i class="zmdi zmdi-accounts-alt"></i> Delegatee</a>
+                            </li>
+                        {% endif %}
+                        {% if WORKFLOW == "aBX3RODumf" and DMS == "9dL53eBFDK" %}
+                            <!--<li class="toggle-switch toggle-switch-demo" style="display: flex;align-items: center">
+                                <a class="ts-label" href="#"><i class="zmdi zmdi-settings"></i> DMS </a>
+                                <div style="flex: 1;justify-items:end">
+                                    <input id="match_all" checked="" type="checkbox" name="match" data-parsley-multiple="match">
+                                    <label style="align-self:end" for="match_all" class="ts-helper"></label>
+                                </div>
+                            </li>
+                            <li class="toggle-switch toggle-switch-demo" style="display: flex;align-items: center">
+                                <a class="ts-label" href="#"><i class="zmdi zmdi-settings"></i> Workflow </a>
+                                <div style="flex: 1;justify-items: end">
+                                    <input id="match_all" checked="" type="checkbox" name="match" data-parsley-multiple="match">
+                                    <label style="align-items: end" for="match_all" class="ts-helper"></label>
+                                </div>
+                            </li>-->
+
+                        {% endif %}
+                        <li>
+                            <a href="#" class="change_pass"><i class="zmdi zmdi-key"></i> Change password</a>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="h-search-wrap">
+        <div class="hsw-inner form-group has-feedback">
+            <input type="text" id="search_text" data-toggle="dropdown">
+            <i class="hsw-close zmdi zmdi-close search-back"></i>
+            <i class="zmdi zmdi-caret-down c-black search_drop_icon  dropdown-toggle" data-toggle="dropdown"
+               aria-expanded="false"></i>
+            <div class="dropdown-menu dropdown-menu-right search-menu-head" role="menu"
+                 style="overflow-y: scroll; height:400px">
+                <div class="row search-menu">
+                    <div class="col-md-12">
+                        {#<div class="col-sm-6">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <label class="control-label">Search Filter</label>
+                                    <select class="selectpicker"
+                                            name="type" id="select_search">
+                                        <option value="1">DMS</option>
+                                        #}{#                                        <option value="2">Workflow</option>#}{#
+                                    </select>
+                                </div>
+                            </div>
+                        </div>#}
+                        {#                        <div class="col-md-2"></div>#}
+                        <div class="col-sm-6 wf_project_class" style="display: none;">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <label class="control-label">Project</label>
+                                    <select class="selectpicker" data-live-search="true" id="wf_project_id">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form action="" id="dms_search_form">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                    <div id="dms-search-content">
+                        {#                        <div class="row">#}
+                        {#                            <button class="btn bgm-cyan waves-effect pull-right">Saved Search</button>#}
+                        {#                        </div>#}
+                        <div class="doc_data">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <div class="form-group fg-float">
+                                            <div class="fg-line">
+                                                Document Name:
+                                                <input class="form-control"
+                                                       name="docname" id="docname">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group fg-float">
+                                            <div class="fg-line">
+                                                <label class="control-label">Document Type</label>
+                                                <select class="selectpicker"
+                                                        name="DocumentType" id="documentType">
+                                                    <option value="0">CHOOSE</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <div class="form-group fg-float">
+                                            <div class="fg-line">
+                                                Document creation date:
+                                                <input class="form-control date-time-picker"
+                                                       name="doccreated" id="doccreated">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group fg-float">
+                                            <div class="fg-line">
+                                                Document expiration date:
+                                                <input class="form-control date-time-picker"
+                                                       name="docexpire" id="docexpire">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row tag">
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group fg-float">
+                                        <div class="fg-line">
+                                            <span>Tags:</span>
+                                            <select multiple style="width: 100%" name="tags[]"
+                                                    id="search_tags"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div>
+                                        <div class="fg-line">
+                                            Box Number :
+                                            <input id="search_box_number"
+                                                   name="box_number"
+                                                   class="form-control" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div>
+                                        <div class="fg-line">
+                                            Shelf Number :
+                                            <input id="search_shelf_number"
+                                                   name="shelf_number"
+                                                   class="form-control" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-12">
+                                    <div class="meta-data-wrap">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col-md-12">
+                                <div class="col-md-4" style="margin-top: 3px">
+                                    <div class="toggle-switch toggle-switch-demo">
+                                        <label for="include_archive" class="ts-label">Include Archive</label>
+                                        <input id="include_archive" type="checkbox" name="archived" class="m-r-4">
+                                        <label for="include_archive" class="ts-helper"></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="margin-top: 3px">
+                                    <div class="toggle-switch toggle-switch-demo">
+                                        <label for="match_all" class="ts-label">Match All</label>
+                                        <input id="match_all" checked type="checkbox" name="match">
+                                        <label for="match_all" class="ts-helper"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <button class="btn bgm-gray" id="dms_reset_btn" data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Reset">Reset
+                                </button>
+                                <button class="btn bgm-indigo" id="save_search_name" data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Save Search">Save Search
+                                </button>
+                                <button type="submit" class="btn bgm-green"
+                                        id="search_btn" data-toggle="tooltip" data-placement="top"
+                                        title="Search">
+                                    Search
+                                </button>
+                                <button class="btn btn-default waves-effect pull_right" data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Saved Search" id="saved_search"><i class="zmdi zmdi-menu"></i></button>
+                            </div>
+                            <div class="col-md-2">
+
+                            </div>
+                        </div>
+                    </div>
+                    {#
+                    <div class="row" style="margin-top: 60px;">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-default bgm-bluegray pull-right" disabled="disabled"
+                                    id="search_btn" style="margin-left: 5px;">
+                                Search
+                            </button>
+                            <button class="btn btn-default bgm-bluegray pull-right" id="dms_reset_btn">Reset</button>
+                        </div>
+                    </div>
+                    #}
+                </form>
+
+                {#-----------Workflow Form-----------#}
+
+                <form action="" id="workflow_search_form" style="display: none">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                    <div class="wf-search-content">
+                        <div class="col-md-12">
+                            {#                            <div class="row">#}
+                            {#                                <div class="col-md-4">#}
+                            {#                                    <label class="control-label">Project</label>#}
+                            {#                                    <select class="selectpicker" data-live-search="true" id="wf_project_id">#}
+                            {#                                    </select>#}
+                            {#                                </div>#}
+                            {#                            </div>#}
+                            <div class="row">
+                                <div class="var_gen_wrap">
+                                </div>
+                            </div>
+                            <div class="row search_footer">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-default bgm-bluegray pull-right"
+                                            id="workflow_search_btn" style="margin-left: 5px" disabled="disabled">
+                                        Search
+                                    </button>
+                                    <button class="btn btn-default bgm-bluegray pull-right" id="workflow_reset_btn">
+                                        Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            {#----other serach------#}
+            <div class="dropdown-menu dropdown-menu-right search-menu-normal" role="menu" style="display: none">
+                {% if DMS == '9dL53eBFDK' %}
+                    <li id="dms_normal_search">
+                        <a href="#">
+                            <i class="him-icon zmdi zmdi-search" style="padding-right: 6px;font-size: 16px"></i>DMS
+                        </a>
+                    </li>
+                {% endif %}
+                {% if WORKFLOW == 'aBX3RODumf' %}
+                    <li id="workflow_normal_search">
+                        <a href="#">
+                            <i class="him-icon zmdi zmdi-search" style="padding-right: 6px;font-size:16px"></i>Workflow
+                        </a>
+                    </li>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="modal fade" id="change_pass">
+    <div class="modal-dialog modal-md">
+        <form action="#" id="change_pass_form" enctype="multipart/form-data">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #005A39">
+                    <button type="button" class="close c-white" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title c-white">Change Password</h4>
+                </div>
+                <br><br>
+                <input type="hidden" name="po">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="fg-line">
+                                    <label class="fg-label">Old Password<span class="required_star">*</span></label>
+                                    <input class="form-control" id="old_password" type="password"
+                                           name="old_password" autocomplete=off
+                                           data-parsley-required
+                                           data-parsley-required-message="You can not keep it blank">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="fg-line">
+                                    <label>New Password<span class="required_star">*</span></label>
+                                    <input class="form-control" id="new_password" type="password"
+                                           name="new_password" autocomplete=off
+                                           data-parsley-required
+                                           data-parsley-required-message="You can not keep it blank">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="fg-line">
+                                    <label>Confirm Password<span class="required_star">*</span></label>
+                                    <input class="form-control" id="confirm_password" type="password"
+                                           name="confirm_password" autocomplete=off
+                                           data-parsley-required
+                                           data-parsley-equalto="#new_password"
+                                           data-parsley-required-message="You can not keep it blank"
+                                           data-parsley-equalto-message="These passwords don't match">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="password_save" class="btn bgm-bluegray btn-default">Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

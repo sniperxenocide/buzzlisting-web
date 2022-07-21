@@ -1,0 +1,738 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}assets/css/categorization.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}assets/css/all_doc_type.min.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+
+    <style>
+        .required_star {
+            color: rgba(244, 67, 54, 0.72) !important;
+        }
+
+        .parsley-custom-error-message {
+            color: rgba(244, 67, 54, 0.72) !important;
+        }
+
+        .btn-group > .btn:first-child {
+            margin-left: 0;
+            padding-bottom: 11px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+                <div class="card">
+                    <div class="card-body card-padding">
+                        <table id="all_doc_list" class="table table-bordered hover table-bordered table-responsive">
+                            <thead>
+                            <tr>
+                                <th colspan="5">
+                                    <span class="back_button_container" style="float: left;"></span>
+                                    <span style="float: right;">
+                                        <button id="add_btn" class="btn bgm-lightgreen btn-sm waves-effect">
+                                            <i class="zmdi zmdi-plus"></i>
+                                            Add
+                                        </button>
+                                        &nbsp;
+                                        <button disabled="disabled" id="update_btn"
+                                                class="btn bgm-amber btn-sm waves-effect">
+                                        <i class="zmdi zmdi-edit"></i>
+                                        Update
+                                    </button>
+                                    &nbsp;
+                                    <button disabled="disabled" id="delete_btn"
+                                            class="btn bgm-red btn-sm waves-effect">
+                                    <i class="zmdi zmdi-delete"></i>
+                                    Delete
+                                    </button>
+                                    &nbsp;
+                                    <button disabled="disabled" id="assign_group"
+                                            class="btn bgm-lightblue btn-sm waves-effect">
+                                        <i class="zmdi zmdi-group-work"></i>
+                                        Assign Group
+                                    </button>
+                                    &nbsp;
+                                    <button disabled="disabled" id="pub_per"
+                                            class="btn bgm-teal btn-sm waves-effect m-r-5">
+                                        <i class="zmdi zmdi-layers"></i>
+                                        Publish
+                                    </button>
+                                    <button disabled="disabled" id="retention"
+                                            class="btn bgm-deeppurple btn-sm waves-effect">
+                                        <i class="zmdi zmdi-archive"></i>
+                                        Retention
+                                    </button>
+                                </span>
+                                </th>
+                            </tr>
+                            <tr>
+                                {#
+                            <th>#Id</th>
+                            #}
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Published</th>
+                                <th>Groups</th>
+                                <th>Retention</th>
+                                {#
+                            <th>Root</th>
+                            #}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+
+                            </tr>
+                            <tr>
+
+                            </tr>
+                            <tr>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    <!--parent null-->
+    <div class="modal fade" id="add_parent_new_cat_doc" tabindex="-1" role="dialog" aria-hidden="true"
+         data-parsley-validate="">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new Category/ Document</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="add_parent_new_cat_doc_form">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        {#<div class="select">#}
+                                        <select class="form-control selectpicker" name="type"
+                                                id="parent_cat_doc_field">
+                                            <option value="cat">Category</option>
+                                            <option value="doc">Document</option>
+                                        </select>
+                                        {#</div>#}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group fg-float">
+                                    <div class="fg-line" id="name">
+                                        <input type="text" name="name" class="form-control fg-input"
+                                               required=""
+                                               data-parsley-trigger="change"
+                                               data-parsley-pattern="^[a-zA-Z0-9_. ]{2,50}$"
+                                               data-parsley-error-message="Name should contain only Alphanumeric and (._) values, length should be 2-50 characters">
+                                        <label class="fg-label">Name:<span class="required_star">*</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {#<div class="row" id="publish_field">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="fg-line">
+                                    <input type="checkbox" name="published" value="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>#}
+                        <div class="modal-footer">
+                            <button type="submit" id="submit_add_new_cat_doc" class="btn btn-link">Save</button>
+                            <button type="button" class="btn btn-link close_btn" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- has parent-->
+    <div class="modal fade" id="add_new_cat_doc" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new Category/ Document</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="add_new_cat_doc_form">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        {#<div class="select">#}
+                                        <select class="form-control selectpicker" name="type" id="cat_doc_field">
+                                            <option value="cat">Category</option>
+                                            <option value="doc">Document</option>
+                                        </select>
+                                        {#</div>#}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group fg-float">
+                                    <div class="fg-line" id="p_name">
+                                        <input type="text" name="name" class="form-control fg-input"
+                                               required=""
+                                               data-parsley-trigger="change"
+                                               data-parsley-pattern="^[a-zA-Z0-9_. ]{2,50}$"
+                                               data-parsley-error-message="Name should contain only Alphanumeric and (._) values, length should be 2-50 characters">
+                                        <label class="fg-label">Name:<span class="required_star">*</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="display: none;">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <div class="select">
+                                        <select class="form-control" name="parent" id="select_parent">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="submit_add_new_cat_doc" class="btn btn-link">Save</button>
+                            <button type="button" class="btn btn-link close_btn" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Add metafield-->
+    <div class="modal fade" id="add_new_metafield" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Meta field</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="add_new_metafield_form">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group" id="add_title">
+                                    <div class="fg-line">
+                                        <label class="control-label">Name:<span class="required_star">*</span></label>
+                                        <input type="text" class="form-control" name="title" required=""
+                                               data-parsley-trigger="change"
+                                               data-parsley-pattern="^[a-zA-Z0-9_.]{3,50}$"
+                                               data-parsley-error-message="Name contains alphanumeric, underscore. Length: 3 to 50">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        {#<div class="select">#}
+                                        <label class="control-label">Data Type</label>
+                                        <select class="form-control selectpicker" name="data_type"
+                                                id="add_meta_type">
+                                            <option value="3">DropDown</option>
+                                            <option value="4">Date</option>
+                                            <option value="5">Float</option>
+                                            <option value="1">Integer</option>
+                                            <option value="2">TextArea</option>
+                                            <option value="0">String</option>
+                                        </select>
+                                        {#</div>#}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="#max_min">
+                            <div class="col-md-6 min_field">
+                                <label class="control-label">Maximum:<span
+                                                class="required_star">*</span></label>
+                                <input id="min_field" type="text" data-parsley-trigger="change"
+                                       data-parsley-le="#max_field"
+                                       data-parsley-type="integer"
+                                       data-parsley-error-message="Value should contain only Integer value and must be smaller or equal to minimum field"
+                                       class="form-control" name="min">
+                            </div>
+                            <div class="col-md-6 max_field">
+                                <label class="control-label">Maximum:<span
+                                                class="required_star">*</span></label>
+                                <input id="max_field" type="text" data-parsley-trigger="change"
+                                       data-parsley-ge="#min_field" data-parsley-type="integer"
+                                       data-parsley-error-message="Value should contain only Integer value and must be greater or equal to minimum field"
+                                       class="form-control" name="max">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group" id="display_name">
+                                    <div class="fg-line">
+                                        <label class="control-label">Display Name:<span
+                                                class="required_star">*</span></label>
+                                        <input type="text" class="form-control" name="displayname" required=""
+                                               data-parsley-trigger="change"
+                                                {#                                               data-parsley-pattern="^[a-zA-Z0-9_. ]{3,50}$"#}
+                                               data-parsley-length="[3, 50]"
+                                                {#                                               data-parsley-error-message="Display Name contains alphanumeric, underscore. Length: 3 to 100"#}
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line" id="add_default_text">
+                                        <label class="control-label">Default Text</label>
+                                        <input type="text" class="form-control" name="default_text"
+                                               data-parsley-trigger="change"
+                                               data-parsley-pattern="^[a-zA-Z0-9_. ]$"
+                                               data-parsley-error-message="Length should be between maximum and minimum field">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        {#<div class="select">#}
+                                        <label class="control-label">Order<span class="required_star">*</span></label>
+                                        <select class="form-control selectpicker" name="order" id="meta_order"
+                                                onmousedown="if(this.options.length>5){this.size=5;}"
+                                                onchange='this.size=0;' onblur="this.size=0;">
+
+                                        </select>
+                                        {#</div>#}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        {#<div class="select">#}
+                                        <label class="control-label">Required</label>
+                                        <select class="form-control selectpicker" name="required" id="required">
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                        {#</div>#}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        <label class="control-label">Unique</label>
+                                        <select class="form-control selectpicker" name="unique" id="unique">
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6" style="display: none;">
+                                <div class="form-group fg-float">
+                                    <div class="fg-line">
+                                        <div class="select" id="update_doc">
+                                            <label class="control-label">Document</label>
+                                            <select class="form-control" name="doc" id="doc" data-parsley-required="">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-link" id="save_metafield">Save</button>
+                            <button type="button" class="btn btn-link close_btn" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--update parent null-->
+    <div class="modal fade" id="update_parent_new_cat_doc" tabindex="-1" role="dialog" aria-hidden="true"
+         data-parsley-validate="">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Category/ Document</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="update_parent_new_cat_doc_form">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                        <div class="row">
+                            {#<div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        #}{#<div class="select">#}{#
+                                        <select class="form-control selectpicker" name="published"
+                                                id="update_parent_published_field">
+                                            <option value="false">Not Published</option>
+                                            <option value="true">Published</option>
+                                        </select>
+                                        #}{#</div>#}{#
+                                    </div>
+                                </div>
+                            </div>#}
+                            <div class="col-sm-12">
+                                <div class="form-group fg-float">
+                                    <div class="fg-line" id="update_parent_name">
+                                        <input type="text" name="name" class="form-control fg-input"
+                                               required=""
+                                               data-parsley-trigger="change"
+                                               data-parsley-pattern="^[a-zA-Z0-9_. ]{2,50}$"
+                                               data-parsley-error-message="Name should contain only Alphanumeric and (._) values, length should be 2-50 characters">
+                                        <label class="fg-label">Name:<span class="required_star">*</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="display:none">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        {#<div class="select">#}
+                                        <select class="form-control selectpicker" name="type"
+                                                id="update_parent_cat_doc_field">
+                                            <option value="cat">Category</option>
+                                            <option value="doc">Document</option>
+                                        </select>
+                                        {#</div>#}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-link">Save</button>
+                            <button type="button" class="btn btn-link close_btn" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--update metafield-->
+    <div class="modal fade" id="update_metafield_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Metafield</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="update_metafield_form">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line" id="update_title">
+                                        <label class="control-label">Name:<span class="required_star">*</span></label>
+                                        <input type="text" class="form-control" name="title" required=""
+                                               data-parsley-trigger="change"
+                                               data-parsley-pattern="^[a-zA-Z0-9_.]{3,50}$"
+                                               data-parsley-error-message="Name contains alphanumeric, underscore. Length: 3 to 50">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        <label class="control-label">Data Type</label>
+                                        <select class="form-control selectpicker" name="data_type"
+                                                id="update_data_type">
+                                            <option value="3">DropDown</option>
+                                            <option value="4">Date</option>
+                                            <option value="5">Float</option>
+                                            <option value="1">Integer</option>
+                                            <option value="2">TextArea</option>
+                                            <option value="0">String</option>
+                                        </select>
+                                        {#</div>#}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="#update_max_min">
+                            <div class="col-md-6 update_min_field">
+                                <label class="control-label">Minimum:<span
+                                                class="required_star">*</span></label>
+                                <input id="update_min_field" type="text" required data-parsley-trigger="change"
+                                       data-parsley-le="#update_max_field"
+                                       data-parsley-type="integer"
+                                       data-parsley-error-message="Value should contain only Integer value and must be smaller or equal to minimum field"
+                                       class="form-control" name="min">
+                            </div>
+                            <div class="col-md-6 update_max_field">
+                                <label class="control-label">Maximum:<span
+                                                class="required_star">*</span></label>
+                                <input id="update_max_field" type="text" required data-parsley-trigger="change"
+                                       data-parsley-ge="#update_min_field" data-parsley-type="integer"
+                                       data-parsley-error-message="Value should contain only Integer value and must be greater or equal to minimum field"
+                                       class="form-control" name="max">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line" id="update_display_name">
+                                        <label class="control-label">Display Name:<span
+                                                class="required_star">*</span></label>
+                                        <input type="text" class="form-control" name="displayname" required=""
+                                               data-parsley-trigger="change"
+                                               data-parsley-length="[3, 50]">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line" id="update_default_text">
+                                        <label class="control-label">Default Text</label>
+                                        <input type="text" class="form-control" name="default_text"
+                                               data-parsley-trigger="change"
+                                               data-parsley-pattern="^[a-zA-Z0-9_. ]{2,50}$"
+                                               data-parsley-error-message="Default Text should contain only Alphanumeric and (._) values, length should be 2-50 characters">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        {#<div class="select">#}
+                                        <label class="control-label">Order:<span class="required_star">*</span></label>
+                                        <select class="form-control selectpicker" name="order"
+                                                id="update_meta_order"
+                                                onmousedown="if(this.options.length>5){this.size=5;}"
+                                                onchange='this.size=0;' onblur="this.size=0;">
+
+                                        </select>
+                                        {#</div>#}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        {#<div class="select">#}
+                                        <label class="control-label">Required</label>
+                                        <select class="form-control selectpicker" name="required"
+                                                id="update_required">
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                        {#</div>#}
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="fg-line">
+                                        <label class="control-label">Unique</label>
+                                        <select class="form-control selectpicker" name="unique" id="update_unique">
+                                            <option value="0">No</option>
+                                            <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6" style="display:none">
+                                <div class="form-group fg-float">
+                                    <div class="fg-line">
+                                        <div class="select" id="updateing_doc">
+                                            <label class="control-label">Document</label>
+                                            <select class="form-control" name="doc" id="update_doc_id">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-link" id="update_meta_save">Save</button>
+                            <button type="button" class="btn btn-link close_btn" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#  Permission Group modal  #}
+    <div class="modal fade" id="group_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Assign Group</h4>
+                </div>
+                <form id="assign_group_form">
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Groups</label>
+                                <select class="selectpicker"
+                                        multiple
+                                        id="group_select"
+                                        data-live-search="true"
+                                        name="groups"
+                                        data-trigger="change">
+                                </select>
+                            </div>
+                            <div class="form-group" style="display: none;">
+                                <label class="control-label">Cat</label>
+                                <select class="selectpicker"
+                                        id="docselect"
+                                        name="doc">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" id="save_grp">Save</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {#  Publish Group modal  #}
+    <div class="modal fade" id="publish_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Publish status</h4>
+                </div>
+                <form id="assign_publish_form">
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Publish/Not Publish</label>
+                                <select class="selectpicker"
+                                        id="publish_select"
+                                        name="published">
+                                    <option value="false">Not Published</option>
+                                    <option value="true">Published</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" id="save_publish">Save</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="retention_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Retention Policy</h4>
+                </div>
+                <form id="retention_form">
+                    <div class="modal-body">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Retention Policy<span class="required_star">*</span></label>
+                                <select class="selectpicker"
+                                        id="retention_policy"
+                                        name="retention_policy">
+                                    <option value="0">None</option>
+                                    <option value="1">Archive</option>
+                                    <option value="2">Delete</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group fg-float">
+                                <div class="fg-line">
+                                    <label class="control-label">Retention Period(Month)<span class="required_star ret_req">*</span></label>
+                                    <input type="number" name="retention_period"
+                                           id="retention_period"
+                                           step="1"
+                                           class="form-control"
+                                           data-parsley-required = 'false'
+                                           data-parsley-min="0"
+                                           value="0"
+                                           tabindex="2"
+                                           data-parsley-required-message="You can not keep it blank">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" id="save_retention">Save</button>
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        let select = "";
+        for (let i = 1; i <= 500; i++) {
+            select += '<option val=' + i + '>' + i + '</option>';
+        }
+        $('#meta_order').html(select);
+        for (let i = 1; i <= 500; i++) {
+            select += '<option val=' + i + '>' + i + '</option>';
+        }
+        $('#update_meta_order').html(select);
+        {#$('#cat-doc_field').change(function () {
+            var opt = $(this).val();
+            console.log(opt);
+            if (opt == "doc") {
+                $('#publish_field').css('display', 'block');
+            } else {
+                $('#publish_field').css('display', 'none');
+            }
+        });#}
+        let user_role = "{{ request.user.role.code}}";
+    </script>
+    <!-- waves.min.js, sweetalert2.min.js -->
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/categorization.min.js"></script>#}
+
+    <script type="template" id="all_doc_list_head_tr"></script>
+
+    <script type="template" id="all_doc_list_body_tr"></script>
+
+
+    <!-- all_doc_type.js -->
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript"
+            src="{{ STATIC_URL }}dms/categorization/js/parsley-fields-comparison-validators.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/categorization/js/app/all_doc_type.js"></script>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Workflow</title>
+
+    <!— Common CSS-->
+    <link href="{{ STATIC_URL }}assets/css/common.min.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}core/search/css/search.css" rel="stylesheet">
+
+</head>
+
+<body>
+<p style="margin-bottom: 10px; padding: 5px 0px; font-family: Georgia; font-size: 13px; letter-spacing: 1px;">
+    Dear {{ user }},
+</p>
+<p style="margin-bottom: 5px; font-family: Georgia; font-size: 13px; letter-spacing: 1px;">
+    Greetings from Process Automation.
+
+</p>
+<p style="font-family: Georgia;font-size: 13px; letter-spacing: 1px;">
+    {{ email_body }} {{ next_user }}.<br/><br/>
+    Please review following information along with this query: <br/>
+     <table style="font-family: Georgia; font-size: 13px; letter-spacing: 1px; border-collapse: collapse; color: black;">
+     <tbody>
+        <tr>
+            <td style="border: 1px solid black; color: black; padding: 2px 5px" width="25%">Query:</td>
+            <td style="border: 1px solid black; color: black; padding: 2px 5px" width="75%">{{ query_ques }}</td> <!-- Product Configuration/ Purpose -->
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; color: black; padding: 2px 5px" width="25%">Query date:</td>
+            <td style="border: 1px solid black; color: black; padding: 2px 5px" width="75%">{{ init_date }}</td> <!-- Estimated Amount/ Grand Total Price Taka-->
+        </tr>
+        {% if query_answer %}
+        <tr>
+            <td style="border: 1px solid black; color: black; padding: 2px 5px" width="25%">Query Anwer:</td>
+            <td style="border: 1px solid black; color: black; padding: 2px 5px" width="75%">{{ query_ans }}</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; color: black; padding: 2px 5px" width="25%">Answered on:</td>
+            <td style="border: 1px solid black; color: black; padding: 2px 5px" width="75%">{{ answer_date }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td style="border: 1px solid black; color: black; padding: 2px 5px" width="25%">Poject Name:</td>
+            <td style="border: 1px solid black; color: black; padding: 2px 5px" width="75%">{{ project_name }}</td> <!-- Product Configuration/ Purpose -->
+        </tr>
+         <tr>
+            <td style="border: 1px solid black; color: black; padding: 2px 5px" width="25%">App No:</td>
+            <td style="border: 1px solid black; color: black; padding: 2px 5px" width="75%">{{ app_number }}</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; color: black; padding: 2px 5px" width="25%">Task:</td>
+            <td style="border: 1px solid black; color: black; padding: 2px 5px" width="75%">{{ task_name }}</td>
+        </tr>
+     </tbody>
+    </table>
+
+
+</p>
+<p style="font-family: Georgia; font-size: 13px; letter-spacing: 1px; color: black;"> In appreciation<br>
+    System Administrator<br>
+</p>
+</body>
+</html>

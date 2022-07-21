@@ -1,0 +1,168 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/explorer/css/themes/default/style.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/explorer/css/explorer.css">
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+
+        <section id="content">
+            <div class="container">
+                <div class="card" style="margin-bottom: 0 !important;">
+                    <div class="card-header">
+                        <h2>Explorer</h2>
+                    </div>
+                    <div class="card-body card-padding">
+                        <div id="explorer" class="row">
+                            <div id="left" class="col-md-3 col-sm-6 col-xs-12">
+                            </div>
+                            <div id="right" class="col-md-9 col-sm-6 col-xs-12">
+                                <div id="main-window" class="row">
+                                    <div class="text-center">No category/document type selected.</div>
+                                </div>
+
+                                <ul id="paginate_explorer" class="pagination lg-pagination"></ul>
+
+                            </div>
+
+                        </div>
+
+                        <div id="nothing" class="text-center card-padding">No category or document.</div>
+                    </div>
+                </div>
+            </div>
+            <!--modal for view files-->
+            <div class="modal fade" id="explorer_excel_ViewModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header p-5">
+                            <h4 class="modal-title c-gray"></h4>
+                        </div>
+
+                        <div class="modal-body p-0 p-l-10 p-r-10" style="overflow-x: scroll; max-width:100%;overflow-y: scroll; height:400px">
+                            <div class="explorer-doc-preview"></div>
+                        </div>
+
+                        <div class="modal-footer p-5">
+                            <br>
+                            <ul id="explorer_doc_pagination" class="pagination lg-pagination" style="display:none;"></ul>
+                            <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="viewFiles" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="max-width: 90%; float: left;"></h4>
+
+                            <ul class="actions" style="max-width: 9%; float: right;">
+                                <li>
+                                    <a id="hide_self_fixed" href="#" data-dismiss="modal">
+                                        <i class="zmdi zmdi-close"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-body">
+                <span id="file_container">
+
+                </span>
+                        </div>
+                        <!--<div class="modal-footer">
+                            <button type="button" class="btn btn-link" data-dismiss="modal">Close
+                            </button>
+                        </div>-->
+{#                        <div class="modal-footer p-5">#}
+{#                            <br>#}
+{#                            <ul id="explorer_doc_pagination" class="pagination lg-pagination"#}
+{#                                style="display:none;"></ul>#}
+{#                            <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>#}
+{#                        </div>#}
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </section>
+{% endblock %}
+
+{% block js %}
+
+    {% raw %}
+    <script type="template" id="folder-view-template">
+        <div class="col-md-2 col-sm-4 col-xs-6 folder-thumb"
+             data-info="{'parent': {{=d.parent}}, 'self': {{=d.id}}}"
+             data-cat-id="{{=d.id}}" data-type="{{=d.type }}">
+            <div class="c-item">
+                <a class="ci-avatar">
+                    <i class="fa fa-folder-open"></i>
+                </a>
+                <div class="c-info">
+                    <strong title="{{=d.name}}">{{=d.name}}</strong>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="template" id="file-view-template">
+        <div class="col-md-2 col-sm-4 col-xs-6 file-thumb" data-extension="{{=d.extension}}"
+             data-file-id="{{? d.vId }}{{=d.vId}}{{??}}{{=d.id}}{{?}}">
+            <div class="c-item">
+                {{? d.locked == true }}
+                <i class="fa fa-lock"></i>
+                {{?}}
+                <!--<a target="_blank" href="/dms/document/view/{{? d.vId }}{{=d.vId}}{{??}}{{=d.id}}{{?}}/"-->
+                <a target="_blank" href="/dms/document/view/{{=d.id}}/"
+                   class="ci-avatar">
+                    {{? d.thumbnail == ""}}
+                    <i class="fa fa-{{=d.icon}}"></i>
+                    {{??}}
+                    <img width="50" height="60" src="/media/{{=d.thumbnail}}" alt="">
+                    {{?}}
+                </a>
+                <div class="c-info">
+                    <strong title="{{=d.filename}}">{{=d.filename}}</strong>
+
+                    <ul class="quick_view_action actions">
+                        <li class="dropdown">
+                            <a class="quick_view" href="#">
+                                <i class="zmdi zmdi-eye"></i>
+                            </a>
+                            <!--
+                            <a data-toggle="dropdown">
+                                <i class="zmdi zmdi-more-vert"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a class="quick_view_button" href="#">Quick View</a>
+                                </li>
+                                <li>
+                                    <a class="print_button" href="#">Print</a>
+                                </li>
+                                <li>
+                                    <a class="delete_button" href="#">Delete</a>
+                                </li>
+                                <li>
+                                    <a class="download_button" href="#">Download</a>
+                                </li>
+                            </ul>
+                            -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </script>
+    {% endraw %}
+
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/explorer/js/jstree.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/explorer/js/app/explorer.js"></script>
+
+{% endblock %}

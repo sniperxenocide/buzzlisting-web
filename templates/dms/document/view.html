@@ -1,0 +1,637 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}core/css/bootstrap-dropdownhover.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}assets/css/sweetalert2.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}dms/document/shared/toolbar.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}dms/document/shared/pdf_viewer.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}dms/document/annotation.css"/>
+
+    <style>
+
+        .card .card-header {
+            padding: 5px 15px !important;
+        }
+
+        .card .card-body.card-padding {
+            padding: 20px 10px !important;
+        }
+
+        .card .card-header .actions {
+            top: 0 !important;
+        }
+
+        .not-allowed {
+            cursor: not-allowed !important;
+            pointer-events: none;
+            color: #e1e1e1 !important;
+        }
+
+        .select2-container {
+            z-index: 9999 !important;
+        }
+
+        .dropdown-menu {
+            z-index: 10000 !important;
+        }
+
+        #linkedfile_pagination {
+            padding: 0;
+        }
+
+        .wi-preview {
+            margin: 0px !important;
+            width: 100% !important;
+            height: 470px;
+            overflow-y: scroll;
+        }
+
+        .csv_table {
+            border-collapse: collapse;
+            border: 2px black solid;
+            font: 12px sans-serif;
+        }
+
+        .csv_td {
+            border: 1px black solid;
+            padding: 5px;
+        }
+
+        #summary_modal table {
+            border: none;
+        }
+
+        #summary_modal table th {
+            font-weight: bold;
+        }
+
+        #summary_modal table td {
+            border: none;
+        }
+
+        @media print {
+            /* on modal open bootstrap adds class "modal-open" to body, so you can handle that case and hide body */
+            .wi-preview {
+                position: absolute;
+                left: 0;
+                top: 0;
+                margin: 0;
+                padding: 0;
+                overflow: visible !important;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content">
+            <div class="container">
+                {#                <div class="block-header p-l-0 m-b-5"></div>#}
+                <div class="row wall">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header bgm-bluegray">
+                                <div class="media">
+                                    {#                                    <div class="pull-left">#}
+                                    {#                                        <img class="avatar-img lgi-img" src="{{ STATIC_URL }}img/user_img.jpg">#}
+                                    {#                                    </div>#}
+                                    <div class="media-body">
+                                        <div class="block-header p-l-0 m-b-0 c-white"></div>
+                                        {#                                        <h2>#}
+                                        {#                                            <label>{{ documents.uploader.get_full_name() }}</label>#}
+                                        {##}
+                                        {#                                            <small class="m-t-0">N/A</small>#}
+                                        {#                                        </h2>#}
+                                        <ul class="actions actions-alt">
+                                            <li class="dropdown">
+                                                <a href="" data-toggle="dropdown" aria-expanded="false">
+                                                    <i class="zmdi zmdi-more-vert"></i>
+                                                </a>
+                                                {% include 'dms/document/menu.html' %}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body card-padding">
+                                <div id="will_show_annotate">
+                                    {% include 'dms/document/annotate_menu.html' %}
+                                </div>
+                                <div id="super-wrapper">
+                                </div>
+                                <div class="wi-preview clearfix" id="preview_without_pdfjs" style="overflow-x: scroll; width:900px;"></div>
+                                <ul id="doc_pagination" class="pagination lg-pagination" style="display:none;"></ul>
+                            </div>
+                            <!--<div class="card-body card-padding " style="padding: 0px !important;">
+                                {# {% include 'dms/document/annotate_menu.html' %}#}
+                                <div id="content-wrapper">
+                                    <div id="pdf"></div>
+                                    <div id="viewer" class="pdfViewer" style="height: 450px;"></div>
+                                </div>
+                            </div>-->
+
+                            <div class="wi-comments">
+                                <!-- Comment Listing -->
+                                <div class="list-group"></div>
+                                <!-- Comment form -->
+                                {% if not documents.archived %}
+                                    <div class="wic-form">
+                                        <textarea id="comment"
+                                                  placeholder="Write something..."
+                                                  data-ma-action="wall-comment-open"
+                                                  data-parsley-required
+                                                  data-parsley-length="[2, 2048]"
+                                                  data-parsley-pattern="/(^[\w\s,.&@!:]+$)+/"
+                                                  data-parsley-trigger="input change"
+                                                  data-parsley-validation-threshold="5"></textarea>
+                                        <div class="wicf-actions text-right">
+                                            <button class="btn btn-sm btn-link waves-effect"
+                                                    data-ma-action="wall-comment-close">Cancel
+                                            </button>
+                                            <button data-type="submitComment" data-file="{{ latestfile.id }}"
+                                                    id="submit_comment"
+                                                    class="btn btn-sm btn-primary waves-effect">
+                                                Post
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 ">
+                        <div class="card">
+                            <div class="card-header bgm-bluegray" data-toggle="collapse" data-parent="#accordion"
+                                 href="#metaData"
+                                 aria-expanded="true" aria-controls="metaData">
+                                <strong class="c-white">Meta Data</strong>
+                                <a onclick="window.open ('/dms/document/meta_history/{{ documents.id }}', ''); return false"
+                                   href="javascript:void(0);" target="_blank"
+                                   class="btn bgm-bluegray btn-float waves-effect">
+                                    <i class="zmdi zmdi-eye"></i>
+                                </a>
+                            </div>
+
+                            <div id="metaData" class="card-body card-padding collapse in" role="tabpanel"
+                                 aria-labelledby="headingOne">
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header bgm-bluegray" data-toggle="collapse" data-parent="#accordion"
+                                 href="#versionHistory"
+                                 aria-expanded="true" aria-controls="versionHistory">
+                                <strong class="c-white">Version History</strong>
+
+                                {% if request.user.role.permission.filter(pk=17).count() and not documents.locked and not documents.archived %}
+                                    <button data-type="version" class="btn bgm-bluegray btn-float waves-effect">
+                                        <i class="zmdi zmdi-plus"></i>
+                                    </button>
+                                {% else %}
+                                    <button data-type="version" disabled="disabled"
+                                            class="btn bgm-bluegray btn-float waves-effect">
+                                        <i class="zmdi zmdi-plus"></i>
+                                    </button>
+                                {% endif %}
+                            </div>
+                            <div id="versionHistory" class="card-body card-padding collapse" role="tabpanel"
+                                 aria-labelledby="headingOne">
+                                <div class="list-group m-t-10">
+                                    {% for version in versions %}
+                                        {% if version.filepath.endswith('.doc') %}
+                                            <a class="list-group-item media p-5 p-r-0" href="#"
+                                               data-action="versionView" data-id="{{ version.id }}"
+                                               data-v="{{ version.version }}"
+                                               data-file="{{ version.filepath.replace('.doc', '.pdf') }}">
+                                        {% elif version.filepath.endswith('.docx') %}
+                                            <a class="list-group-item media p-5 p-r-0" href="#"
+                                               data-action="versionView" data-id="{{ version.id }}"
+                                               data-v="{{ version.version }}"
+                                               data-file="{{ version.filepath.replace('.docx', '.pdf') }}">
+                                        {% else %}
+                                            {% if version.watermark == '0' %}
+                                                <a class="list-group-item media p-5 p-r-0" href="#"
+                                                   data-action="versionView" data-id="{{ version.id }}"
+                                                   data-v="{{ version.version }}"
+                                                   data-file="{{ version.filepath }}">
+                                            {% else %}
+                                                <a class="list-group-item media p-5 p-r-0" href="#"
+                                                   data-action="versionView" data-id="{{ version.id }}"
+                                                   data-v="{{ version.version }}"
+                                                   data-file="{{ version.watermark_file_path }}">
+                                            {% endif %}
+                                        {% endif %}
+
+                                    <div class="media-body">
+                                        <div class="lgi-heading c-lightgreen f-18"><i
+                                                class="zmdi zmdi-file c-gray"></i> <strong>
+                                            {{ version.filename }}</strong>
+                                        </div>
+                                        <small class="lgi-text">
+                                            <strong>Created by</strong>: {{ version.uploader.first_name }}
+                                            {{ version.uploader.last_name }}<br>
+                                            <strong>Version</strong>: {{ version.version }}
+                                        </small>
+                                        <ul class="lgi-attrs">
+                                            {% if request.user.role.permission.filter(pk=14).count() and not documents.locked and not documents.archived %}
+                                                <li style="border: none">
+                                                    <a role="menuitem" tabindex="-1" href="#"
+                                                       data-action="download"
+                                                       class="list-group-item media p-0 m-b-5 m-l-0 f-12 f-500"
+                                                       data-v_id="{{ version.id }}">
+                                                        <i class="zmdi zmdi-download"></i> Download
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li style="border: none">
+                                                    <a role="menuitem" tabindex="-1" href="#"
+                                                       data-action="download"
+                                                       class="list-group-item media p-0 m-b-5 m-l-0 f-12 f-500 not-allowed"
+                                                       data-v_id="{{ version.id }}">
+                                                        <i class="zmdi zmdi-download"></i> Download
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% if request.user.role.permission.filter(pk=12).count() and not documents.locked and not documents.archived %}
+                                                <li style="border: none">
+                                                    <a role="menuitem" tabindex="-1" href="#"
+                                                       data-action="delete"
+                                                       class="list-group-item media p-0 m-b-5 m-l-0 f-12 f-500"
+                                                       data-v_id="{{ version.id }}"
+                                                       data-v="{{ version.version }}">
+                                                        <i class="zmdi zmdi-delete"></i> Delete
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li style="border: none">
+                                                    <a role="menuitem" tabindex="-1" href="#"
+                                                       data-action="delete"
+                                                       class="list-group-item media p-0 m-b-5 m-l-0 f-12 f-500 not-allowed"
+                                                       data-v_id="{{ version.id }}"
+                                                       data-v="{{ version.version }}">
+                                                        <i class="zmdi zmdi-delete"></i> Delete
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                    </a>
+                                    {% endfor %}
+                                    {% if parent.watermark == '0' %}
+                                        {% if parent.filepath.endswith('.doc') %}
+                                            <a class="list-group-item media p-5 p-r-0" href="#"
+                                               data-action="versionView" data-id="{{ parent.id }}"
+                                               data-v="{{ parent.version }}"
+                                               data-file="{{ parent.filepath.replace('.doc', '.pdf') }}">
+                                        {% elif parent.filepath.endswith('.docx') %}
+                                            <a class="list-group-item media p-5 p-r-0" href="#"
+                                               data-action="versionView" data-id="{{ parent.id }}"
+                                               data-v="{{ parent.version }}"
+                                               data-file="{{ parent.filepath.replace('.docx', '.pdf') }}">
+                                        {% else %}
+                                            {% if parent.watermark == '0' %}
+                                                <a class="list-group-item media p-5 p-r-0" href="#"
+                                                   data-action="versionView" data-id="{{ parent.id }}"
+                                                   data-v="{{ parent.version }}"
+                                                   data-file="{{ parent.filepath }}">
+                                            {% else %}
+                                                <a class="list-group-item media p-5 p-r-0" href="#"
+                                                   data-action="versionView" data-id="{{ parent.id }}"
+                                                   data-v="{{ parent.version }}"
+                                                   data-file="{{ parent.watermark_file_path }}">
+                                            {% endif %}
+                                        {% endif %}
+                                    {#                                        <a class="list-group-item media p-5 p-r-0" href="#" data-action="viewPreview"#}
+                                    {#                                           id="version_a"#}
+                                    {#                                           data-file="/media/{{ parent.filepath }}">#}
+                                    <div class="media-body">
+                                        <div class="lgi-heading c-lightgreen f-18"><i
+                                                class="zmdi zmdi-file c-gray"></i> <strong>
+                                            {{ parent.filename }}</strong>
+                                        </div>
+                                        <small class="lgi-text">
+                                            <strong>Created by</strong>: {{ parent.uploader.first_name }}
+                                            {{ parent.uploader.last_name }}<br>
+                                            <strong>Version</strong>: {{ parent.version }}
+                                        </small>
+                                        <ul class="lgi-attrs">
+                                            {% if request.user.role.permission.filter(pk=14).count() and not documents.locked and not documents.archived %}
+                                                <li style="border: none">
+                                                    <a role="menuitem" tabindex="-1" href="#"
+                                                       data-action="download"
+                                                       class="list-group-item media p-0 m-b-5 m-l-0 f-12 f-500"
+                                                       data-v_id="{{ parent.id }}">
+                                                        <i class="zmdi zmdi-download"></i> Download
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li style="border: none">
+                                                    <a role="menuitem" tabindex="-1" href="#"
+                                                       data-action="download"
+                                                       class="list-group-item media p-0 m-b-5 m-l-0 f-12 f-500 not-allowed"
+                                                       data-v_id="{{ parent.id }}">
+                                                        <i class="zmdi zmdi-download"></i> Download
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% if request.user.role.permission.filter(pk=12).count() and not documents.locked and not documents.archived %}
+                                                <li style="border: none">
+                                                    <a role="menuitem" tabindex="-1" href="#"
+                                                       data-action="delete"
+                                                       class="list-group-item media p-0 m-b-5 m-l-0 f-12 f-500"
+                                                       data-v_id="{{ parent.id }}"
+                                                       data-v="{{ parent.version }}">
+                                                        <i class="zmdi zmdi-delete"></i> Delete
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li style="border: none">
+                                                    <a role="menuitem" tabindex="-1" href="#"
+                                                       data-action="delete"
+                                                       class="list-group-item media p-0 m-b-5 m-l-0 f-12 f-500 not-allowed"
+                                                       data-v_id="{{ parent.id }}"
+                                                       data-v="{{ parent.version }}">
+                                                        <i class="zmdi zmdi-delete"></i> Delete
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                    </a>
+                                    {% else %}
+                                        <a class="list-group-item media p-5 p-r-0" href="#" data-action="versionView"
+                                           data-id="{{ parent.id }}"
+                                           id="version_a"
+                                           data-file="{{ parent.watermark_file_path }}">
+                                            <div class="media-body">
+                                                <div class="lgi-heading c-lightgreen f-18"><i
+                                                        class="zmdi zmdi-file c-gray"></i> <strong>
+                                                    {{ parent.filename }}</strong>
+                                                </div>
+                                                <small class="lgi-text">
+                                                    <strong>Created by</strong>: {{ parent.uploader.first_name }}
+                                                    {{ parent.uploader.last_name }}<br>
+                                                    <strong>Version</strong>: {{ parent.version }}
+                                                </small>
+                                                <ul class="lgi-attrs">
+                                                    {% if request.user.role.permission.filter(pk=14).count() and not documents.locked and not documents.archived %}
+                                                        <li style="border: none">
+                                                            <a role="menuitem" tabindex="-1" href="#"
+                                                               data-action="download"
+                                                               class="list-group-item media p-0 m-b-5 m-l-0 f-12 f-500"
+                                                               data-v_id="{{ parent.id }}">
+                                                                <i class="zmdi zmdi-download"></i> Download
+                                                            </a>
+                                                        </li>
+                                                    {% else %}
+                                                        <li style="border: none">
+                                                            <a role="menuitem" tabindex="-1" href="#"
+                                                               data-action="download"
+                                                               class="list-group-item media p-0 m-b-5 m-l-0 f-12 f-500 not-allowed"
+                                                               data-v_id="{{ parent.id }}">
+                                                                <i class="zmdi zmdi-download"></i> Download
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% if request.user.role.permission.filter(pk=12).count() and not documents.locked and not documents.archived %}
+                                                        <li style="border: none">
+                                                            <a role="menuitem" tabindex="-1" href="#"
+                                                               data-action="delete"
+                                                               class="list-group-item media p-0 m-b-5 m-l-0 f-12 f-500"
+                                                               data-v_id="{{ parent.id }}"
+                                                               data-v="{{ parent.version }}">
+                                                                <i class="zmdi zmdi-delete"></i> Delete
+                                                            </a>
+                                                        </li>
+                                                    {% else %}
+                                                        <li style="border: none">
+                                                            <a role="menuitem" tabindex="-1" href="#"
+                                                               data-action="delete"
+                                                               class="list-group-item media p-0 m-b-5 m-l-0 f-12 f-500 not-allowed"
+                                                               data-v_id="{{ parent.id }}"
+                                                               data-v="{{ parent.version }}">
+                                                                <i class="zmdi zmdi-delete"></i> Delete
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header bgm-bluegray c-white" data-toggle="collapse"
+                                 data-parent="#accordion"
+                                 href="#relatedFiles"
+                                 aria-expanded="true" aria-controls="relatedFiles">
+                                <strong>Related Files</strong>
+                                {% if request.user.role.permission.filter(pk=18).count() and not documents.locked and not documents.archived %}
+                                    <button data-type="related" class="btn bgm-bluegray btn-float waves-effect">
+                                        <i class="zmdi zmdi-plus"></i>
+                                    </button>
+                                {% else %}
+                                    <button data-type="related" disabled="disabled"
+                                            class="btn bgm-bluegray btn-float waves-effect">
+                                        <i class="zmdi zmdi-plus"></i>
+                                    </button>
+                                {% endif %}
+                            </div>
+                            <div id="relatedFiles" class="card-body card-padding collapse" role="tabpanel"
+                                 aria-labelledby="headingOne">
+                                {% for linkedfile in linkedfiles %}
+                                    {% if linkedfile.linkfile.watermark == '0' %}
+                                        <div class="list-group m-t-10">
+                                            <a class="list-group-item media p-5 p-r-0" href="#"
+                                               data-action="viewPreview" id="linkedfile"
+                                               data-doc-id="{{ linkedfile.linkfile_id }}"
+                                               data-file="/media/{{ linkedfile.linkfile.filepath }}">
+                                                <div class="media-body">
+                                                    <div class="lgi-heading c-lightgreen f-18">
+                                                        <i class="zmdi zmdi-file c-gray"></i> <strong>
+                                                        {{ linkedfile.linkfile.filename }}</strong>
+                                                        {% if request.user.role.id == 1 or request.user.role.permission.filter(pk=18).count() %}
+                                                            <i class="zmdi zmdi-delete c-red f-16 pull-right m-t-8"
+                                                               title="unlink" data-id="{{ linkedfile.id }}"
+                                                               id="del_link"></i>
+                                                        {% endif %}
+                                                    </div>
+                                                    <small class="lgi-text">
+                                                        {{ linkedfile.linkfile.doc_type.get_ancestors(ascending=False, include_self=True)|join('->') }}
+                                                    </small>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    {% else %}
+                                        <div class="list-group m-t-10">
+                                            <a class="list-group-item media p-5 p-r-0" href="#"
+                                               data-action="viewPreview" id="linkedfile"
+                                               data-doc-id="{{ linkedfile.linkfile_id }}"
+                                               data-file="/media/{{ linkedfile.linkfile.watermark_file_path }}">
+                                                <div class="media-body">
+                                                    <div class="lgi-heading c-lightgreen f-18">
+                                                        <i class="zmdi zmdi-file c-gray"></i> <strong>
+                                                        {{ linkedfile.linkfile.filename }}</strong>
+                                                        {% if request.user.role.id == 1 or request.user.role.permission.filter(pk=18).count() %}
+                                                            <i class="zmdi zmdi-delete c-red f-16 pull-right m-t-8"
+                                                               title="unlink" data-id="{{ linkedfile.id }}"
+                                                               id="del_link"></i>
+                                                        {% endif %}
+                                                    </div>
+                                                    <small class="lgi-text">
+                                                        {{ linkedfile.linkfile.doc_type.get_ancestors(ascending=False, include_self=True)|join('->') }}
+                                                    </small>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header bgm-bluegray c-white">
+                                <strong>Source:
+                                    <span style="text-transform: uppercase">{{ documents.source }} </span>
+                                </strong>
+                            </div>
+                            {% if app_number %}
+                                <div class="card-body p-10">
+                                    <strong>
+                                        <Span>App Number: </Span> <a id="summary_show" href="#"
+                                                                     data-case-id="{{ documents.app_id }}"
+                                                                     data-comment_count="{{ comment_count }}"
+                                                                     data-query_count="{{ query_count }}">{{ app_number }}</a>
+                                    </strong>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="modal fade" id="document_viewer" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Select Users for whom the document will be redacted</h4>
+                    </div>
+                    <form id="selected_redacted_viewers">
+                        <div class="modal-body">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <select class="selectpicker" multiple data-live-search="true"
+                                            id="document_viewer_select"
+                                            name="document_viewer_select">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-link" id="save_viewers">Save</button>
+                            <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'dms/document/modal.html' %}
+    {% include 'workflow/cases/completed_case_summary_modal.html' %}
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}core/js/dropdown-hover.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/document/shared/pdf.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/document/shared/pdf_viewer.js"></script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/sweetalert2.min.js"></script>#}
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/datatable.min.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    {#    <script type="text/javascript" src="{{ STATIC_URL }}dms/document/d3.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/js/helper.js"></script>
+    <script src="{{ STATIC_URL }}core/js/jquery.twbsPagination.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>-->
+    {% include 'dms/document/template.html' %}
+
+    <script>
+        {#        var user_i="{{ request.user.id }}";#}
+        var checkout_permission = "{{ request.user.role.permission.filter(pk=13).count() }}";
+
+        let api = {
+            url: {
+                base: location.protocol + '//' + location.host,
+                media: "{{ MEDIA_URL }}",
+                static: "{{ STATIC_URL }}"
+            },
+            document: {
+                id: "{{ documents.id }}",
+                detail: "{{ url('api:documents:viewdocument-list') }}",
+                related: "{{ url('api:documents:linkeddocument-list') }}",
+                versions: "{{ url('api:documents:versions-list') }}",
+                delete: "{{ url('api:documents:deletedocument-list') }}",
+                category: "/api/v1/dms/categorization/documenttype/",
+                metafield: "/api/v1/dms/categorization/metafield/",
+                updatemeta: "{{ url('api:documents:updatemetadata-list') }}",
+                download: "/api/v1/dms/documents/operation/",
+                archive: "/api/v1/dms/documents/operation/",
+                restoreArchive: "/api/v1/dms/documents/operation/",
+                checkout: "/api/v1/dms/documents/operation/",
+                checkin: "/api/v1/dms/documents/operation/",
+                document_viewer: "/api/v1/dms/documents/document_viewers/" +{{ documents.doc_type_id }},
+                redacted_user: "/api/v1/dms/documents/redacted_user/" +{{ documents.id }},
+                save_annotation_redaction: "/api/v1/dms/documents/save_annotation_redaction/" +{{ documents.id }}
+            },
+            comments: {
+                list: "{{ url('api:documents:comments-list') }}"
+            },
+            user: {
+                loggedIn: "{{ request.user.id }}",
+                role: "{{ request.user.role.id }}",
+                avatar: "{{ STATIC_URL }}img/user_img.jpg",
+                get: "{{ url('api:rbac:user-list') }}",
+                document: "{{ url('api:documents:related-list') }}",
+            },
+            pdf: {
+                view: "{{ url('dms:document:file_view') }}#",
+                read: "api/v1/dms/documents/read/",
+                js: "{{ STATIC_URL }}dms/document/pdfView.js",
+            }
+        };
+        let metaIcon = {};
+        metaIcon.email = 'email';
+        metaIcon.phone = 'phone';
+        metaIcon.address = 'my-location';
+        let labelCSS = ['label-primary', 'label-success', 'label-info', 'label-warning', 'label-danger'];
+        var latest_file_watermark = "{{ latestfile.watermark }}";
+        var latest_file_path = "{{ latestfile.filepath }}";
+        var latest_watermark_path = "{{ latestfile.watermark_file_path }}";
+        var latest_version_id = "{{ latestfile.id }}";
+        $(function () {
+            Document.init();
+        });
+
+        let select = "";
+        for (let i = 1; i <= 500; i++) {
+            select += '<option val=' + i + '>' + i + '</option>';
+        }
+        $('#meta_order').html(select);
+
+
+    </script>
+    {% if WORKFLOW == 'aBX3RODumf' %}
+        <script type="text/javascript">
+            var query_url = "{{ url('api:workflow:app_query-list') }}",
+                general_info = "{{ url('api:workflow:general_info-list') }}",
+                $pre_comment = $('.comment_side').find('.pre_comment'),
+                app_comment_url = "{{ url('api:workflow:app_comment-list') }}";
+        </script>
+    {% endif %}
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/document/document.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}workflow/cases/js/completed_case_summary_modal.js"></script>
+{% endblock %}

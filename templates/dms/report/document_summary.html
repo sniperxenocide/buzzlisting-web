@@ -1,0 +1,109 @@
+{% extends BASE_TEMPLATE %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}dms/report/documentSummary/css/document_summary.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/form.min.css">
+
+    <style>
+        #main {
+            padding-bottom: 0 !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section id="main">
+        {% with items=view.sidebar_menu %}
+            {% include 'core/base/sidebar_permission.html' %}
+        {% endwith %}
+        <section id="content" class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Document Summary
+                                </h2>
+                                <ul class="actions" style="width:320px; margin-top: 25px;">
+                                    <select id="select_user_report" class="col-md-5 selectpicker pull-right" data-live-search="true">
+                                        <optgroup label="Users">
+
+                                        </optgroup>
+                                        <optgroup label="Doctypes">
+
+                                        </optgroup>
+                                    </select>
+                                </ul>
+
+                                {#<ul class="actions">
+                                    <li class="dropdown">
+                                        <a href="#" data-toggle="dropdown">
+                                            <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li>
+                                                <a href="#">All Doctype</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">All Users</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Shuvo</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>#}
+                            </div>
+                            <div class="card-body card-padding">
+                                
+                                {#-------------------chart--------------------------#}
+{#                                <div id="doc_sum_chart" style="width:100%; height: 300px; margin-top:10px"></div>#}
+                                <div id="doc_sum_chart" style="min-width: 300px; height: 400px; margin: 0 auto; margin-top: 20px"></div>
+                                {#-----------------paging icon----------------#}
+                                <div class="row" style="margin-top: 50px">
+                                    <div class="col-md-12">
+                                        <ul class="pagination pull-right">
+                                            <li class="previous">
+                                                <a class="a-prevent" id="previous" title="previous">
+                                                    <i class="zmdi zmdi-chevron-left"></i>
+                                                </a>
+                                            </li>
+                                            <li class="next">
+                                                <a class="a-prevent" id="next" title="Next">
+                                                    <i class="zmdi zmdi-chevron-right"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        let user_api = '/api/v1/user';
+        let user_role = "{{ request.user.role.id}}";
+        let user_id = "{{ request.user.id }}";
+        let user = "{{ request.user }}";
+        let doc_sum_url = "{{ url('api:documents:docsum-list') }}";
+        let doc_type_sum_url = "{{ url('api:documents:doctypesum-list') }}";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/report/documentSummary/js/jquery.flot.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/report/documentSummary/js/jquery.flot.resize.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/report/documentSummary/js/jquery.flot.time.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/report/documentSummary/js/jquery.flot.tooltip.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/form.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/report/documentSummary/js/highcharts.js"></script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}dms/report/documentSummary/js/app/document_summary.js"></script>#}
+    <script type="text/javascript" src="{{ STATIC_URL }}dms/report/documentSummary/js/app/document_summary2.js"></script>
+{#    <script type="text/javascript" src="{{ STATIC_URL }}assets/js/app/document_summary.min.js"></script>#}
+
+{% endblock %}
